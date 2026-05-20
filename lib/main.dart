@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'screens/task_list_screen.dart';
+import 'package:flutter_task_app/utils/constants.dart';
+import 'package:flutter_task_app/views/screens/splash_screen.dart';
 
 void main() {
   runApp(const TaskApp());
@@ -12,11 +13,9 @@ class TaskApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Task App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const TaskListScreen(),
+      title: 'TaskFlow',
+      theme: AppTheme.lightTheme,
+      home: const SplashScreen(),
     );
   }
 }
