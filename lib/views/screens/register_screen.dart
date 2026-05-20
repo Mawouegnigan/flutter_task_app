@@ -53,6 +53,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     SizedBox(height: 20),
 
+                    // Champ de saisie de la confirmation du mot de passe
+                    TextFieldWidget(
+                      label: "Confirmation du mot de passe",
+                      placeholder: "Confirmez votre mot de passe",
+                      isPassword: true,
+                    ),
+                    SizedBox(height: 20),
+
                     // Boutton d'inscription
                     CtaButtonWidget(
                       text: "S'inscrire",
