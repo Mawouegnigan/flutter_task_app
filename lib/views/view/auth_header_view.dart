@@ -6,11 +6,11 @@ import 'package:flutter_task_app/utils/constants.dart';
 ///  Affiche le logo de TaskFlow, un titre et un sous-titre de bienvenue
 /// [title] : Le titre principal (ex: "Bienvenue sur TaskFlow")
 /// [subtitle] : Le texte de bienvenue secondaire (ex: "Gérez vos tâches efficacement")
-class AuthHeaderWidget extends StatelessWidget {
+class AuthHeaderView extends StatelessWidget {
   final String title;
   final String subtitle;
 
-  const AuthHeaderWidget({ 
+  const AuthHeaderView ({ 
     super.key,
     required this.title,
     required this.subtitle,
@@ -23,7 +23,7 @@ class AuthHeaderWidget extends StatelessWidget {
         // Logo de TaskFolw
         SvgPicture.asset(
           'assets/images/task_flow_logo.svg',
-          width: 200,
+          width: 185,
         ),
         const SizedBox(height: 20),
 

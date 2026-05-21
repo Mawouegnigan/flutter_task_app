@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_task_app/utils/constants.dart';
-import 'package:flutter_task_app/views/widgets/auth_header_widget.dart';
+import 'package:flutter_task_app/views/view/auth_header_view.dart';
+import 'package:flutter_task_app/views/view/social_auth_section_view.dart';
 import 'package:flutter_task_app/views/widgets/cta_button_widget.dart';
 import 'package:flutter_task_app/views/widgets/text_field_widget.dart';
 
@@ -22,75 +23,90 @@ class _RegisterScreenState extends State<RegisterScreen> {
           child: Column(
             children: [
               // Header de bienvenue avec logo, titre et subtitle
-              AuthHeaderWidget(
+              AuthHeaderView(
                 title: "Bienvenue parmi nous !",
                 subtitle: "Créez votre espace personnel pour organiser vos projets en toute simplicité."
               ),
-              SizedBox(height: 20),
-
-              Form(child: 
-                Column(
+              SizedBox(height: 40),
+              
+              // Formulaire de connection avec champs de saisie et boutton de connection
+              Form(
+                child: Column(
                   children: [
-                    // Champ de saisie du username
+                    // Champ de saisie du nom d'dutilisateur
                     TextFieldWidget(
-                      label: "Username",
-                      placeholder: "Jhon DOE",
+                      label: "Nom d'utilisateur",
+                      placeholder: "John DOE",
+                      prefixIcon: Icons.person_outline,
                     ),
                     SizedBox(height: 20),
 
                     // Champ de saisie de l'email
                     TextFieldWidget(
                       label: "Email",
-                      placeholder: "Jhon.doe@exemple.com",
+                      placeholder: "John.doe@exemple.com",
+                      prefixIcon: Icons.email_outlined,
                     ),
                     SizedBox(height: 20),
 
                     // Champ de saisie du mot de passe
                     TextFieldWidget(
+                      isPassword: true,
                       label: "Mot de passe",
-                      placeholder: "Creez-votre mot de passe",
-                      isPassword: true,
+                      placeholder: "Saisissez-votre mot de passe ici",
+                      prefixIcon: Icons.lock_outline,
                     ),
+                    SizedBox(height: 8),
+
+                    // Lien "Mot de passe oubliée ?" aligné à droite
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: InkWell(
+                        onTap: () {},
+                        child: const Text(
+                          "Mot de passe oubliée ?",
+                          style: TextStyle(
+                            color: AppColors.textDarkSecondary,
+                            fontSize: 14,
+                            fontStyle: FontStyle.italic
+                          ),
+                        )
+                      )
+                    ), 
                     SizedBox(height: 20),
 
-                    // Champ de saisie de la confirmation du mot de passe
-                    TextFieldWidget(
-                      label: "Confirmation du mot de passe",
-                      placeholder: "Confirmez votre mot de passe",
-                      isPassword: true,
-                    ),
-                    SizedBox(height: 20),
-
-                    // Boutton d'inscription
+                    // Boutton de connexion
                     CtaButtonWidget(
                       text: "S'inscrire",
                       onPressed: () {}
                     ),
-                    SizedBox(height: 20),
-
-                    // Text d'invitation se connecter si l'utilisateur est déjà inscrit
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text("Déjà membre ? "),
-                        InkWell(
-                          onTap: () {},
-                          child: Text(
-                            "Connectez-vous ici",
-                            style: TextStyle(
-                              color: AppColors.primary,
-                              fontWeight: FontWeight.w600
-                            ),
-                          )
-                        )
-                      ],
-                    )
-
                   ]
                 )
-              )
-              // Champ de saisie de l'email
+              ),
+              SizedBox(height: 10),
 
+              // Section de connection sociale avec les boutton Google et Facebook
+              SocialAuthSectionView(isLoginScreen: false),
+              SizedBox(height: 20),
+
+              // Text d'invitation s'incrire 
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Déjà membre ? "),
+                  InkWell(
+                    onTap: () {},
+                    child: Text(
+                      "Connectez-vous ici",
+                      style: TextStyle(
+                        color: AppColors.primary,
+                        fontWeight: FontWeight.w600,
+                        fontStyle: FontStyle.italic
+                      ),
+                    )
+                  )
+                ],
+              )
             ],
           ),
         ),
