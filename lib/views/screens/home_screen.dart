@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_task_app/data/task_mock_data.dart';
 import 'package:flutter_task_app/models/task_model.dart';
 import 'package:flutter_task_app/utils/constants.dart';
-import 'package:flutter_task_app/views/task_list_card_view.dart';
+import 'package:flutter_task_app/views/view/task_list_card_view.dart';
 import 'package:flutter_task_app/views/widgets/filter_chip_button_widget.dart';
 import 'package:flutter_task_app/views/widgets/view_toggle_button_widget.dart';
 
