@@ -4,8 +4,10 @@ import 'package:flutter_task_app/utils/constants.dart';
 // import 'package:flutter_task_app/views/screens/onboarding_screen.dart';
 // import 'package:flutter_task_app/views/screens/splash_screen.dart';
 // import 'package:flutter_task_app/views/screens/login_screen.dart';
-import 'package:flutter_task_app/views/screens/register_screen.dart';
+// import 'package:flutter_task_app/views/screens/register_screen.dart';
 // import 'package:flutter_task_app/views/screens/home_screen.dart';
+import 'package:flutter_task_app/views/screens/add_editing_task_screen.dart';
+
 
 void main() {
   // Configuration de la bare d'etat
@@ -30,7 +32,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'TaskFlow',
       theme: AppTheme.lightTheme,
-      home: RegisterScreen(),  // OnboardingScreen() SplashScreen() LoginScreen() RegisterScreen() HomeScreen()
+      home: AddEditingTaskScreen(mode: 'Edit'),  // OnboardingScreen() SplashScreen() LoginScreen() RegisterScreen() HomeScreen() AddEditingTaskScreen(mode: [Add, Edit])
     );
   }
 }
