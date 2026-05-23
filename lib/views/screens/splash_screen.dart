@@ -12,7 +12,6 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
   @override
   void initState() {
     super.initState();
@@ -30,22 +29,21 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SvgPicture.asset(
-              "assets/images/task_flow_logo.svg",
-              width: 250,
-            ),
-            const SizedBox(height: 20),
-            Text(
-              "Organisez vos tâches facilement",
-              style: TextStyle(
-                color: AppColors.textDarkSecondary,
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SvgPicture.asset(
+                "assets/images/task_flow_logo.svg",
+                width: 250,
               ),
-            )
-          ],
+              const SizedBox(height: 20),
+              const Text(
+                "Organisez vos tâches facilement",
+              ),
+            ],
+          ),
         ),
       ),
     );
