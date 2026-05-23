@@ -11,23 +11,29 @@ class OnboardingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height,
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Spacer(),
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
 
-                  SvgPicture.asset(
+              const SizedBox(height: 20),
+
+              // IMAGE
+              Expanded(
+                child: Center(
+                  child: SvgPicture.asset(
                     "assets/images/onboarding_illusrtation_1.svg",
                   ),
+                ),
+              ),
 
-                  const SizedBox(height: 20),
+              const SizedBox(height: 20),
 
-                  const Text(
+              // TITRE + DESCRIPTION
+              Column(
+                children: const [
+                  Text(
                     'Prenez le contrôle de votre journée',
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -36,35 +42,34 @@ class OnboardingScreen extends StatelessWidget {
                       color: AppColors.textDarkPrimary,
                     ),
                   ),
-
-                  const SizedBox(height: 10),
-
-                  const Text(
+                  SizedBox(height: 10),
+                  Text(
                     "Votre productivité, simplifiée. Organisez vos tâches, planifiez vos journées et capturez vos idées sans effort.",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: AppColors.textDarkSecondary,
                     ),
                   ),
-
-                  const Spacer(),
-
-                  CtaButtonWidget(
-                    text: "Démarrer",
-                    onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => const LoginScreen(),
-                        ),
-                      );
-                    },
-                  ),
-
-                  const SizedBox(height: 20),
                 ],
               ),
-            ),
+
+              const SizedBox(height: 30),
+
+              // BOUTON
+              CtaButtonWidget(
+                text: "Démarrer",
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const LoginScreen(),
+                    ),
+                  );
+                },
+              ),
+
+              const SizedBox(height: 20),
+            ],
           ),
         ),
       ),

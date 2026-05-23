@@ -12,11 +12,14 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+
   @override
   void initState() {
     super.initState();
 
-    Timer(const Duration(milliseconds: 300), () {
+    Timer(const Duration(milliseconds: 1800), () {
+      if (!mounted) return;
+
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -39,8 +42,11 @@ class _SplashScreenState extends State<SplashScreen> {
                 width: 250,
               ),
               const SizedBox(height: 20),
-              const Text(
+              Text(
                 "Organisez vos tâches facilement",
+                style: TextStyle(
+                  color: AppColors.textDarkSecondary,
+                ),
               ),
             ],
           ),
