@@ -2,55 +2,69 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_task_app/utils/constants.dart';
 import 'package:flutter_task_app/views/widgets/cta_button_widget.dart';
+import 'package:flutter_task_app/views/screens/login_screen.dart';
 
 class OnboardingScreen extends StatelessWidget {
-  const OnboardingScreen({ super.key });
+  const OnboardingScreen({super.key});
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Spacer(),
+              const Spacer(),
 
-              // une illustration SVG pour le onboarding
-              SvgPicture.asset("assets/images/onboarding_illusrtation_1.svg"),
+              // Illustration onboarding
+              SvgPicture.asset(
+                "assets/images/onboarding_illusrtation_1.svg",
+              ),
 
-              // titre accrocheur et une desction claire de l'application
-              Text(
+              const SizedBox(height: 20),
+
+              // Titre
+              const Text(
                 'Prenez le contrôle de votre journée',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontWeight: FontWeight.w700,
                   color: AppColors.textDarkPrimary,
-                  fontSize: 24
+                  fontSize: 24,
                 ),
               ),
-              SizedBox(height: 4),
-              Text("Votre productivité, simplifiée. Organisez vos tâches, planifiez vos journées et capturez vos idées sans effort.", 
+
+              const SizedBox(height: 10),
+
+              // Description
+              const Text(
+                "Votre productivité, simplifiée. Organisez vos tâches, planifiez vos journées et capturez vos idées sans effort.",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  // fontWeight: FontWeight.w700,
                   color: AppColors.textDarkSecondary,
-                  // fontSize: 2
-                )
+                ),
               ),
-              Spacer(),
 
-              // un boutton cta pour commencer à utiliser l'application
+              const Spacer(),
+
+              // Bouton CTA
               CtaButtonWidget(
-                text: "Démarrer", 
-                onPressed: () {}
-              )
+                text: "Démarrer",
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const LoginScreen(),
+                    ),
+                  );
+                },
+              ),
             ],
-          )
-        )
-      )
-      
+          ),
+        ),
+      ),
     );
   }
 }
