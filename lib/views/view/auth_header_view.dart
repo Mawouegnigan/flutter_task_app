@@ -10,24 +10,25 @@ class AuthHeaderView extends StatelessWidget {
   final String title;
   final String subtitle;
 
-  const AuthHeaderView ({ 
+  const AuthHeaderView({
     super.key,
     required this.title,
     required this.subtitle,
   });
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Column(
       children: [
+        const SizedBox(height: 20),
         // Logo de TaskFolw
         SvgPicture.asset(
           'assets/images/task_flow_logo.svg',
-          width: 185,
+          width: 280,
         ),
         const SizedBox(height: 20),
 
-        // Titre et subtitle de bienvenue 
+        // Titre et subtitle de bienvenue
         Text(
           title,
           style: const TextStyle(
@@ -36,7 +37,7 @@ class AuthHeaderView extends StatelessWidget {
             color: AppColors.textDarkPrimary,
           ),
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: 8),
         Text(
           subtitle,
           textAlign: TextAlign.center,
