@@ -23,30 +23,29 @@ class _AddEditingTaskScreenState extends State<AddEditingTaskScreen> {
             Navigator.pop(context);
           },
         ),
-          title: Text(widget.mode == "Add"
-              ? "Ajouter une tâche"
-              : "Modifier une tâche"),
-          centerTitle: true,
-
-          // Les boutons d'action de l'appbar: calendrier et notifications
-          actions: [
-            IconButton(
-              onPressed:
-                  () {}, // action à definir pour le click sur le boutton de l'horloge
-              icon: Icon(Icons.alarm),
-              padding: const EdgeInsets.all(12),
-              iconSize: 22,
-            ),
-
-            // A faire: ajouter un badge de notification sur le boutton lorsqu'il y a des notification non lues
-            IconButton(
-              onPressed:
-                  () {}, // action à definir pour le click sur le boutton des notifications
-              icon: Icon(Icons.notifications_outlined),
-              padding: const EdgeInsets.all(10),
-              iconSize: 28,
-            ),
-          ]),
+        title: Text(widget.mode == "Add"
+            ? "Ajouter une tâche"
+            : "Modifier une tâche"),
+        centerTitle: true,
+        // Les boutons d'action de l'appbar: calendrier et notifications
+        actions: [
+          IconButton(
+            onPressed:
+                () {}, // action à definir pour le click sur le boutton de l'horloge
+            icon: Icon(Icons.alarm),
+            padding: const EdgeInsets.all(12),
+            iconSize: 22,
+          ),
+          // A faire: ajouter un badge de notification sur le boutton lorsqu'il y a des notification non lues
+          IconButton(
+            onPressed:
+                () {}, // action à definir pour le click sur le boutton des notifications
+            icon: Icon(Icons.notifications_outlined),
+            padding: const EdgeInsets.all(10),
+            iconSize: 28,
+          ),
+        ]
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16),
         child: Column(

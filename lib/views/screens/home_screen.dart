@@ -51,7 +51,7 @@ class HomeScreen extends StatelessWidget {
           ]),
       body: Column(children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
 
           /// SECTION DE RECHERCHE ET DE TOGGLE DE VUE
           /// A faire: connecter le TextField à une logique de recherche pour filtrer les tâches en temps réel
@@ -108,7 +108,7 @@ class HomeScreen extends StatelessWidget {
 
           // Liste horizontale de filtres pour filtrer les tâches. Chaque filtre est représenté par un FilterChipButtonWidget
           child: ListView(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 12),
               scrollDirection: Axis.horizontal,
               children: [
                 ...[
@@ -157,7 +157,7 @@ class HomeScreen extends StatelessWidget {
         /// SECTION AFFICHAGE DES LISTES DE TACHES
         Expanded(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 12.0),
             child: ListView.builder(
                 itemCount: tasks.length,
                 itemBuilder: (context, index) {
