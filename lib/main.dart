@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_task_app/utils/constants.dart';
-import 'package:flutter_task_app/views/screens/splash_screen.dart';
-import 'package:flutter_task_app/views/screens/login_screen.dart';
-import 'package:flutter_task_app/views/screens/register_screen.dart';
-import 'package:flutter_task_app/views/screens/home_screen.dart';
+// import 'package:flutter_task_app/views/screens/splash_screen.dart';
+import 'package:flutter_task_app/views/screens/profile_screen.dart';
+
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,7 +30,7 @@ class TaskApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
 
       // POINT D’ENTRÉE UNIQUE
-      home: const SplashScreen(),
+      home: const ProfileScreen(), // SplashScreen(),
     );
   }
 }
