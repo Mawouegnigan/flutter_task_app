@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_task_app/utils/constants.dart';
+import 'package:flutter_task_app/services/auth_service.dart';
 import 'package:flutter_task_app/views/screens/home_screen.dart';
 import 'package:flutter_task_app/views/screens/register_screen.dart';
 import 'package:flutter_task_app/views/view/auth_header_view.dart';
@@ -16,6 +17,58 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _isPasswordVisible = false;
+  bool _isLoading = false;
+
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _handleLogin() async {
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
+
+    if (email.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Veuillez remplir tous les champs')),
+      );
+      return;
+    }
+
+    setState(() => _isLoading = true);
+
+    try {
+      final success = await AuthService.login(
+        email: email,
+        password: password,
+      );
+
+      if (!mounted) return;
+
+      if (success) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomeScreen()),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Email ou mot de passe incorrect')),
+        );
+      }
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Erreur de connexion au serveur')),
+      );
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       label: "Email",
                       placeholder: "John.doe@exemple.com",
                       prefixIcon: Icons.email_outlined,
+                      controller: _emailController,
                     ),
                     SizedBox(height: 30),
 
@@ -57,6 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       label: "Mot de passe",
                       placeholder: "Saisissez votre mot de passe ici",
                       prefixIcon: Icons.lock_outline,
+                      controller: _passwordController,
                     ),
                     SizedBox(height: 12),
 
@@ -78,17 +133,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(height: 20),
 
                     // Bouton de connexion
-                    CtaButtonWidget(
-                      text: "Se Connecter",
-                      onPressed: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => HomeScreen(),
+                    _isLoading
+                        ? const CircularProgressIndicator()
+                        : CtaButtonWidget(
+                            text: "Se Connecter",
+                            onPressed: _handleLogin,
                           ),
-                        );
-                      },
-                    ),
                   ],
                 ),
               ),
