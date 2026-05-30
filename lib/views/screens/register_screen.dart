@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_task_app/utils/constants.dart';
-import 'package:flutter_task_app/views/screens/home_screen.dart';
 import 'package:flutter_task_app/views/screens/login_screen.dart';
 import 'package:flutter_task_app/views/view/auth_header_view.dart';
 import 'package:flutter_task_app/views/view/social_auth_section_view.dart';
@@ -87,14 +86,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     SizedBox(height: 20),
 
-                    // Bouton d'inscription
+                    // Bouton d'inscription → redirige vers Login
                     CtaButtonWidget(
                       text: "S'inscrire",
                       onPressed: () {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => HomeScreen(),
+                            builder: (context) => LoginScreen(),
                           ),
                         );
                       },
