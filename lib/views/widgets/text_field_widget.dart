@@ -19,7 +19,7 @@ class TextFieldWidget extends StatelessWidget {
   final IconData prefixIcon;
   final bool isPassword, isPasswordVisible;
   final VoidCallback? onSuffixIconPressed;
-  final TextEditingController? controller; // Pour gérer le texte saisi
+  final TextEditingController controller; // Pour gérer le texte saisi
   final String? Function(String?)? validator; // Pour la validation du champ
 
   const TextFieldWidget({
@@ -30,7 +30,7 @@ class TextFieldWidget extends StatelessWidget {
     this.isPassword = false,
     this.isPasswordVisible = false,
     this.onSuffixIconPressed,
-    this.controller,
+    required this.controller,
     this.validator,
   });
 
@@ -71,6 +71,18 @@ class TextFieldWidget extends StatelessWidget {
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
           borderSide: BorderSide(color: AppColors.primary, width: 2),
+        ),
+
+        // style pour le champs de saisie erreur
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: const BorderSide(color: Colors.red, width: 2),
+        ),
+
+        // style pour focus sur le champs de saisie erreur
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: const BorderSide(color: Colors.red, width: 2),
         ),
       ),
     );

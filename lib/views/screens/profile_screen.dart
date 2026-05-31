@@ -22,7 +22,7 @@ class ProfileScreen extends StatelessWidget {
         actions: [
           IconButton(
             onPressed:() {}, // action à definir pour le click sur le boutton de l'horloge
-            icon: Icon(Icons.alarm),
+            icon: Icon(Icons.calendar_today_rounded),
             padding: const EdgeInsets.all(12),
             iconSize: 22,
           ),

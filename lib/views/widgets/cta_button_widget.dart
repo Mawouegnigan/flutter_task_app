@@ -4,7 +4,7 @@ import 'package:flutter_task_app/utils/constants.dart';
 /// Un widget réutilisable du boutton d'appel à l'action (CTA) 
 class CtaButtonWidget extends StatelessWidget {
   final String text;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
 
   const CtaButtonWidget({
     super.key,
