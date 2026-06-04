@@ -139,6 +139,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 TextFieldWidget(
                   controller: _emailController,
                   validator: (value) => FormValidator.validateEmail(value),
+                  keyboardType: TextInputType.emailAddress,
                   label: "Email",
                   placeholder: "John.doe@exemple.com",
                   prefixIcon: Icons.email_outlined,

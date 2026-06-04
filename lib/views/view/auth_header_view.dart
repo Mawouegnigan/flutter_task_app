@@ -24,7 +24,7 @@ class AuthHeaderView extends StatelessWidget {
         // Logo de TaskFolw
         SvgPicture.asset(
           'assets/images/task_flow_logo.svg',
-          width: 280,
+          width: 250,
         ),
         const SizedBox(height: 20),
 

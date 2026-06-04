@@ -19,8 +19,9 @@ class TextFieldWidget extends StatelessWidget {
   final IconData prefixIcon;
   final bool isPassword, isPasswordVisible;
   final VoidCallback? onSuffixIconPressed;
-  final TextEditingController controller; // Pour gérer le texte saisi
-  final String? Function(String?)? validator; // Pour la validation du champ
+  final TextEditingController controller; 
+  final String? Function(String?)? validator; 
+  final TextInputType keyboardType;
 
   const TextFieldWidget({
     super.key,
@@ -32,6 +33,7 @@ class TextFieldWidget extends StatelessWidget {
     this.onSuffixIconPressed,
     required this.controller,
     this.validator,
+    this.keyboardType = TextInputType.text
   });
 
   @override
@@ -39,6 +41,7 @@ class TextFieldWidget extends StatelessWidget {
     return TextFormField(
       controller: controller,
       validator: validator,
+      keyboardType: keyboardType,
 
       // Cacher le texte si c'est un champs mot de passe ET qu'il n'est pas configuré comme visible
       obscureText: isPassword && !isPasswordVisible,
@@ -73,16 +76,20 @@ class TextFieldWidget extends StatelessWidget {
           borderSide: BorderSide(color: AppColors.primary, width: 2),
         ),
 
+        errorStyle: TextStyle(color: AppColors.priorityHigh),
+
         // style pour le champs de saisie erreur
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(color: Colors.red, width: 2),
+          borderSide: const BorderSide(color: AppColors.priorityHigh, width: 2),
         ),
 
         // style pour focus sur le champs de saisie erreur
         focusedErrorBorder: OutlineInputBorder(
+          // borderRadius: BorderRadius.circular(16),
+          // borderSide: const BorderSide(color: Colors.red, width: 2),
           borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(color: Colors.red, width: 2),
+          borderSide: BorderSide(color: AppColors.primary, width: 2),
         ),
       ),
     );

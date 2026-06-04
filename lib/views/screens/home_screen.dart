@@ -1,19 +1,55 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_task_app/data/task_mock_data.dart';
-import 'package:flutter_task_app/models/task_model.dart';
+import 'package:flutter_task_app/providers/filter_provider.dart';
+import 'package:flutter_task_app/providers/search_query_provider.dart';
 import 'package:flutter_task_app/utils/constants.dart';
 import 'package:flutter_task_app/views/screens/add_editing_task_screen.dart';
+import 'package:flutter_task_app/views/screens/profile_screen.dart';
+import 'package:flutter_task_app/views/view/bottom_sheet_add_filter_view.dart';
 import 'package:flutter_task_app/views/view/task_list_card_view.dart';
 import 'package:flutter_task_app/views/widgets/filter_chip_button_widget.dart';
-import 'package:flutter_task_app/views/widgets/view_toggle_button_widget.dart';
+import 'package:flutter_task_app/views/widgets/sort_order_toggle_button_widget.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class HomeScreen extends ConsumerStatefulWidget  {
+  const HomeScreen({ super.key });
+
+  @override
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends ConsumerState<HomeScreen> { 
+  final TextEditingController searchController = TextEditingController();
+
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final tasks = TaskMockData.tasks;
+
+    final searchQuery = ref.watch(searchQueryProvider);
+    final filters = ref.watch(filterProvider);
+
+    // Méthode pour ouvrir le bottom sheet
+    void openAddFilterSheet() {
+      showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,   // important pour que le clavier ne cache pas le contenu
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        ),
+        builder: (_) => BottomSheetAddFilterView(
+          onFilterAdded: (newFilter) {
+            ref.read(filterProvider.notifier).add(newFilter);
+          },
+        ),
+      );
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -21,7 +57,14 @@ class HomeScreen extends StatelessWidget {
           leading: Padding(
             padding: const EdgeInsets.only(left: 12),
             child: GestureDetector(
-                onTap: () {}, // action à definir pour le tap sur l'avatar
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ProfileScreen(),
+                    ),
+                  );
+                }, // action à definir pour le tap sur l'avatar
                 child: CircleAvatar(
                     radius: 20,
                     backgroundColor: Colors.grey[300],
@@ -53,25 +96,30 @@ class HomeScreen extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
 
-          /// SECTION DE RECHERCHE ET DE TOGGLE DE VUE
-          /// A faire: connecter le TextField à une logique de recherche pour filtrer les tâches en temps réel
-          ///    - Boutton de suppression (suffixIcon) pour effacer le champ de recherche
-          ///    - Boutton de view grid et list pour basculer entre les deux vues de la liste des tâches
+          /// SECTION DE RECHERCHE ET DE SORT FILTRAGE
           child: Row(
             children: [
               // Champs de recherche pr filtrer les taches
               Expanded(
                 child: TextField(
+                  controller: searchController,
+                  onChanged: (value) {
+                    ref.read(searchQueryProvider.notifier).update(value);
+                  },
                   decoration: InputDecoration(
                       hintText: "Rechercher une tâche, un projet...",
                       hintStyle: TextStyle(
                           color: AppColors.textDarkSecondary, fontSize: 14),
                       prefixIcon: Icon(Icons.search),
-                      suffixIcon: IconButton(
-                        icon: const Icon(Icons.close_rounded),
-                        onPressed:
-                            () {}, // action à definir pour le tap sur le boutton de suppression du champ de recherche
-                      ),
+                      suffixIcon: searchQuery.isNotEmpty
+                        ? IconButton(
+                          icon: const Icon(Icons.close_rounded),
+                          onPressed:() {
+                            searchController.clear();
+                            ref.read(searchQueryProvider.notifier).update('');
+                          },
+                        ) 
+                      : null,
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(16),
                         borderSide: BorderSide(
@@ -89,20 +137,15 @@ class HomeScreen extends StatelessWidget {
               ),
               const SizedBox(width: 8),
 
-              // Boutton toggle pour basculer en vue grid et list
-              ViewToggleButtonWidget(
-                  isGrid: true,
-                  onTap:
-                      () {} // Action à definir pour le tap sur le bouton de toggle
-                  )
+              // Boutton pour faire un tri en fonction de la date d'écheance
+              SortOrderToggleButtonWidget(onToggle: (isActive) {
+                // action à definir pour le toggle du tri par date d'échéance
+              })
             ],
           ),
         ),
 
         /// SECTION DE FILTERS
-        /// A faire: connecter la liste des FilterChipModel à une logique de gestion d'état pour mettre à jour la sélection des filtres
-        ///   - filtrer les tâches en conséquence
-        ///   - Boutton d'ajout de filtre pour permettre à l'utilisateur de créer des filtres personnalisés
         SizedBox(
           height: 40,
 
@@ -111,20 +154,17 @@ class HomeScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 12),
               scrollDirection: Axis.horizontal,
               children: [
-                ...[
-                  TaskModel(
-                      id: 'all', title: 'Toutes les tâches', selected: true),
-                  TaskModel(id: 'pending', title: 'En cours', selected: false),
-                  TaskModel(id: 'done', title: 'Terminées', selected: false)
-                ].map(
+                ...filters.map(
                   (f) => Padding(
                     padding: EdgeInsets.only(right: 8.0),
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: FilterChipButtonWidget(
-                        label: f.title,
-                        isSelected: f.selected,
-                        onTap: () {},
+                        label: f.label,
+                        isSelected: f.isSelected,
+                        onTap: () {
+                          ref.read(filterProvider.notifier).select(f.id);
+                        },
                       ),
                     ),
                   ),
@@ -132,7 +172,7 @@ class HomeScreen extends StatelessWidget {
 
                 // Boutton d'ajout de filtre pour permettre à l'utilisateur de créer des filtres personnalisés
                 InkWell(
-                  onTap: () {},
+                  onTap: openAddFilterSheet,
                   child: Container(
                     height: 34,
                     width: 34,

@@ -33,7 +33,7 @@ class FilterChipButtonWidget extends StatelessWidget {
         onTap: onTap,
         borderRadius: BorderRadius.circular(20),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+          padding: const EdgeInsets.all(8),
           child: Text(
             label,
             style: TextStyle(

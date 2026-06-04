@@ -152,6 +152,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 TextFieldWidget(
                   controller: _emailController,
                   validator: (value) => FormValidator.validateEmail(value),
+                  keyboardType: TextInputType.emailAddress,
                   label: "Email",
                   placeholder: "John.doe@exemple.com",
                   prefixIcon: Icons.email_outlined,

@@ -34,27 +34,27 @@ class FormValidator {
     
     // Vérification de la longueur Minimum 8 caractères
     if (value.length < 8) {
-      return "Le mot de passe doit contenir au moins 8 caractères.";
+      return "Le mot de passe doit contenir \nau moins 8 caractères.";
     }
 
     // Vérification d'au moins une lettre majuscule
     if (!RegExp(r'[A-Z]').hasMatch(value)) {
-      return "Le mot de passe doit contenir au moins une majuscule.";
+      return "Le mot de passe doit contenir \nau moins une majuscule.";
     }
 
     // Vérification d'au moins une lettre minuscule
     if (!RegExp(r'[a-z]').hasMatch(value)) {
-      return "Le mot de passe doit contenir au moins une minuscule.";
+      return "Le mot de passe doit contenir \nau moins une minuscule.";
     }
 
     // Vérification d'au moins un chiffre
     if (!RegExp(r'[0-9]').hasMatch(value)) {
-      return "Le mot de passe doit contenir au moins un chiffre.";
+      return "Le mot de passe doit contenir \nau moins un chiffre.";
     }
     
     // Vérification de caractere speciale
     if (!RegExp(r'[.!@#\$&*~]').hasMatch(value)) {
-      return "Le mot de passe doit contenir au moins \nun caractère spécial (!@#\$&*~.).";
+      return "Le mot de passe doit contenir \nau moins un caractère spécial (!@#\$&*~.).";
     }
     
     return null;

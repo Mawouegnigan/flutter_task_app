@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "package:flutter_task_app/utils/constants.dart";
+import "package:flutter_task_app/views/screens/login_screen.dart";
 import "package:flutter_task_app/views/view/profile_header_view.dart";
 import "package:flutter_task_app/views/widgets/logout_button_widget.dart";
 
@@ -99,7 +100,17 @@ class ProfileScreen extends StatelessWidget {
               ],
             ),
             SizedBox(height: 8),
-            LogoutButtonWidget(onConfirm: () {})
+            LogoutButtonWidget(
+              onConfirm: () {
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => LoginScreen(),
+                  ),
+                  (route) => false,
+                );
+              }
+            )
           ],
         ),
       )
