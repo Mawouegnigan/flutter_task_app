@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_task_app/data/task_mock_data.dart';
 import 'package:flutter_task_app/providers/filter_provider.dart';
 import 'package:flutter_task_app/providers/search_query_provider.dart';
+import 'package:flutter_task_app/providers/task_selection_provider.dart';
 import 'package:flutter_task_app/utils/constants.dart';
 import 'package:flutter_task_app/views/screens/add_editing_task_screen.dart';
 import 'package:flutter_task_app/views/screens/profile_screen.dart';
@@ -35,6 +36,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final searchQuery = ref.watch(searchQueryProvider);
     final filters = ref.watch(filterProvider);
 
+    final isSelectionMode = ref.watch(isSelectionModeProvider);
+    final selectedCount  = ref.watch(selectedCountProvider);
+    final isAllSelected  = ref.watch(isAllSelectedProvider(tasks.length));
+
     // Méthode pour ouvrir le bottom sheet
     void openAddFilterSheet() {
       showModalBottomSheet(
@@ -54,43 +59,77 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
           // Avatar de l'utilisateur qui conduit à la page de profile au tap
-          leading: Padding(
-            padding: const EdgeInsets.only(left: 12),
-            child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ProfileScreen(),
-                    ),
-                  );
-                }, // action à definir pour le tap sur l'avatar
-                child: CircleAvatar(
-                    radius: 20,
-                    backgroundColor: Colors.grey[300],
-                    child: Icon(Icons.person, color: Colors.white, size: 20))),
-          ),
-          title: const Text("Mes tâches"),
-          centerTitle: true,
+          leading: !isSelectionMode
+            ? Padding(
+              padding: const EdgeInsets.only(left: 12),
+              child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ProfileScreen(),
+                      ),
+                    );
+                  }, // action à definir pour le tap sur l'avatar
+                  child: CircleAvatar(
+                      radius: 20,
+                      backgroundColor: Colors.grey[300],
+                      child: Icon(Icons.person, color: Colors.white, size: 20))),
+            ) 
+            : null,
+          title: isSelectionMode 
+            ? Text(
+              "$selectedCount sélectionnée${selectedCount > 1 ? 's' : ''}",
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500, color: AppColors.textDarkPrimary),
+            )
+            : const Text('Mes tâches'),
 
-          // Les boutons d'action de l'appbar: calendrier et notifications
+          centerTitle: isSelectionMode ? false : true,
+
+          // Les boutons d'action de l'appbar: calendrier et notifications si on n'es pas en mode selection, sinon boutton de selection de tous les taches
           actions: [
-            IconButton(
-              onPressed:
-                  () {}, // action à definir pour le click sur le boutton du calendrier
-              icon: Icon(Icons.calendar_today_rounded),
-              padding: const EdgeInsets.all(12),
-              iconSize: 22,
-            ),
+            !isSelectionMode 
+              ? IconButton(
+                onPressed:
+                    () {}, // action à definir pour le click sur le boutton du calendrier
+                icon: Icon(Icons.calendar_today_rounded),
+                padding: const EdgeInsets.all(12),
+                iconSize: 22,
+              )
+              : Transform.scale(
+                scale: 1.2,
+                child: Checkbox(
+                  value: isAllSelected, 
+                  onChanged: (value) {
+                    if (isAllSelected) {
+                      ref.read(taskSelectionProvider.notifier).clearAll();
+                    } else {
+                      ref.read(taskSelectionProvider.notifier)
+                          .selectAll(tasks.map((t) => t.id).toList());
+                    }
+                    // action à definir pour le changement de valeur de la case à cocher
+                  },
+                  side: BorderSide(
+                    // color: AppColors.textDarkSecondary,
+                    width: 1,
+                  ),
+                ),
+              ),
 
-            // A faire: ajouter un badge de notification sur le boutton lorsqu'il y a des notification non lues
-            IconButton(
-              onPressed:
-                  () {}, // action à definir pour le click sur le boutton des notifications
-              icon: Icon(Icons.notifications_outlined),
-              padding: const EdgeInsets.all(10),
-              iconSize: 28,
-            ),
+            !isSelectionMode
+              ? IconButton(
+                onPressed:
+                    () {}, // action à definir pour le click sur le boutton des notifications
+                icon: Icon(Icons.notifications_outlined),
+                padding: const EdgeInsets.all(10),
+                iconSize: 28,
+              )
+              : IconButton(
+                tooltip: "Déseleectionner toutes les tâches",
+                icon: Icon(Icons.close_rounded),
+                iconSize: 32,
+                onPressed: () => ref.read(taskSelectionProvider.notifier).clearAll()
+              ),
           ]),
       body: Column(children: [
         Padding(
@@ -207,22 +246,25 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ),
         )
       ]),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => AddEditingTaskScreen(
-                mode: 'Add',
+
+      floatingActionButton: !isSelectionMode
+        ? FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AddEditingTaskScreen(
+                  mode: 'Add',
+                ),
               ),
-            ),
-          );
-        },
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(9999),
-        ),
-        child: Icon(Icons.add),
-      ),
+            );
+          },
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(9999),
+          ),
+          child: Icon(Icons.add),
+        )
+        : null,
     );
   }
 }

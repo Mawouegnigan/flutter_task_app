@@ -83,7 +83,12 @@ class _TaskListCardViewState extends ConsumerState<TaskListCardView> {
                 ),
               ),
             )
-          : SizedBox.expand(),
+          : Checkbox(
+              value: isSelected,
+              onChanged: (_) {
+                ref.read(taskSelectionProvider.notifier).toggle(widget.task.id);
+              },
+            ),
       
           // Titre de la tache
           title: Text(
@@ -154,14 +159,6 @@ class _TaskListCardViewState extends ConsumerState<TaskListCardView> {
               ),
             ],
           ),
-          trailing: isSelectionMode
-            ? Checkbox(
-              value: isSelected,
-              onChanged: (_) {
-                ref.read(taskSelectionProvider.notifier).toggle(widget.task.id);
-              },
-            )
-          : null,
         ),
       ),
     );
