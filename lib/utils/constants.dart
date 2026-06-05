@@ -19,9 +19,9 @@ class AppTheme {
       useMaterial3: true,
       fontFamily: 'Poppins',
       scaffoldBackgroundColor: AppColors.background,
-      appBarTheme: const AppBarTheme(
-        backgroundColor: AppColors.background,
-        elevation: 1,
+      appBarTheme: AppBarTheme(
+        // backgroundColor: AppColors.primary.withValues(alpha: 0.5),
+        // elevation: 1,
         iconTheme: IconThemeData(color: AppColors.textDarkPrimary),
         titleTextStyle: TextStyle(
           color: AppColors.textDarkPrimary, 
