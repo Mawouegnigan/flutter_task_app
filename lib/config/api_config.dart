@@ -1,6 +1,5 @@
 class ApiConfig {
   // URL de base du backend
-  // À modifier selon l'environnement (local, production)
   static const String baseUrl = 'http://localhost:3000';
 
   // Endpoints Auth
@@ -9,6 +8,6 @@ class ApiConfig {
   static const String profil = '$baseUrl/auths/profils';
 
   // Endpoints Tâches
-  static const String tasks = '$baseUrl/tasks';
-  static String taskById(int id) => '$baseUrl/tasks/$id';
+  static const String tasks = '$baseUrl/task';
+  static String taskById(int id) => '$baseUrl/task/$id';
 }

@@ -7,6 +7,8 @@ class AuthService {
   // POST — Inscription
   static Future<bool> register({
     required String username,
+    required String nom,
+    required String prenom,
     required String email,
     required String password,
   }) async {
@@ -16,12 +18,14 @@ class AuthService {
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
           'username': username,
+          'nom': nom,
+          'prenom': prenom,
           'email': email,
           'password': password,
         }),
       );
 
-      return response.statusCode == 201;
+      return response.statusCode != 400 && response.statusCode != 409;
     } catch (e) {
       throw Exception('Erreur réseau : $e');
     }
@@ -29,7 +33,7 @@ class AuthService {
 
   // POST — Connexion
   static Future<bool> login({
-    required String email,
+    required String username,
     required String password,
   }) async {
     try {
@@ -37,17 +41,15 @@ class AuthService {
         Uri.parse(ApiConfig.login),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
-          'email': email,
+          'username': username,
           'password': password,
         }),
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         final data = jsonDecode(response.body);
-
-        // Sauvegarder le token localement
         final prefs = await SharedPreferences.getInstance();
-        await prefs.setString('token', data['token']);
+        await prefs.setString('token', data['access_token']);
         return true;
       }
       return false;

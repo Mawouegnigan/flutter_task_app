@@ -19,6 +19,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool _isConfirmPasswordVisible = false;
   bool _isLoading = false;
 
+  final TextEditingController _nomController = TextEditingController();
+  final TextEditingController _prenomController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -26,6 +28,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   void dispose() {
+    _nomController.dispose();
+    _prenomController.dispose();
     _usernameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
@@ -34,13 +38,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Future<void> _handleRegister() async {
+    final nom = _nomController.text.trim();
+    final prenom = _prenomController.text.trim();
     final username = _usernameController.text.trim();
     final email = _emailController.text.trim();
     final password = _passwordController.text.trim();
     final confirmPassword = _confirmPasswordController.text.trim();
 
     // Validation des champs vides
-    if (username.isEmpty || email.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
+    if (nom.isEmpty || prenom.isEmpty || username.isEmpty || email.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Veuillez remplir tous les champs')),
       );
@@ -59,6 +65,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     try {
       final success = await AuthService.register(
+        nom: nom,
+        prenom: prenom,
         username: username,
         email: email,
         password: password,
@@ -111,11 +119,29 @@ class _RegisterScreenState extends State<RegisterScreen> {
               Form(
                 child: Column(
                   children: [
+                    // Champ nom
+                    TextFieldWidget(
+                      label: "Nom",
+                      placeholder: "DOE",
+                      prefixIcon: Icons.person_outline,
+                      controller: _nomController,
+                    ),
+                    SizedBox(height: 20),
+
+                    // Champ prénom
+                    TextFieldWidget(
+                      label: "Prénom",
+                      placeholder: "John",
+                      prefixIcon: Icons.person_outline,
+                      controller: _prenomController,
+                    ),
+                    SizedBox(height: 20),
+
                     // Champ nom d'utilisateur
                     TextFieldWidget(
                       label: "Nom d'utilisateur",
                       placeholder: "John DOE",
-                      prefixIcon: Icons.person_outline,
+                      prefixIcon: Icons.badge_outlined,
                       controller: _usernameController,
                     ),
                     SizedBox(height: 20),

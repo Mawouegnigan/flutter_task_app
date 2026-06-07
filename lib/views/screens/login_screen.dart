@@ -19,21 +19,21 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _isPasswordVisible = false;
   bool _isLoading = false;
 
-  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   @override
   void dispose() {
-    _emailController.dispose();
+    _usernameController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
 
   Future<void> _handleLogin() async {
-    final email = _emailController.text.trim();
+    final username = _usernameController.text.trim();
     final password = _passwordController.text.trim();
 
-    if (email.isEmpty || password.isEmpty) {
+    if (username.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Veuillez remplir tous les champs')),
       );
@@ -44,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     try {
       final success = await AuthService.login(
-        email: email,
+        username: username,
         password: password,
       );
 
@@ -57,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Email ou mot de passe incorrect')),
+          const SnackBar(content: Text('Nom d\'utilisateur ou mot de passe incorrect')),
         );
       }
     } catch (e) {
@@ -90,12 +90,12 @@ class _LoginScreenState extends State<LoginScreen> {
               Form(
                 child: Column(
                   children: [
-                    // Champ email
+                    // Champ nom d'utilisateur
                     TextFieldWidget(
-                      label: "Email",
-                      placeholder: "John.doe@exemple.com",
-                      prefixIcon: Icons.email_outlined,
-                      controller: _emailController,
+                      label: "Nom d'utilisateur",
+                      placeholder: "John DOE",
+                      prefixIcon: Icons.person_outline,
+                      controller: _usernameController,
                     ),
                     SizedBox(height: 30),
 
