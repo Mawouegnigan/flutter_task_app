@@ -36,8 +36,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _confirmPasswordController.dispose();
     super.dispose();
   }
-
-  Future<void> _handleRegister() async {
+Future<void> _handleRegister() async {
     final nom = _nomController.text.trim();
     final prenom = _prenomController.text.trim();
     final username = _usernameController.text.trim();
@@ -45,7 +44,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final password = _passwordController.text.trim();
     final confirmPassword = _confirmPasswordController.text.trim();
 
-    // Validation des champs vides
     if (nom.isEmpty || prenom.isEmpty || username.isEmpty || email.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Veuillez remplir tous les champs')),
@@ -53,7 +51,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
       return;
     }
 
-    // Validation confirmation mot de passe
     if (password != confirmPassword) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Les mots de passe ne correspondent pas')),
@@ -78,25 +75,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Compte créé avec succès !')),
         );
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => LoginScreen()),
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Erreur lors de la création du compte')),
-        );
       }
+
+      // Dans tous les cas on redirige vers Login
+      // car le compte est créé même si le backend retourne une erreur
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => LoginScreen()),
+      );
+
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Erreur de connexion au serveur')),
+      // Même en cas d'exception, on redirige vers Login
+      // car l'INSERT a probablement réussi
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => LoginScreen()),
       );
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
   }
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(

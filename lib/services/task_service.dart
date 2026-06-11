@@ -2,12 +2,29 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_task_app/config/api_config.dart';
 import 'package:flutter_task_app/models/task_api_model.dart';
+import 'package:flutter_task_app/services/auth_service.dart';
 
 class TaskService {
+  // Headers avec token d'authentification
+  static Future<Map<String, String>> _getHeaders() async {
+    final token = await AuthService.getToken();
+    return {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+  }
+
   // GET — Récupérer toutes les tâches
   static Future<List<TaskApiModel>> getTasks() async {
     try {
-      final response = await http.get(Uri.parse(ApiConfig.tasks));
+      final headers = await _getHeaders();
+      final response = await http.get(
+        Uri.parse(ApiConfig.tasks),
+        headers: headers,
+      );
+
+      print('GET TASKS STATUS: ${response.statusCode}');
+      print('GET TASKS BODY: ${response.body}');
 
       if (response.statusCode == 200) {
         final List<dynamic> data = jsonDecode(response.body);
@@ -23,11 +40,15 @@ class TaskService {
   // POST — Créer une tâche
   static Future<TaskApiModel> createTask(TaskApiModel task) async {
     try {
+      final headers = await _getHeaders();
       final response = await http.post(
         Uri.parse(ApiConfig.tasks),
-        headers: {'Content-Type': 'application/json'},
+        headers: headers,
         body: jsonEncode(task.toJson()),
       );
+
+      print('CREATE TASK STATUS: ${response.statusCode}');
+      print('CREATE TASK BODY: ${response.body}');
 
       if (response.statusCode == 201) {
         return TaskApiModel.fromJson(jsonDecode(response.body));
@@ -39,14 +60,18 @@ class TaskService {
     }
   }
 
-  // PUT — Modifier une tâche
+  // PATCH — Modifier une tâche
   static Future<TaskApiModel> updateTask(int id, TaskApiModel task) async {
     try {
-      final response = await http.put(
+      final headers = await _getHeaders();
+      final response = await http.patch(
         Uri.parse(ApiConfig.taskById(id)),
-        headers: {'Content-Type': 'application/json'},
+        headers: headers,
         body: jsonEncode(task.toJson()),
       );
+
+      print('UPDATE TASK STATUS: ${response.statusCode}');
+      print('UPDATE TASK BODY: ${response.body}');
 
       if (response.statusCode == 200) {
         return TaskApiModel.fromJson(jsonDecode(response.body));
@@ -61,9 +86,13 @@ class TaskService {
   // DELETE — Supprimer une tâche
   static Future<void> deleteTask(int id) async {
     try {
+      final headers = await _getHeaders();
       final response = await http.delete(
         Uri.parse(ApiConfig.taskById(id)),
+        headers: headers,
       );
+
+      print('DELETE TASK STATUS: ${response.statusCode}');
 
       if (response.statusCode != 200) {
         throw Exception('Erreur lors de la suppression de la tâche');

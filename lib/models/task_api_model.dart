@@ -7,6 +7,7 @@ class TaskApiModel {
   final DateTime? dueDate;
   final DateTime? createdAt;
   final DateTime? updatedAt;
+  final bool isCompleted;
 
   TaskApiModel({
     this.id,
@@ -17,6 +18,7 @@ class TaskApiModel {
     this.dueDate,
     this.createdAt,
     this.updatedAt,
+    this.isCompleted = false,
   });
 
   // Convertir JSON reçu du backend → TaskApiModel
@@ -27,6 +29,7 @@ class TaskApiModel {
       content: json['content'],
       priority: json['priority'],
       color: json['color'],
+      isCompleted: json['isCompleted'] ?? false,
       dueDate: json['dueDate'] != null ? DateTime.parse(json['dueDate']) : null,
       createdAt: json['createdAt'] != null ? DateTime.parse(json['createdAt']) : null,
       updatedAt: json['updatedAt'] != null ? DateTime.parse(json['updatedAt']) : null,
@@ -40,7 +43,23 @@ class TaskApiModel {
       'content': content,
       'priority': priority,
       'color': color,
+      'isCompleted': isCompleted,
       if (dueDate != null) 'dueDate': dueDate!.toIso8601String(),
     };
+  }
+
+  // Copier avec modifications
+  TaskApiModel copyWith({bool? isCompleted}) {
+    return TaskApiModel(
+      id: id,
+      title: title,
+      content: content,
+      priority: priority,
+      color: color,
+      isCompleted: isCompleted ?? this.isCompleted,
+      dueDate: dueDate,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
+    );
   }
 }
