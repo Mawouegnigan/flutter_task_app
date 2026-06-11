@@ -3,6 +3,7 @@ import 'package:flutter_task_app/models/task_api_model.dart';
 import 'package:flutter_task_app/services/task_service.dart';
 import 'package:flutter_task_app/utils/constants.dart';
 import 'package:flutter_task_app/views/widgets/cta_button_widget.dart';
+import 'package:flutter_task_app/services/notification_service.dart';
 
 class AddEditingTaskScreen extends StatefulWidget {
   final String mode;
@@ -105,19 +106,22 @@ class _AddEditingTaskScreenState extends State<AddEditingTaskScreen> {
         dueDate: _selectedDeadline,
       );
 
-      if (widget.mode == 'Add') {
-        await TaskService.createTask(task);
-        if (!mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Tâche créée avec succès !')),
-        );
-      } else {
-        await TaskService.updateTask(widget.task!.id!, task);
-        if (!mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Tâche modifiée avec succès !')),
-        );
-      }
+          if (widget.mode == 'Add') {
+            final createdTask = await TaskService.createTask(task);
+            await NotificationService.scheduleTaskNotification(createdTask);
+            if (!mounted) return;
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Tâche créée avec succès !')),
+            );
+          } else {
+            final updatedTask = await TaskService.updateTask(widget.task!.id!, task);
+            await NotificationService.cancelTaskNotification(widget.task!.id!);
+            await NotificationService.scheduleTaskNotification(updatedTask);
+            if (!mounted) return;
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Tâche modifiée avec succès !')),
+            );
+          }
 
       Navigator.pop(context);
     } catch (e) {

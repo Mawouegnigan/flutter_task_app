@@ -4,8 +4,8 @@ import 'package:flutter_task_app/services/task_service.dart';
 import 'package:flutter_task_app/utils/constants.dart';
 import 'package:flutter_task_app/views/screens/add_editing_task_screen.dart';
 import 'package:flutter_task_app/views/screens/profile_screen.dart';
-import 'package:flutter_task_app/views/widgets/filter_chip_button_widget.dart';
 import 'package:flutter_task_app/views/screens/calendar_screen.dart';
+import 'package:flutter_task_app/services/notification_service.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -180,6 +180,82 @@ class _HomeScreenState extends State<HomeScreen> {
     ),
   );
 }
+void _showNotificationsPanel() {
+  final upcomingTasks = NotificationService.getUpcomingTasks(_tasks);
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+    ),
+    builder: (context) => Padding(
+      padding: EdgeInsets.only(
+        left: 20,
+        right: 20,
+        top: 20,
+        bottom: MediaQuery.of(context).viewInsets.bottom + 20,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(Icons.notifications_outlined, color: AppColors.primary),
+              SizedBox(width: 8),
+              Text(
+                'Notifications',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 16),
+          upcomingTasks.isEmpty
+              ? Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Text(
+                      'Aucune tâche dans les prochaines 24h',
+                      style: TextStyle(
+                        color: AppColors.textDarkSecondary,
+                        fontSize: 15,
+                      ),
+                    ),
+                  ),
+                )
+              : ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: upcomingTasks.length,
+                  itemBuilder: (context, index) {
+                    final task = upcomingTasks[index];
+                    return ListTile(
+                      leading: Icon(
+                        Icons.access_time_rounded,
+                        color: AppColors.priorityHigh,
+                      ),
+                      title: Text(
+                        task.title,
+                        style: TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                      subtitle: Text(
+                        "Échéance : ${task.dueDate!.day}/${task.dueDate!.month}/${task.dueDate!.year} à ${task.dueDate!.hour.toString().padLeft(2, '0')}h${task.dueDate!.minute.toString().padLeft(2, '0')}",
+                        style: TextStyle(
+                          color: AppColors.textDarkSecondary,
+                          fontSize: 12,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+          SizedBox(height: 8),
+        ],
+      ),
+    ),
+  );
+}
   Widget _sortOption(String label, String value, IconData icon) {
     return ListTile(
       leading: Icon(icon, color: _sortBy == value ? AppColors.primary : null),
@@ -278,14 +354,31 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: const EdgeInsets.all(12),
               iconSize: 22,
             ),
-          // Notifications
+         // Notifications
           IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.notifications_outlined),
+            onPressed: () => _showNotificationsPanel(),
+            icon: Stack(
+              children: [
+                Icon(Icons.notifications_outlined),
+                if (NotificationService.getUpcomingTasks(_tasks).isNotEmpty)
+                  Positioned(
+                    right: 0,
+                    top: 0,
+                    child: Container(
+                      width: 8,
+                      height: 8,
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
             padding: const EdgeInsets.all(10),
             iconSize: 28,
           ),
-        ],
+       ]
       ),
       body: Column(
         children: [

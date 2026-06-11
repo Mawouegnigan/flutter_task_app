@@ -15,6 +15,9 @@ dependencies:
   http: ^1.2.0
   shared_preferences: ^2.2.3
   table_calendar: ^3.1.2
+  flutter_local_notifications: ^18.0.1
+  timezone: ^0.9.4
+  image_picker: ^1.2.2
 
 dev_dependencies:
   flutter_test:
@@ -35,3 +38,4 @@ flutter:
         - asset: ./assets/fonts/Poppins-Bold.ttf
         - asset: ./assets/fonts/Poppins-Italic.ttf
           style: italic
+

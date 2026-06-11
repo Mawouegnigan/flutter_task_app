@@ -200,8 +200,8 @@ Future<void> _handleRegister() async {
               SizedBox(height: 10),
 
               // Section connexion sociale
-              SocialAuthSectionView(isLoginScreen: false),
-              SizedBox(height: 20),
+              //SocialAuthSectionView(isLoginScreen: false),
+              //SizedBox(height: 20),
 
               // Lien vers connexion
               Row(

@@ -1,131 +1,205 @@
 import "package:flutter/material.dart";
+import "package:flutter_task_app/services/auth_service.dart";
 import "package:flutter_task_app/utils/constants.dart";
 import "package:flutter_task_app/views/screens/login_screen.dart";
 import "package:flutter_task_app/views/view/profile_header_view.dart";
 import "package:flutter_task_app/views/widgets/logout_button_widget.dart";
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  String _name     = '';
+  String _email    = '';
+  String _username = '';
+  String? _photoUrl;
+  bool _isLoading  = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadProfil();
+  }
+
+  Future<void> _loadProfil() async {
+    try {
+      final profil = await AuthService.getProfil();
+      if (mounted && profil != null) {
+        setState(() {
+          _name     = '${profil['prenom'] ?? ''} ${profil['nom'] ?? ''}'.trim();
+          _email    = profil['email']    ?? '';
+          _username = profil['username'] ?? '';
+          _photoUrl = profil['photo'] as String?;
+          _isLoading = false;
+        });
+      } else {
+        if (mounted) setState(() => _isLoading = false);
+      }
+    } catch (e) {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => Navigator.pop(context),
         ),
-        title: Text("Profile"),
+        title: const Text("Profil"),
         centerTitle: true,
         actions: [
           IconButton(
             onPressed: () {},
-            icon: Icon(Icons.alarm),
-            padding: const EdgeInsets.all(12),
-            iconSize: 22,
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.notifications_outlined),
+            icon: const Icon(Icons.notifications_outlined),
             padding: const EdgeInsets.all(10),
-            iconSize: 28,
+            iconSize: 26,
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-        child: Column(
-          children: [
-            Center(
-              child: ProfileHeaderView(
-                name: "John DOE",
-                email: "john.doe@example.com",
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+              child: Column(
+                children: [
+                  // ── En-tête profil ──────────────────────────────
+                  ProfileHeaderView(
+                    name:     _name.isEmpty ? 'Utilisateur' : _name,
+                    email:    _email,
+                    username: _username,
+                    photoUrl: _photoUrl,
+                  ),
+
+                  const SizedBox(height: 24),
+
+                  // ── Paramètres généraux ─────────────────────────
+                  _CardItem(
+                    icon: Icons.settings_outlined,
+                    title: 'Paramètres',
+                    subtitle: 'Stockage, langue, thème, police',
+                  ),
+
+                  const SizedBox(height: 8),
+
+                  // ── Groupe Tâches ───────────────────────────────
+                  _CardGroup(
+                    items: [
+                      _CardItemData(
+                        icon: Icons.bookmarks_outlined,
+                        title: 'Catégorie & Priorité',
+                        subtitle: 'Gérer vos catégories de tâches',
+                      ),
+                      _CardItemData(
+                        icon: Icons.notifications_outlined,
+                        title: 'Rappels & Notifications',
+                        subtitle: 'Alertes, fréquence, heure de rappel',
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 8),
+
+                  // ── Groupe Aide ─────────────────────────────────
+                  _CardGroup(
+                    items: [
+                      _CardItemData(
+                        icon: Icons.info_outline_rounded,
+                        title: 'Conditions & Confidentialité',
+                        subtitle: 'CGU, politique de confidentialité',
+                      ),
+                      _CardItemData(
+                        icon: Icons.shield_outlined,
+                        title: 'Aide & Support',
+                        subtitle: 'FAQ, contacter le support',
+                      ),
+                      _CardItemData(
+                        icon: Icons.help_outline_rounded,
+                        title: 'À propos',
+                        subtitle: "Version de l'application V0",
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  // ── Déconnexion ─────────────────────────────────
+                  LogoutButtonWidget(
+                    onConfirm: () async {
+                      await AuthService.logout();
+                      if (!context.mounted) return;
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const LoginScreen(),
+                        ),
+                        (route) => false,
+                      );
+                    },
+                  ),
+                ],
               ),
             ),
-            SizedBox(height: 16),
-            CardItem(
-              icon: Icons.settings,
-              title: 'Paramètre',
-              subtitle:
-                  "Stockage & Données, Langue & Région, Thème, couleurs, police",
-            ),
-            SizedBox(height: 8),
-            Column(
-              spacing: 1,
-              children: [
-                CardItem(
-                  icon: Icons.bookmarks_outlined,
-                  title: 'Catégorie & Priorité',
-                  subtitle: "Gérer vos catégories de tâches",
-                  topRadius: 16,
-                  btmRadius: 4,
-                ),
-                CardItem(
-                  icon: Icons.notifications_outlined,
-                  title: 'Rappels & Notifications',
-                  subtitle: "Alertes, fréquence, heure de rappel",
-                  topRadius: 4,
-                  btmRadius: 16,
-                ),
-              ],
-            ),
-            SizedBox(height: 8),
-            Column(
-              spacing: 1,
-              children: [
-                CardItem(
-                  icon: Icons.info_outline_rounded,
-                  title: 'Conditions & Confidentialité',
-                  subtitle: "CGU, politique de confidentialité",
-                  topRadius: 16,
-                  btmRadius: 4,
-                ),
-                CardItem(
-                  icon: Icons.shield_outlined,
-                  title: 'Aide & Support',
-                  subtitle: "FAQ, contacter le support",
-                  topRadius: 4,
-                  btmRadius: 4,
-                ),
-                CardItem(
-                  icon: Icons.help_outline_rounded,
-                  title: 'À propos',
-                  subtitle: "Version de l'application V0",
-                  topRadius: 4,
-                  btmRadius: 16,
-                ),
-              ],
-            ),
-            SizedBox(height: 8),
-
-            // Bouton déconnexion — redirige vers LoginScreen après confirmation
-            LogoutButtonWidget(
-              onConfirm: () {
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => LoginScreen(),
-                  ),
-                  (route) => false,
-                );
-              },
-            ),
-          ],
-        ),
-      ),
     );
   }
 }
 
-class CardItem extends StatelessWidget {
+// ── CardItem data model ─────────────────────────────────────────────────────
+class _CardItemData {
   final IconData icon;
-  final String title, subtitle;
-  final double topRadius, btmRadius;
+  final String title;
+  final String subtitle;
+  const _CardItemData({
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+  });
+}
 
-  const CardItem({
-    super.key,
+// ── Groupe de cards avec bords arrondis enchaînés ───────────────────────────
+class _CardGroup extends StatelessWidget {
+  final List<_CardItemData> items;
+  const _CardGroup({required this.items});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: List.generate(items.length, (i) {
+        final item = items[i];
+        final isFirst = i == 0;
+        final isLast  = i == items.length - 1;
+        return Column(
+          children: [
+            _CardItem(
+              icon:      item.icon,
+              title:     item.title,
+              subtitle:  item.subtitle,
+              topRadius: isFirst ? 16 : 4,
+              btmRadius: isLast  ? 16 : 4,
+            ),
+            if (!isLast) const SizedBox(height: 1),
+          ],
+        );
+      }),
+    );
+  }
+}
+
+// ── Card individuelle ───────────────────────────────────────────────────────
+class _CardItem extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final String subtitle;
+  final double topRadius;
+  final double btmRadius;
+
+  const _CardItem({
     required this.icon,
     required this.title,
     required this.subtitle,
@@ -137,11 +211,11 @@ class CardItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 0,
-      color: AppColors.textDarkSecondary.withValues(alpha: 0.25),
+      color: AppColors.textDarkSecondary.withValues(alpha: 0.08),
       margin: EdgeInsets.zero,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
-          top: Radius.circular(topRadius),
+          top:    Radius.circular(topRadius),
           bottom: Radius.circular(btmRadius),
         ),
       ),
@@ -149,30 +223,39 @@ class CardItem extends StatelessWidget {
       child: InkWell(
         onTap: () {},
         child: ListTile(
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 4,
+          ),
           leading: Container(
-            width: 46,
-            height: 46,
-            decoration: BoxDecoration(
+            width: 42,
+            height: 42,
+            decoration: const BoxDecoration(
               color: AppColors.textDarkSecondary,
               shape: BoxShape.circle,
             ),
-            child: Icon(icon, color: Colors.white, size: 24),
+            child: Icon(icon, color: Colors.white, size: 22),
           ),
           title: Text(
             title,
             style: const TextStyle(
               color: AppColors.textDarkPrimary,
-              fontSize: 15,
+              fontSize: 14,
               fontWeight: FontWeight.w600,
             ),
           ),
           subtitle: Text(
             subtitle,
             style: TextStyle(
-              color: AppColors.textDarkSecondary.withValues(alpha: 0.55),
-              fontSize: 13,
+              color: AppColors.textDarkSecondary.withValues(alpha: 0.7),
+              fontSize: 12,
               height: 1.4,
             ),
+          ),
+          trailing: const Icon(
+            Icons.chevron_right,
+            color: AppColors.textDarkSecondary,
+            size: 20,
           ),
         ),
       ),
