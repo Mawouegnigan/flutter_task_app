@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_task_app/data/task_mock_data.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:flutter_task_app/providers/filter_provider.dart';
 import 'package:flutter_task_app/providers/search_query_provider.dart';
+import 'package:flutter_task_app/providers/task_provider.dart';
 import 'package:flutter_task_app/providers/task_selection_provider.dart';
 import 'package:flutter_task_app/utils/constants.dart';
 import 'package:flutter_task_app/views/screens/add_editing_task_screen.dart';
@@ -34,7 +35,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final tasks = TaskMockData.tasks;
+    // final tasks = TaskMockData.tasks;
+    final tasks = ref.watch(taskProvider);
 
     final searchQuery = ref.watch(searchQueryProvider);
     final filters = ref.watch(filterProvider);
@@ -62,7 +64,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     }
 
     return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
+      onTap: () {
+        FocusScope.of(context).unfocus();
+        searchFocusNode.unfocus();
+      },
       child: Scaffold(
         appBar: AppBar(
             leadingWidth: double.infinity,
@@ -272,12 +277,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
-              child: ListView.builder(
+              child: tasks.isEmpty
+                ? tasksEmptyState()
+                : ListView.builder(
                   itemCount: tasks.length,
                   itemBuilder: (context, index) {
                     final task = tasks[index];
                     return TaskListCardView(task: task);
-                  }),
+                  }
+                ),
             ),
           )
         ]),
@@ -337,4 +345,45 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       ),
     );
   }
+
+  Widget tasksEmptyState() {
+    return SingleChildScrollView(
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              "assets/images/tasks_empty_state.svg",
+              width: 250,
+            ),
+            const SizedBox(height: 20),
+            Column(
+              children: const [
+                Text(
+                  "Rien à l'horizon !",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 24,
+                    color: AppColors.textDarkPrimary,
+                  ),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  "Votre liste est vide pour le moment. Que planifiez-vous de faire aujourd'hui ?",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: AppColors.textDarkSecondary,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
+
+// Titre : 
+// Sous-titre : Votre liste est vide pour le moment. Que planifiez-vous de faire aujourd'hui ?

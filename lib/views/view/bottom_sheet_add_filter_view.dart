@@ -61,7 +61,7 @@ class _BottomSheetAddFilterViewState extends State<BottomSheetAddFilterView> {
           ),
 
           Text(
-            'Nouveau filtre',
+            'Nouveau catégorie',
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.w700,
@@ -70,7 +70,7 @@ class _BottomSheetAddFilterViewState extends State<BottomSheetAddFilterView> {
           ),
           const SizedBox(height: 4),
           Text(
-            'Donne un nom à ton filtre personnalisé',
+            'Donne un nom à ta catégorie personnalisé',
             style: TextStyle(
               fontSize: 14,
               color: AppColors.textDarkSecondary,
@@ -120,7 +120,7 @@ class _BottomSheetAddFilterViewState extends State<BottomSheetAddFilterView> {
 
           // Bouton valider
           CtaButtonWidget(
-            text: "Ajouter le filtre",
+            text: "Ajouter la catégorie",
             onPressed: _submit
           )
         ],

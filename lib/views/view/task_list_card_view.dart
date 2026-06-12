@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart'; 
 import 'package:flutter_task_app/models/task_model.dart';
 import 'package:flutter_task_app/providers/task_completion_provider.dart';
 import 'package:flutter_task_app/providers/task_selection_provider.dart';
@@ -45,7 +46,7 @@ class _TaskListCardViewState extends ConsumerState<TaskListCardView> {
         ),
         child: ListTile(
           minVerticalPadding: 0,
-          contentPadding: const EdgeInsets.only(top: 8, right: 16, bottom: 8),
+          contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
           isThreeLine: true,
           horizontalTitleGap: 4.0,
           minLeadingWidth: 0,
@@ -58,6 +59,7 @@ class _TaskListCardViewState extends ConsumerState<TaskListCardView> {
                 MaterialPageRoute(
                   builder: (context) => AddEditingTaskScreen(
                     mode: 'Edit',
+                    taskToEdit: widget.task
                   ),
                 ),
               );
@@ -66,21 +68,24 @@ class _TaskListCardViewState extends ConsumerState<TaskListCardView> {
       
           // Checkbox de completion de la tache
           leading: !isSelectionMode
-            ? Transform.scale(
-              scale: 1.5,
-              child: Checkbox(
-                value: isCompleted,
-                onChanged: (_) {
-                  debugPrint("checkbox tappppppppp");
-                  ref.read(taskCompletionProvider.notifier).toggle(widget.task.id);
-                },
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(9999),
+            ? GestureDetector(
+              onTap: () => ref.read(taskCompletionProvider.notifier).toggle(widget.task.id),
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                width: 24,
+                height: 24,
+                margin: const EdgeInsets.only(right: 12, top: 4),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: isCompleted ? AppColors.primary : const Color(0xFF555555),
+                    width: 1,
+                  ),
+                  color: isCompleted ? AppColors.primary : Colors.transparent,
                 ),
-                side: BorderSide(
-                  color: AppColors.textDarkSecondary,
-                  width: 1,
-                ),
+                child: isCompleted
+                    ? const Icon(Icons.check, color: Colors.white, size: 18)
+                    : null,
               ),
             )
           : Checkbox(
@@ -110,10 +115,10 @@ class _TaskListCardViewState extends ConsumerState<TaskListCardView> {
             mainAxisSize: MainAxisSize.min,
             children: [
               // description de la tache
-              widget.task.description != null ? Padding(
+              Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
                 child: Text(
-                  widget.task.description!,
+                  widget.task.description,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
@@ -124,8 +129,7 @@ class _TaskListCardViewState extends ConsumerState<TaskListCardView> {
                     decorationColor: isCompleted ? AppColors.textDarkSecondary : null,
                   ),
                 ),
-              ): SizedBox.shrink(),
-              
+              ),
               // Date d'echeance de la tache
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -140,7 +144,7 @@ class _TaskListCardViewState extends ConsumerState<TaskListCardView> {
                       ),
                       const SizedBox(width: 6),
                       Text(
-                        widget.task.deadline!,
+                        DateFormat('yyyy-MM-dd').format(widget.task.deadline!),
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w500,
