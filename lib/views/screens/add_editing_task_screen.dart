@@ -274,8 +274,9 @@ class _AddEditingTaskScreenState extends State<AddEditingTaskScreen> {
                           width: 1.5,
                         ),
                       ),
+                      
                       child: Text(
-                        priority,
+                        priority == 'Low' ? 'Basse' : priority == 'Medium' ? 'Moyenne' : 'Haute',
                         style: TextStyle(
                           color: isSelected ? color : Colors.grey,
                           fontWeight: FontWeight.w600,

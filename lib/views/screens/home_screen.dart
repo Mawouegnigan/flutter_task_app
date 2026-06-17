@@ -305,6 +305,15 @@ void _showNotificationsPanel() {
     );
   }
 
+  String _priorityLabel(String priority) {
+  switch (priority.toLowerCase()) {
+    case 'high': return 'Haute';
+    case 'medium': return 'Moyenne';
+    case 'low': return 'Basse';
+    default: return priority;
+  }
+}
+
   Color _priorityColor(String priority) {
     switch (priority.toLowerCase()) {
       case 'high': return AppColors.priorityHigh;
@@ -643,7 +652,7 @@ void _showNotificationsPanel() {
                                             borderRadius: BorderRadius.circular(12),
                                           ),
                                           child: Text(
-                                            task.priority,
+                                             _priorityLabel(task.priority),
                                             style: TextStyle(
                                               fontSize: 11,
                                               fontWeight: FontWeight.w600,
