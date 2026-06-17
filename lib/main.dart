@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_task_app/providers/app_settings_provider.dart';
 import 'package:flutter_task_app/services/notification_service.dart';
 import 'package:flutter_task_app/utils/constants.dart';
 import 'package:flutter_task_app/views/screens/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  // Initialiser les notifications
   await NotificationService.initialize();
 
   SystemChrome.setSystemUIOverlayStyle(
@@ -18,7 +19,12 @@ void main() async {
     ),
   );
 
-  runApp(const TaskApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => AppSettingsProvider(),
+      child: const TaskApp(),
+    ),
+  );
 }
 
 class TaskApp extends StatelessWidget {
@@ -26,12 +32,20 @@ class TaskApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final settings = context.watch<AppSettingsProvider>();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'TaskFlow',
       theme: AppTheme.lightTheme,
-
-      // POINT D'ENTRÉE UNIQUE
+      darkTheme: AppTheme.darkTheme,
+      themeMode: settings.themeMode,
+      locale: settings.locale,
+      supportedLocales: const [Locale('fr'), Locale('en')],
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
       home: const SplashScreen(),
     );
   }
