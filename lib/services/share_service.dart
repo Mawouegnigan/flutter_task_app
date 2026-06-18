@@ -19,7 +19,7 @@ class ShareService {
         '✅ Statut : $status\n\n'
         'Partagé via TaskFlow';
 
-    await Share.shareXFiles([], text: text);
+    await Share.share(text);
   }
 
   static String _priorityLabel(String priority) {
