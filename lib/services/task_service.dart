@@ -50,8 +50,15 @@ class TaskService {
       print('CREATE TASK STATUS: ${response.statusCode}');
       print('CREATE TASK BODY: ${response.body}');
 
-      if (response.statusCode == 201) {
+      if (response.statusCode == 201 || response.statusCode == 200) {
         return TaskApiModel.fromJson(jsonDecode(response.body));
+      } else if (response.statusCode != 400 && response.statusCode != 409) {
+        // Backend peut retourner 500 même en cas de succès partiel
+        try {
+          return TaskApiModel.fromJson(jsonDecode(response.body));
+        } catch (_) {
+          throw Exception('Erreur lors de la création de la tâche');
+        }
       } else {
         throw Exception('Erreur lors de la création de la tâche');
       }

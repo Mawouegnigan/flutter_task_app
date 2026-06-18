@@ -7,6 +7,16 @@ class TaskDetailScreen extends StatelessWidget {
   final TaskApiModel task;
   const TaskDetailScreen({super.key, required this.task});
 
+
+  String _priorityLabel(String priority) {
+    switch (priority.toLowerCase()) {
+      case 'high': return 'Haute';
+      case 'medium': return 'Moyenne';
+      case 'low': return 'Basse';
+      default: return priority;
+    }
+  }
+
   Color _priorityColor(String priority) {
     switch (priority.toLowerCase()) {
       case 'high':
@@ -69,7 +79,7 @@ class TaskDetailScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
-                    task.priority,
+                    _priorityLabel(task.priority),
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w600,

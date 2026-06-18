@@ -4,6 +4,7 @@ class TaskApiModel {
   final String content;
   final String priority;
   final String color;
+  final String? category;
   final DateTime? dueDate;
   final DateTime? createdAt;
   final DateTime? updatedAt;
@@ -15,13 +16,13 @@ class TaskApiModel {
     required this.content,
     required this.priority,
     required this.color,
+    this.category,
     this.dueDate,
     this.createdAt,
     this.updatedAt,
     this.isCompleted = false,
   });
 
-  // Convertir JSON reçu du backend → TaskApiModel
   factory TaskApiModel.fromJson(Map<String, dynamic> json) {
     return TaskApiModel(
       id: json['id'],
@@ -29,6 +30,7 @@ class TaskApiModel {
       content: json['content'],
       priority: json['priority'],
       color: json['color'],
+      category: json['category'] as String?,
       isCompleted: json['isCompleted'] ?? false,
       dueDate: json['dueDate'] != null ? DateTime.parse(json['dueDate']) : null,
       createdAt: json['createdAt'] != null ? DateTime.parse(json['createdAt']) : null,
@@ -36,7 +38,6 @@ class TaskApiModel {
     );
   }
 
-  // Convertir TaskApiModel → JSON à envoyer au backend
   Map<String, dynamic> toJson() {
     return {
       'title': title,
@@ -45,17 +46,18 @@ class TaskApiModel {
       'color': color,
       'isCompleted': isCompleted,
       if (dueDate != null) 'dueDate': dueDate!.toIso8601String(),
+      if (category != null) 'category': category,
     };
   }
 
-  // Copier avec modifications
-  TaskApiModel copyWith({bool? isCompleted}) {
+  TaskApiModel copyWith({bool? isCompleted, String? category}) {
     return TaskApiModel(
       id: id,
       title: title,
       content: content,
       priority: priority,
       color: color,
+      category: category ?? this.category,
       isCompleted: isCompleted ?? this.isCompleted,
       dueDate: dueDate,
       createdAt: createdAt,
