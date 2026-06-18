@@ -1,6 +1,6 @@
 class ApiConfig {
   // URL de base du backend
-  static const String baseUrl = 'http://localhost:3000';
+ static const String baseUrl = 'http://172.24.201.71:3000';
 
   // Endpoints Auth
   static const String register      = '$baseUrl/auths/register';

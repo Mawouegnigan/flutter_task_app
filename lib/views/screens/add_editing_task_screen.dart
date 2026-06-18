@@ -4,6 +4,17 @@ import 'package:flutter_task_app/services/task_service.dart';
 import 'package:flutter_task_app/utils/constants.dart';
 import 'package:flutter_task_app/views/widgets/cta_button_widget.dart';
 import 'package:flutter_task_app/services/notification_service.dart';
+import 'package:flutter_task_app/views/screens/calendar_screen.dart';
+import 'package:flutter_task_app/views/screens/notifications_settings_screen.dart';
+
+const List<String> kCategories = [
+  'Travail',
+  'Personnel',
+  'Études',
+  'Santé',
+  'Courses',
+  'Autre',
+];
 
 class AddEditingTaskScreen extends StatefulWidget {
   final String mode;
@@ -25,6 +36,7 @@ class _AddEditingTaskScreenState extends State<AddEditingTaskScreen> {
   DateTime? _selectedDeadline;
   String _selectedPriority = 'Low';
   String _selectedColor = '#4CAF50';
+  String? _selectedCategory;
   bool _isLoading = false;
 
   @override
@@ -36,6 +48,7 @@ class _AddEditingTaskScreenState extends State<AddEditingTaskScreen> {
       _selectedPriority = widget.task!.priority;
       _selectedColor = widget.task!.color;
       _selectedDeadline = widget.task!.dueDate;
+      _selectedCategory = widget.task!.category;
     }
   }
 
@@ -47,7 +60,6 @@ class _AddEditingTaskScreenState extends State<AddEditingTaskScreen> {
   }
 
   Future<void> _pickDeadline() async {
-    // Sélection de la date
     final DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: _selectedDeadline ?? DateTime.now(),
@@ -57,7 +69,6 @@ class _AddEditingTaskScreenState extends State<AddEditingTaskScreen> {
 
     if (pickedDate == null) return;
 
-    // Sélection de l'heure
     if (!mounted) return;
     final TimeOfDay? pickedTime = await showTimePicker(
       context: context,
@@ -104,24 +115,30 @@ class _AddEditingTaskScreenState extends State<AddEditingTaskScreen> {
         priority: _selectedPriority,
         color: _selectedColor,
         dueDate: _selectedDeadline,
+        category: _selectedCategory,
       );
 
-          if (widget.mode == 'Add') {
-            final createdTask = await TaskService.createTask(task);
-            await NotificationService.scheduleTaskNotification(createdTask);
-            if (!mounted) return;
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Tâche créée avec succès !')),
-            );
-          } else {
-            final updatedTask = await TaskService.updateTask(widget.task!.id!, task);
-            await NotificationService.cancelTaskNotification(widget.task!.id!);
-            await NotificationService.scheduleTaskNotification(updatedTask);
-            if (!mounted) return;
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Tâche modifiée avec succès !')),
-            );
-          }
+      if (widget.mode == 'Add') {
+        final createdTask = await TaskService.createTask(task);
+        try {
+          await NotificationService.scheduleTaskNotification(createdTask);
+        } catch (_) {}
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Tâche créée avec succès !')),
+        );
+      } else {
+        final updatedTask =
+            await TaskService.updateTask(widget.task!.id!, task);
+        try {
+          await NotificationService.cancelTaskNotification(widget.task!.id!);
+          await NotificationService.scheduleTaskNotification(updatedTask);
+        } catch (_) {}
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Tâche modifiée avec succès !')),
+        );
+      }
 
       Navigator.pop(context);
     } catch (e) {
@@ -148,7 +165,7 @@ class _AddEditingTaskScreenState extends State<AddEditingTaskScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(widget.mode == "Add"
@@ -157,14 +174,25 @@ class _AddEditingTaskScreenState extends State<AddEditingTaskScreen> {
         centerTitle: true,
         actions: [
           IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.alarm),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const CalendarScreen()),
+              );
+            },
+            icon: const Icon(Icons.calendar_today_rounded),
             padding: const EdgeInsets.all(12),
             iconSize: 22,
           ),
           IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.notifications_outlined),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (_) => const NotificationsSettingsScreen()),
+              );
+            },
+            icon: const Icon(Icons.notifications_outlined),
             padding: const EdgeInsets.all(10),
             iconSize: 28,
           ),
@@ -181,7 +209,7 @@ class _AddEditingTaskScreenState extends State<AddEditingTaskScreen> {
               hintText: "Saisissez votre titre",
               controller: _titleController,
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             // Champ description
             CustomInputField(
@@ -190,17 +218,66 @@ class _AddEditingTaskScreenState extends State<AddEditingTaskScreen> {
               isTextArea: true,
               controller: _contentController,
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
-            // Date et heure d'échéance
-            Text(
-              "Date et heure d'échéance",
-              style: const TextStyle(
+            // Catégorie
+            const Text(
+              "Catégorie",
+              style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
               ),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
+            Wrap(
+              spacing: 10,
+              runSpacing: 8,
+              children: kCategories.map((cat) {
+                final isSelected = _selectedCategory == cat;
+                return GestureDetector(
+                  onTap: () => setState(() {
+                    _selectedCategory = isSelected ? null : cat;
+                  }),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 8),
+                    decoration: BoxDecoration(
+                      color: isSelected
+                          ? AppColors.primary.withAlpha(30)
+                          : Colors.transparent,
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                        color: isSelected
+                            ? AppColors.primary
+                            : Colors.grey.shade300,
+                        width: 1.5,
+                      ),
+                    ),
+                    child: Text(
+                      cat,
+                      style: TextStyle(
+                        color: isSelected
+                            ? AppColors.primary
+                            : Colors.grey,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 13,
+                      ),
+                    ),
+                  ),
+                );
+              }).toList(),
+            ),
+            const SizedBox(height: 20),
+
+            // Date et heure d'échéance
+            const Text(
+              "Date et heure d'échéance",
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(height: 8),
             GestureDetector(
               onTap: _pickDeadline,
               child: Container(
@@ -215,7 +292,7 @@ class _AddEditingTaskScreenState extends State<AddEditingTaskScreen> {
                   children: [
                     Icon(Icons.calendar_today_rounded,
                         size: 18, color: AppColors.textDarkSecondary),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     Text(
                       _selectedDeadline != null
                           ? _formatDeadline(_selectedDeadline!)
@@ -231,17 +308,17 @@ class _AddEditingTaskScreenState extends State<AddEditingTaskScreen> {
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             // Priorité
-            Text(
+            const Text(
               "Priorité",
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
               ),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Row(
               children: ['Low', 'Medium', 'High'].map((priority) {
                 final isSelected = _selectedPriority == priority;
@@ -275,7 +352,11 @@ class _AddEditingTaskScreenState extends State<AddEditingTaskScreen> {
                         ),
                       ),
                       child: Text(
-                        priority,
+                        priority == 'Low'
+                            ? 'Basse'
+                            : priority == 'Medium'
+                                ? 'Moyenne'
+                                : 'Haute',
                         style: TextStyle(
                           color: isSelected ? color : Colors.grey,
                           fontWeight: FontWeight.w600,
@@ -286,7 +367,7 @@ class _AddEditingTaskScreenState extends State<AddEditingTaskScreen> {
                 );
               }).toList(),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             // Bouton enregistrer
             _isLoading

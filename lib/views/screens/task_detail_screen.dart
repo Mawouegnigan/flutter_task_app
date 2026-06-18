@@ -1,17 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_task_app/models/task_api_model.dart';
+import 'package:flutter_task_app/services/share_service.dart';
 import 'package:flutter_task_app/utils/constants.dart';
 
 class TaskDetailScreen extends StatelessWidget {
   final TaskApiModel task;
   const TaskDetailScreen({super.key, required this.task});
 
+
+  String _priorityLabel(String priority) {
+    switch (priority.toLowerCase()) {
+      case 'high': return 'Haute';
+      case 'medium': return 'Moyenne';
+      case 'low': return 'Basse';
+      default: return priority;
+    }
+  }
+
   Color _priorityColor(String priority) {
     switch (priority.toLowerCase()) {
-      case 'high': return AppColors.priorityHigh;
-      case 'medium': return AppColors.priorityMedium;
-      case 'low': return AppColors.priorityLow;
-      default: return Colors.grey;
+      case 'high':
+        return AppColors.priorityHigh;
+      case 'medium':
+        return AppColors.priorityMedium;
+      case 'low':
+        return AppColors.priorityLow;
+      default:
+        return Colors.grey;
     }
   }
 
@@ -28,6 +43,13 @@ class TaskDetailScreen extends StatelessWidget {
           icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
         ),
+        actions: [
+          IconButton(
+            tooltip: 'Partager',
+            icon: const Icon(Icons.share_rounded),
+            onPressed: () => ShareService.shareTask(task),
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),
@@ -57,7 +79,7 @@ class TaskDetailScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
-                    task.priority,
+                    _priorityLabel(task.priority),
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w600,
@@ -89,7 +111,9 @@ class TaskDetailScreen extends StatelessWidget {
                   const Icon(Icons.schedule_rounded, size: 18),
                   const SizedBox(width: 8),
                   Text(
-                    "${task.dueDate!.day}/${task.dueDate!.month}/${task.dueDate!.year} à ${task.dueDate!.hour.toString().padLeft(2, '0')}h${task.dueDate!.minute.toString().padLeft(2, '0')}",
+                    "${task.dueDate!.day}/${task.dueDate!.month}/${task.dueDate!.year} "
+                    "à ${task.dueDate!.hour.toString().padLeft(2, '0')}h"
+                    "${task.dueDate!.minute.toString().padLeft(2, '0')}",
                     style: const TextStyle(fontSize: 14),
                   ),
                 ],

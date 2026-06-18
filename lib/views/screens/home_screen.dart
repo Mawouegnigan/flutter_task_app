@@ -6,6 +6,7 @@ import 'package:flutter_task_app/views/screens/add_editing_task_screen.dart';
 import 'package:flutter_task_app/views/screens/profile_screen.dart';
 import 'package:flutter_task_app/views/screens/calendar_screen.dart';
 import 'package:flutter_task_app/services/notification_service.dart';
+import 'package:flutter_task_app/views/screens/task_detail_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -50,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
       if (mounted) {
         setState(() => _isLoading = false);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Erreur de chargement des tâches')),
+          const SnackBar(content: Text('Erreur de chargement des tâches')),
         );
       }
     }
@@ -63,19 +64,30 @@ class _HomeScreenState extends State<HomeScreen> {
       result = result.where((t) => t.color != '#9E9E9E').toList();
     } else if (_selectedFilter == 'Terminées') {
       result = result.where((t) => t.color == '#9E9E9E').toList();
+    } else if (_selectedFilter != 'Toutes les tâches') {
+      // Filtre par catégorie
+      result = result
+          .where((t) =>
+              t.category != null &&
+              t.category!.toLowerCase() ==
+                  _selectedFilter.toLowerCase())
+          .toList();
     }
 
     if (_searchQuery.isNotEmpty) {
-      result = result.where((t) =>
-        t.title.toLowerCase().contains(_searchQuery.toLowerCase()) ||
-        t.content.toLowerCase().contains(_searchQuery.toLowerCase())
-      ).toList();
+      result = result
+          .where((t) =>
+              t.title.toLowerCase().contains(_searchQuery.toLowerCase()) ||
+              t.content.toLowerCase().contains(_searchQuery.toLowerCase()))
+          .toList();
     }
 
     if (_sortBy == 'priority_asc') {
-      result.sort((a, b) => _priorityOrder(a.priority).compareTo(_priorityOrder(b.priority)));
+      result.sort((a, b) =>
+          _priorityOrder(a.priority).compareTo(_priorityOrder(b.priority)));
     } else if (_sortBy == 'priority_desc') {
-      result.sort((a, b) => _priorityOrder(b.priority).compareTo(_priorityOrder(a.priority)));
+      result.sort((a, b) =>
+          _priorityOrder(b.priority).compareTo(_priorityOrder(a.priority)));
     } else if (_sortBy == 'date_asc') {
       result.sort((a, b) {
         if (a.dueDate == null) return 1;
@@ -95,10 +107,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   int _priorityOrder(String priority) {
     switch (priority.toLowerCase()) {
-      case 'high': return 3;
-      case 'medium': return 2;
-      case 'low': return 1;
-      default: return 0;
+      case 'high':
+        return 3;
+      case 'medium':
+        return 2;
+      case 'low':
+        return 1;
+      default:
+        return 0;
     }
   }
 
@@ -108,157 +124,193 @@ class _HomeScreenState extends State<HomeScreen> {
       await _loadTasks();
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Tâche supprimée avec succès')),
+          const SnackBar(content: Text('Tâche supprimée avec succès')),
         );
       }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Erreur lors de la suppression')),
+          const SnackBar(content: Text('Erreur lors de la suppression')),
         );
       }
     }
   }
+
   Future<void> _toggleTaskCompletion(TaskApiModel task) async {
-  try {
-    final isCompleted = task.color == '#9E9E9E';
-    final newColor = isCompleted
-        ? (task.priority.toLowerCase() == 'high'
-            ? '#F44336'
-            : task.priority.toLowerCase() == 'medium'
-                ? '#FF9800'
-                : '#4CAF50')
-        : '#9E9E9E';
+    try {
+      final isCompleted = task.color == '#9E9E9E';
+      final newColor = isCompleted
+          ? (task.priority.toLowerCase() == 'high'
+              ? '#F44336'
+              : task.priority.toLowerCase() == 'medium'
+                  ? '#FF9800'
+                  : '#4CAF50')
+          : '#9E9E9E';
 
-    final updatedTask = TaskApiModel(
-      title: task.title,
-      content: task.content,
-      priority: task.priority,
-      color: newColor,
-      dueDate: task.dueDate,
-    );
-
-    await TaskService.updateTask(task.id!, updatedTask);
-    await _loadTasks();
-  } catch (e) {
-    if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Erreur lors de la mise à jour')),
+      final updatedTask = TaskApiModel(
+        title: task.title,
+        content: task.content,
+        priority: task.priority,
+        color: newColor,
+        dueDate: task.dueDate,
+        category: task.category,
       );
+
+      await TaskService.updateTask(task.id!, updatedTask);
+      await _loadTasks();
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Erreur lors de la mise à jour')),
+        );
+      }
     }
   }
-}
-  void _showSortMenu() {
-  showModalBottomSheet(
-    context: context,
-    isScrollControlled: true,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-    ),
-    builder: (context) => Padding(
-      padding: EdgeInsets.only(
-        left: 20,
-        right: 20,
-        top: 20,
-        bottom: MediaQuery.of(context).viewInsets.bottom + 20,
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('Trier par',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-          SizedBox(height: 16),
-          _sortOption('Priorité croissante', 'priority_asc', Icons.arrow_upward),
-          _sortOption('Priorité décroissante', 'priority_desc', Icons.arrow_downward),
-          _sortOption('Date croissante', 'date_asc', Icons.calendar_today),
-          _sortOption('Date décroissante', 'date_desc', Icons.calendar_today_outlined),
-          _sortOption('Aucun tri', 'none', Icons.clear),
-          SizedBox(height: 8),
+
+  Future<void> _confirmDelete(TaskApiModel task) async {
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Supprimer la tâche'),
+        content: Text('Voulez-vous vraiment supprimer "${task.title}" ?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text('Annuler'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            child: const Text(
+              'Supprimer',
+              style: TextStyle(color: Colors.red),
+            ),
+          ),
         ],
       ),
-    ),
-  );
-}
-void _showNotificationsPanel() {
-  final upcomingTasks = NotificationService.getUpcomingTasks(_tasks);
-  showModalBottomSheet(
-    context: context,
-    isScrollControlled: true,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-    ),
-    builder: (context) => Padding(
-      padding: EdgeInsets.only(
-        left: 20,
-        right: 20,
-        top: 20,
-        bottom: MediaQuery.of(context).viewInsets.bottom + 20,
+    );
+    if (confirm == true) _deleteTask(task.id!);
+  }
+
+  void _showSortMenu() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(Icons.notifications_outlined, color: AppColors.primary),
-              SizedBox(width: 8),
-              Text(
-                'Notifications',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 16),
-          upcomingTasks.isEmpty
-              ? Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Text(
-                      'Aucune tâche dans les prochaines 24h',
-                      style: TextStyle(
-                        color: AppColors.textDarkSecondary,
-                        fontSize: 15,
-                      ),
-                    ),
+      builder: (context) => Padding(
+        padding: EdgeInsets.only(
+          left: 20,
+          right: 20,
+          top: 20,
+          bottom: MediaQuery.of(context).viewInsets.bottom + 20,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text('Trier par',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 16),
+            _sortOption(
+                'Priorité croissante', 'priority_asc', Icons.arrow_upward),
+            _sortOption('Priorité décroissante', 'priority_desc',
+                Icons.arrow_downward),
+            _sortOption(
+                'Date croissante', 'date_asc', Icons.calendar_today),
+            _sortOption('Date décroissante', 'date_desc',
+                Icons.calendar_today_outlined),
+            _sortOption('Aucun tri', 'none', Icons.clear),
+            const SizedBox(height: 8),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showNotificationsPanel() {
+    final upcomingTasks = NotificationService.getUpcomingTasks(_tasks);
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) => Padding(
+        padding: EdgeInsets.only(
+          left: 20,
+          right: 20,
+          top: 20,
+          bottom: MediaQuery.of(context).viewInsets.bottom + 20,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                const Icon(Icons.notifications_outlined,
+                    color: AppColors.primary),
+                const SizedBox(width: 8),
+                const Text(
+                  'Notifications',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
                   ),
-                )
-              : ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: upcomingTasks.length,
-                  itemBuilder: (context, index) {
-                    final task = upcomingTasks[index];
-                    return ListTile(
-                      leading: Icon(
-                        Icons.access_time_rounded,
-                        color: AppColors.priorityHigh,
-                      ),
-                      title: Text(
-                        task.title,
-                        style: TextStyle(fontWeight: FontWeight.w600),
-                      ),
-                      subtitle: Text(
-                        "Échéance : ${task.dueDate!.day}/${task.dueDate!.month}/${task.dueDate!.year} à ${task.dueDate!.hour.toString().padLeft(2, '0')}h${task.dueDate!.minute.toString().padLeft(2, '0')}",
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            upcomingTasks.isEmpty
+                ? const Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(20),
+                      child: Text(
+                        'Aucune tâche dans les prochaines 24h',
                         style: TextStyle(
                           color: AppColors.textDarkSecondary,
-                          fontSize: 12,
+                          fontSize: 15,
                         ),
                       ),
-                    );
-                  },
-                ),
-          SizedBox(height: 8),
-        ],
+                    ),
+                  )
+                : ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: upcomingTasks.length,
+                    itemBuilder: (context, index) {
+                      final task = upcomingTasks[index];
+                      return ListTile(
+                        leading: const Icon(
+                          Icons.access_time_rounded,
+                          color: AppColors.priorityHigh,
+                        ),
+                        title: Text(
+                          task.title,
+                          style:
+                              const TextStyle(fontWeight: FontWeight.w600),
+                        ),
+                        subtitle: Text(
+                          "Échéance : ${task.dueDate!.day}/${task.dueDate!.month}/${task.dueDate!.year} à ${task.dueDate!.hour.toString().padLeft(2, '0')}h${task.dueDate!.minute.toString().padLeft(2, '0')}",
+                          style: const TextStyle(
+                            color: AppColors.textDarkSecondary,
+                            fontSize: 12,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+            const SizedBox(height: 8),
+          ],
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
+
   Widget _sortOption(String label, String value, IconData icon) {
     return ListTile(
-      leading: Icon(icon, color: _sortBy == value ? AppColors.primary : null),
+      leading:
+          Icon(icon, color: _sortBy == value ? AppColors.primary : null),
       title: Text(label),
       selected: _sortBy == value,
       selectedColor: AppColors.primary,
@@ -271,46 +323,64 @@ void _showNotificationsPanel() {
   }
 
   void _showAddFilterDialog() {
-    final TextEditingController filterController = TextEditingController();
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Ajouter un filtre'),
-        content: TextField(
-          controller: filterController,
-          decoration: InputDecoration(
-            hintText: 'Nom du filtre',
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
+        title: const Text('Ajouter une catégorie'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text(
+              'Sélectionnez une catégorie existante :',
+              style: TextStyle(fontSize: 13),
             ),
-          ),
+            const SizedBox(height: 12),
+            ...kCategories.map((cat) => ListTile(
+                  dense: true,
+                  title: Text(cat),
+                  leading: const Icon(Icons.label_outline),
+                  onTap: () {
+                    if (!_filters.contains(cat)) {
+                      setState(() => _filters.add(cat));
+                    }
+                    Navigator.pop(context);
+                  },
+                )),
+          ],
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text('Annuler'),
-          ),
-          FilledButton(
-            onPressed: () {
-              final label = filterController.text.trim();
-              if (label.isNotEmpty && !_filters.contains(label)) {
-                setState(() => _filters.add(label));
-              }
-              Navigator.pop(context);
-            },
-            child: Text('Ajouter'),
+            child: const Text('Annuler'),
           ),
         ],
       ),
     );
   }
 
+  String _priorityLabel(String priority) {
+    switch (priority.toLowerCase()) {
+      case 'high':
+        return 'Haute';
+      case 'medium':
+        return 'Moyenne';
+      case 'low':
+        return 'Basse';
+      default:
+        return priority;
+    }
+  }
+
   Color _priorityColor(String priority) {
     switch (priority.toLowerCase()) {
-      case 'high': return AppColors.priorityHigh;
-      case 'medium': return AppColors.priorityMedium;
-      case 'low': return AppColors.priorityLow;
-      default: return Colors.grey;
+      case 'high':
+        return AppColors.priorityHigh;
+      case 'medium':
+        return AppColors.priorityMedium;
+      case 'low':
+        return AppColors.priorityLow;
+      default:
+        return Colors.grey;
     }
   }
 
@@ -326,40 +396,35 @@ void _showNotificationsPanel() {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ProfileScreen()),
+                MaterialPageRoute(builder: (context) => const ProfileScreen()),
               );
             },
             child: CircleAvatar(
               radius: 20,
               backgroundColor: Colors.grey[300],
-              child: Icon(Icons.person, color: Colors.white, size: 20),
+              child: const Icon(Icons.person, color: Colors.white, size: 20),
             ),
           ),
         ),
         title: const Text("Mes tâches"),
         centerTitle: true,
         actions: [
-          // Calendrier
-          // Calendrier
-            IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => CalendarScreen(),
-                  ),
-                );
-              },
-              icon: Icon(Icons.calendar_today_rounded),
-              padding: const EdgeInsets.all(12),
-              iconSize: 22,
-            ),
-         // Notifications
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const CalendarScreen()),
+              );
+            },
+            icon: const Icon(Icons.calendar_today_rounded),
+            padding: const EdgeInsets.all(12),
+            iconSize: 22,
+          ),
           IconButton(
             onPressed: () => _showNotificationsPanel(),
             icon: Stack(
               children: [
-                Icon(Icons.notifications_outlined),
+                const Icon(Icons.notifications_outlined),
                 if (NotificationService.getUpcomingTasks(_tasks).isNotEmpty)
                   Positioned(
                     right: 0,
@@ -367,7 +432,7 @@ void _showNotificationsPanel() {
                     child: Container(
                       width: 8,
                       height: 8,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Colors.red,
                         shape: BoxShape.circle,
                       ),
@@ -378,7 +443,7 @@ void _showNotificationsPanel() {
             padding: const EdgeInsets.all(10),
             iconSize: 28,
           ),
-       ]
+        ],
       ),
       body: Column(
         children: [
@@ -386,7 +451,6 @@ void _showNotificationsPanel() {
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
             child: Row(
               children: [
-                // Champ de recherche
                 Expanded(
                   child: TextField(
                     controller: _searchController,
@@ -400,7 +464,7 @@ void _showNotificationsPanel() {
                         color: AppColors.textDarkSecondary,
                         fontSize: 14,
                       ),
-                      prefixIcon: Icon(Icons.search),
+                      prefixIcon: const Icon(Icons.search),
                       suffixIcon: _searchQuery.isNotEmpty
                           ? IconButton(
                               icon: const Icon(Icons.close_rounded),
@@ -430,11 +494,9 @@ void _showNotificationsPanel() {
                   ),
                 ),
                 const SizedBox(width: 8),
-
-                // Bouton tri
                 IconButton(
                   onPressed: _showSortMenu,
-                  icon: Icon(Icons.sort_rounded),
+                  icon: const Icon(Icons.sort_rounded),
                   style: IconButton.styleFrom(
                     backgroundColor: colorScheme.outlineVariant.withAlpha(30),
                     shape: RoundedRectangleBorder(
@@ -446,7 +508,7 @@ void _showNotificationsPanel() {
             ),
           ),
 
-          // Section filtres
+          // Filtres
           SizedBox(
             height: 40,
             child: ListView(
@@ -454,82 +516,82 @@ void _showNotificationsPanel() {
               scrollDirection: Axis.horizontal,
               children: [
                 ..._filters.map(
-                      (label) => Padding(
-                        padding: EdgeInsets.only(right: 8.0),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: _selectedFilter == label
-                                  ? AppColors.primary.withAlpha(20)
-                                  : Colors.transparent,
-                              borderRadius: BorderRadius.circular(20),
-                              border: Border.all(
-                                color: _selectedFilter == label
-                                    ? AppColors.primary
-                                    : colorScheme.outlineVariant.withAlpha(100),
-                              ),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    setState(() => _selectedFilter = label);
-                                    _applyFilters();
-                                  },
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                      left: 12,
-                                      right: label != 'Toutes les tâches' &&
-                                              label != 'En cours' &&
-                                              label != 'Terminées'
-                                          ? 4
-                                          : 12,
-                                      top: 6,
-                                      bottom: 6,
-                                    ),
-                                    child: Text(
-                                      label,
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w500,
-                                        color: _selectedFilter == label
-                                            ? AppColors.primary
-                                            : AppColors.textDarkSecondary,
-                                      ),
-                                    ),
+                  (label) => Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: _selectedFilter == label
+                              ? AppColors.primary.withAlpha(20)
+                              : Colors.transparent,
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                            color: _selectedFilter == label
+                                ? AppColors.primary
+                                : colorScheme.outlineVariant.withAlpha(100),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                setState(() => _selectedFilter = label);
+                                _applyFilters();
+                              },
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                  left: 12,
+                                  right: label != 'Toutes les tâches' &&
+                                          label != 'En cours' &&
+                                          label != 'Terminées'
+                                      ? 4
+                                      : 12,
+                                  top: 6,
+                                  bottom: 6,
+                                ),
+                                child: Text(
+                                  label,
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w500,
+                                    color: _selectedFilter == label
+                                        ? AppColors.primary
+                                        : AppColors.textDarkSecondary,
                                   ),
                                 ),
-                                if (label != 'Toutes les tâches' &&
-                                    label != 'En cours' &&
-                                    label != 'Terminées')
-                                  GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        _filters.remove(label);
-                                        if (_selectedFilter == label) {
-                                          _selectedFilter = 'Toutes les tâches';
-                                        }
-                                        _applyFilters();
-                                      });
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(right: 8, left: 2),
-                                      child: Icon(
-                                        Icons.close_rounded,
-                                        size: 14,
-                                        color: AppColors.textDarkSecondary,
-                                      ),
-                                    ),
-                                  ),
-                              ],
+                              ),
                             ),
-                          ),
+                            if (label != 'Toutes les tâches' &&
+                                label != 'En cours' &&
+                                label != 'Terminées')
+                              GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    _filters.remove(label);
+                                    if (_selectedFilter == label) {
+                                      _selectedFilter = 'Toutes les tâches';
+                                    }
+                                    _applyFilters();
+                                  });
+                                },
+                                child: const Padding(
+                                  padding:
+                                      EdgeInsets.only(right: 8, left: 2),
+                                  child: Icon(
+                                    Icons.close_rounded,
+                                    size: 14,
+                                    color: AppColors.textDarkSecondary,
+                                  ),
+                                ),
+                              ),
+                          ],
                         ),
                       ),
                     ),
-                // Bouton + pour ajouter un filtre
+                  ),
+                ),
                 GestureDetector(
                   onTap: _showAddFilterDialog,
                   child: Container(
@@ -542,22 +604,22 @@ void _showNotificationsPanel() {
                         width: 1,
                       ),
                     ),
-                    child: Icon(Icons.add_rounded, size: 18),
+                    child: const Icon(Icons.add_rounded, size: 18),
                   ),
                 ),
               ],
             ),
           ),
-          SizedBox(height: 6),
+          const SizedBox(height: 6),
 
-          // Compteur de tâches
+          // Compteur
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Row(
               children: [
                 Text(
                   '${_filteredTasks.length} tâche${_filteredTasks.length > 1 ? 's' : ''}',
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: AppColors.textDarkSecondary,
                     fontSize: 13,
                   ),
@@ -565,14 +627,14 @@ void _showNotificationsPanel() {
               ],
             ),
           ),
-          SizedBox(height: 6),
+          const SizedBox(height: 6),
 
-          // Liste des tâches
+          // Liste
           Expanded(
             child: _isLoading
-                ? Center(child: CircularProgressIndicator())
+                ? const Center(child: CircularProgressIndicator())
                 : _filteredTasks.isEmpty
-                    ? Center(
+                    ? const Center(
                         child: Text(
                           'Aucune tâche pour le moment',
                           style: TextStyle(
@@ -584,43 +646,58 @@ void _showNotificationsPanel() {
                     : RefreshIndicator(
                         onRefresh: _loadTasks,
                         child: ListView.builder(
-                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          padding:
+                              const EdgeInsets.symmetric(horizontal: 12),
                           itemCount: _filteredTasks.length,
                           itemBuilder: (context, index) {
                             final task = _filteredTasks[index];
-                            final priorityColor = _priorityColor(task.priority);
+                            final priorityColor =
+                                _priorityColor(task.priority);
                             return Card(
                               elevation: 1,
                               margin: const EdgeInsets.only(bottom: 12),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(16),
                               ),
-                                child: ListTile(
-                                  contentPadding: const EdgeInsets.all(16),
-                                  leading: GestureDetector(
-                                    onTap: () => _toggleTaskCompletion(task),
-                                    child: Container(
-                                      width: 24,
-                                      height: 24,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
+                              child: ListTile(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) =>
+                                          TaskDetailScreen(task: task),
+                                    ),
+                                  ).then((_) => _loadTasks());
+                                },
+                                contentPadding: const EdgeInsets.all(16),
+                                leading: GestureDetector(
+                                  onTap: () =>
+                                      _toggleTaskCompletion(task),
+                                  child: Container(
+                                    width: 24,
+                                    height: 24,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: task.color == '#9E9E9E'
+                                          ? AppColors.primary
+                                          : Colors.transparent,
+                                      border: Border.all(
                                         color: task.color == '#9E9E9E'
                                             ? AppColors.primary
-                                            : Colors.transparent,
-                                        border: Border.all(
-                                          color: task.color == '#9E9E9E'
-                                              ? AppColors.primary
-                                              : Colors.grey.shade400,
-                                          width: 2,
-                                        ),
+                                            : Colors.grey.shade400,
+                                        width: 2,
                                       ),
-                                      child: task.color == '#9E9E9E'
-                                          ? Icon(Icons.check, size: 14, color: Colors.white)
-                                          : null,
                                     ),
+                                    child: task.color == '#9E9E9E'
+                                        ? const Icon(Icons.check,
+                                            size: 14,
+                                            color: Colors.white)
+                                        : null,
                                   ),
-                                  title: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                ),
+                                title: Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.start,
                                   children: [
                                     Row(
                                       children: [
@@ -631,19 +708,22 @@ void _showNotificationsPanel() {
                                               fontSize: 16,
                                               fontWeight: FontWeight.w700,
                                             ),
-                                            overflow: TextOverflow.ellipsis,
+                                            overflow:
+                                                TextOverflow.ellipsis,
                                           ),
                                         ),
-                                        SizedBox(width: 8),
+                                        const SizedBox(width: 8),
                                         Container(
                                           padding: const EdgeInsets.symmetric(
                                               horizontal: 8, vertical: 3),
                                           decoration: BoxDecoration(
-                                            color: priorityColor.withAlpha(40),
-                                            borderRadius: BorderRadius.circular(12),
+                                            color: priorityColor
+                                                .withAlpha(40),
+                                            borderRadius:
+                                                BorderRadius.circular(12),
                                           ),
                                           child: Text(
-                                            task.priority,
+                                            _priorityLabel(task.priority),
                                             style: TextStyle(
                                               fontSize: 11,
                                               fontWeight: FontWeight.w600,
@@ -656,35 +736,64 @@ void _showNotificationsPanel() {
                                   ],
                                 ),
                                 subtitle: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.start,
                                   children: [
+                                    if (task.category != null)
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(top: 4),
+                                        child: Row(
+                                          children: [
+                                            const Icon(
+                                                Icons.label_outline,
+                                                size: 13,
+                                                color: AppColors.primary),
+                                            const SizedBox(width: 4),
+                                            Text(
+                                              task.category!,
+                                              style: const TextStyle(
+                                                fontSize: 12,
+                                                color: AppColors.primary,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
                                     if (task.content.isNotEmpty)
                                       Padding(
-                                        padding: const EdgeInsets.only(top: 4),
+                                        padding:
+                                            const EdgeInsets.only(top: 4),
                                         child: Text(
                                           task.content,
                                           maxLines: 2,
                                           overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                            color: AppColors.textDarkSecondary,
+                                          style: const TextStyle(
+                                            color:
+                                                AppColors.textDarkSecondary,
                                             fontSize: 13,
                                           ),
                                         ),
                                       ),
                                     if (task.dueDate != null)
                                       Padding(
-                                        padding: const EdgeInsets.only(top: 6),
+                                        padding:
+                                            const EdgeInsets.only(top: 6),
                                         child: Row(
                                           children: [
-                                            Icon(Icons.schedule_rounded,
+                                            const Icon(
+                                                Icons.schedule_rounded,
                                                 size: 14,
-                                                color: AppColors.textDarkSecondary),
-                                            SizedBox(width: 4),
+                                                color: AppColors
+                                                    .textDarkSecondary),
+                                            const SizedBox(width: 4),
                                             Text(
                                               "${task.dueDate!.day}/${task.dueDate!.month}/${task.dueDate!.year} ${task.dueDate!.hour.toString().padLeft(2, '0')}:${task.dueDate!.minute.toString().padLeft(2, '0')}",
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 fontSize: 12,
-                                                color: AppColors.textDarkSecondary,
+                                                color: AppColors
+                                                    .textDarkSecondary,
                                               ),
                                             ),
                                           ],
@@ -693,12 +802,14 @@ void _showNotificationsPanel() {
                                   ],
                                 ),
                                 trailing: PopupMenuButton(
+                                  tooltip: 'Actions',
                                   itemBuilder: (context) => [
                                     PopupMenuItem(
                                       value: 'edit',
                                       child: Row(
-                                        children: [
-                                          Icon(Icons.edit_outlined, size: 18),
+                                        children: const [
+                                          Icon(Icons.edit_outlined,
+                                              size: 18),
                                           SizedBox(width: 8),
                                           Text('Modifier'),
                                         ],
@@ -707,12 +818,13 @@ void _showNotificationsPanel() {
                                     PopupMenuItem(
                                       value: 'delete',
                                       child: Row(
-                                        children: [
+                                        children: const [
                                           Icon(Icons.delete_outline,
                                               size: 18, color: Colors.red),
                                           SizedBox(width: 8),
                                           Text('Supprimer',
-                                              style: TextStyle(color: Colors.red)),
+                                              style: TextStyle(
+                                                  color: Colors.red)),
                                         ],
                                       ),
                                     ),
@@ -730,14 +842,13 @@ void _showNotificationsPanel() {
                                         ),
                                       ).then((_) => _loadTasks());
                                     } else if (value == 'delete') {
-                                      _deleteTask(task.id!);
+                                      _confirmDelete(task);
                                     }
                                   },
                                 ),
                               ),
                             );
                           },
-                          
                         ),
                       ),
           ),
@@ -748,14 +859,15 @@ void _showNotificationsPanel() {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => AddEditingTaskScreen(mode: 'Add'),
+              builder: (context) =>
+                  const AddEditingTaskScreen(mode: 'Add'),
             ),
           ).then((_) => _loadTasks());
         },
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(9999),
         ),
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }
