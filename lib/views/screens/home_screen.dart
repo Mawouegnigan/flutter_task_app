@@ -7,6 +7,8 @@ import 'package:flutter_task_app/views/screens/profile_screen.dart';
 import 'package:flutter_task_app/views/screens/calendar_screen.dart';
 import 'package:flutter_task_app/services/notification_service.dart';
 import 'package:flutter_task_app/views/screens/task_detail_screen.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter_task_app/services/cache_service.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -19,6 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<TaskApiModel> _tasks = [];
   List<TaskApiModel> _filteredTasks = [];
   bool _isLoading = true;
+  bool _isOffline = false;
   String _selectedFilter = 'Toutes les tâches';
   String _searchQuery = '';
   String _sortBy = 'none';
@@ -38,21 +41,44 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _loadTasks() async {
+    final connectivityResult = await Connectivity().checkConnectivity();
+    final hasNetwork = connectivityResult != ConnectivityResult.none;
+
+    if (!hasNetwork) {
+      final cached = CacheService.getCachedTasks();
+      if (mounted) {
+        setState(() {
+          _tasks = cached;
+          _isLoading = false;
+          _isOffline = true;
+        });
+        _applyFilters();
+        
+      }
+      return;
+    }
+
     try {
       final tasks = await TaskService.getTasks();
+      await CacheService.cacheTasks(tasks);
       if (mounted) {
         setState(() {
           _tasks = tasks;
           _isLoading = false;
+          _isOffline = false;
         });
         _applyFilters();
       }
     } catch (e) {
+      final cached = CacheService.getCachedTasks();
       if (mounted) {
-        setState(() => _isLoading = false);
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Erreur de chargement des tâches')),
-        );
+        setState(() {
+          _tasks = cached;
+          _isLoading = false;
+          _isOffline = true;
+        });
+        _applyFilters();
+        
       }
     }
   }
@@ -447,6 +473,27 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Column(
         children: [
+          if (_isOffline)
+            Container(
+              width: double.infinity,
+              color: Colors.orange,
+              padding: const EdgeInsets.symmetric(vertical: 6),
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.wifi_off, color: Colors.white, size: 16),
+                  SizedBox(width: 8),
+                  Flexible(
+                    child: Text(
+                      'Mode hors ligne — données en cache',
+                      style: TextStyle(color: Colors.white, fontSize: 13),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
+            ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
             child: Row(
@@ -507,7 +554,6 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
-
           // Filtres
           SizedBox(
             height: 40,
