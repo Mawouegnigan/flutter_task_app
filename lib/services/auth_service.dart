@@ -165,4 +165,21 @@ class AuthService {
       return false;
     }
   }
+
+  // GET — Vérifier disponibilité username
+  static Future<bool> isUsernameAvailable(String username) async {
+    try {
+      final response = await http.get(
+        Uri.parse('${ApiConfig.baseUrl}/auths/check-username/$username'),
+        headers: {'Content-Type': 'application/json'},
+      );
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        return data['available'] == true;
+      }
+      return false;
+    } catch (e) {
+      return false;
+    }
+  }
 }

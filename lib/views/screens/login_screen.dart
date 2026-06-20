@@ -7,6 +7,7 @@ import 'package:flutter_task_app/views/view/auth_header_view.dart';
 import 'package:flutter_task_app/views/view/social_auth_section_view.dart';
 import 'package:flutter_task_app/views/widgets/cta_button_widget.dart';
 import 'package:flutter_task_app/views/widgets/text_field_widget.dart';
+import 'package:flutter_task_app/views/screens/forgot_password_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -119,7 +120,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     Align(
                       alignment: Alignment.centerRight,
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const ForgotPasswordScreen(),
+                            ),
+                          );
+                        },
                         child: const Text(
                           "Mot de passe oublié ?",
                           style: TextStyle(

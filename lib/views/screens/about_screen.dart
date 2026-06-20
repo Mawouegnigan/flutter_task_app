@@ -63,7 +63,18 @@ class AboutScreen extends StatelessWidget {
           const SizedBox(height: 8),
           _InfoCard(
             content:
-                'TaskFlow est une application de gestion de tâches en équipe, développée dans le cadre d\'un projet académique. Elle permet de créer, organiser, partager et suivre des tâches en temps réel.',
+                'TaskFlow est une application mobile de gestion de tâches en équipe, développée dans le cadre de la formation FORCE-N (Formations Ouvertes pour le Renforcement des Compétences, de l\'Emploi et de l\'Entrepreneuriat dans le Numérique), un programme porté par l\'Université Numérique Cheikh Hamidou Kane (UN-CHK) et la Fondation Mastercard.',
+          ),
+
+          const SizedBox(height: 20),
+
+          // ── Mentor ───────────────────────────────────────────────
+          _SectionTitle(label: 'Sous la direction de'),
+          const SizedBox(height: 8),
+          _TeamCard(
+            name: 'Professeur Papa Ngom',
+            role: 'Professeur Titulaire en Analyse, Statistique et Applications\nDépartement de Mathématiques et Informatique — FST/UCAD\nDirecteur du Laboratoire de Mathématiques Appliquées (LMA)',
+            icon: Icons.school_outlined,
           ),
 
           const SizedBox(height: 20),
@@ -72,21 +83,21 @@ class AboutScreen extends StatelessWidget {
           _SectionTitle(label: 'Équipe de développement'),
           const SizedBox(height: 8),
           _TeamCard(
-            name: 'Ezéchiel Mawouegnigan',
-            role: 'Lead & Intégrateur\nPartage, Profil & Paramètres',
-            icon: Icons.integration_instructions_outlined,
+            name: 'FANGNON Mawouégnigan Grégoire',
+            role: 'Développeur Flutter — TaskFlow',
+            icon: Icons.code_outlined,
           ),
           const SizedBox(height: 4),
           _TeamCard(
-            name: 'Membre B',
-            role: 'Cache local & Mode hors ligne',
-            icon: Icons.storage_outlined,
+            name: 'KAHOBETE Gloria',
+            role: 'Développeuse Flutter — TaskFlow',
+            icon: Icons.code_outlined,
           ),
           const SizedBox(height: 4),
           _TeamCard(
-            name: 'Lead Firebase',
-            role: 'Notifications push & Chat en temps réel',
-            icon: Icons.notifications_outlined,
+            name: 'KEDEGUE Armel',
+            role: 'Développeur Flutter — TaskFlow',
+            icon: Icons.code_outlined,
           ),
 
           const SizedBox(height: 20),
@@ -105,7 +116,8 @@ class AboutScreen extends StatelessWidget {
           _SectionTitle(label: 'Technologies utilisées'),
           const SizedBox(height: 8),
           _InfoCard(
-            content: 'Flutter • Dart • NestJS • SQLite\nFirebase • Hive • Provider',
+            content:
+                'Flutter • Dart • NestJS • SQLite\nFirebase • Hive • Provider • Firestore',
           ),
         ],
       ),
@@ -185,7 +197,8 @@ class _TeamCard extends StatelessWidget {
       margin: EdgeInsets.zero,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
         leading: Container(
           width: 42,
           height: 42,
