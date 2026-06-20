@@ -1,21 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_task_app/models/task_api_model.dart';
+import 'package:flutter_task_app/services/auth_service.dart';
 import 'package:flutter_task_app/services/share_service.dart';
 import 'package:flutter_task_app/utils/constants.dart';
+import 'package:flutter_task_app/views/screens/task_chat_screen.dart';
 
 class TaskDetailScreen extends StatelessWidget {
   final TaskApiModel task;
   const TaskDetailScreen({super.key, required this.task});
-
-
-  String _priorityLabel(String priority) {
-    switch (priority.toLowerCase()) {
-      case 'high': return 'Haute';
-      case 'medium': return 'Moyenne';
-      case 'low': return 'Basse';
-      default: return priority;
-    }
-  }
 
   Color _priorityColor(String priority) {
     switch (priority.toLowerCase()) {
@@ -28,6 +20,31 @@ class TaskDetailScreen extends StatelessWidget {
       default:
         return Colors.grey;
     }
+  }
+
+  String _priorityLabel(String priority) {
+    switch (priority.toLowerCase()) {
+      case 'high':
+        return 'Haute';
+      case 'medium':
+        return 'Moyenne';
+      case 'low':
+        return 'Basse';
+      default:
+        return priority;
+    }
+  }
+
+  Future<void> _openChat(BuildContext context) async {
+    final profil = await AuthService.getProfil();
+    final username = profil?['username'] ?? 'Anonyme';
+    if (!context.mounted) return;
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => TaskChatScreen(task: task, username: username),
+      ),
+    );
   }
 
   @override
@@ -44,6 +61,11 @@ class TaskDetailScreen extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
         actions: [
+          IconButton(
+            tooltip: 'Chat',
+            icon: const Icon(Icons.chat_bubble_outline_rounded),
+            onPressed: () => _openChat(context),
+          ),
           IconButton(
             tooltip: 'Partager',
             icon: const Icon(Icons.share_rounded),
@@ -65,9 +87,8 @@ class TaskDetailScreen extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
-                      decoration: isCompleted
-                          ? TextDecoration.lineThrough
-                          : null,
+                      decoration:
+                          isCompleted ? TextDecoration.lineThrough : null,
                     ),
                   ),
                 ),
@@ -91,11 +112,32 @@ class TaskDetailScreen extends StatelessWidget {
             ),
             const SizedBox(height: 12),
 
+            // Catégorie
+            if (task.category != null)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: Row(
+                  children: [
+                    const Icon(Icons.label_outline,
+                        size: 16, color: AppColors.primary),
+                    const SizedBox(width: 6),
+                    Text(
+                      task.category!,
+                      style: const TextStyle(
+                        fontSize: 13,
+                        color: AppColors.primary,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
             // Description
             if (task.content.isNotEmpty) ...[
               Text(
                 task.content,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 15,
                   color: AppColors.textDarkSecondary,
                   height: 1.5,
@@ -151,7 +193,7 @@ class TaskDetailScreen extends StatelessWidget {
                   const SizedBox(width: 8),
                   Text(
                     "Créée le ${task.createdAt!.day}/${task.createdAt!.month}/${task.createdAt!.year}",
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 14,
                       color: AppColors.textDarkSecondary,
                     ),
