@@ -8,10 +8,12 @@ import 'package:flutter_task_app/utils/constants.dart';
 import 'package:flutter_task_app/views/screens/splash_screen.dart';
 import 'package:flutter_task_app/services/cache_service.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_task_app/services/push_notification_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await PushNotificationService.initialize();
   await NotificationService.initialize();
   await CacheService.init();
 
