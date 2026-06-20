@@ -182,4 +182,23 @@ class AuthService {
       return false;
     }
   }
+  // POST — Réinitialiser le mot de passe
+  static Future<bool> resetPassword({
+    required String username,
+    required String newPassword,
+  }) async {
+    try {
+      final response = await http.post(
+        Uri.parse('${ApiConfig.baseUrl}/auths/reset-password'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'username': username,
+          'newPassword': newPassword,
+        }),
+      );
+      return response.statusCode == 200 || response.statusCode == 201;
+    } catch (e) {
+      return false;
+    }
+  }
 }

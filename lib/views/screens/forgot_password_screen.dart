@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_task_app/utils/constants.dart';
 import 'package:flutter_task_app/views/widgets/cta_button_widget.dart';
 import 'package:flutter_task_app/views/widgets/text_field_widget.dart';
+import 'package:flutter_task_app/services/auth_service.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -73,9 +74,21 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     setState(() => _isLoading = true);
 
     try {
-      // Appel backend pour réinitialiser le mot de passe
-      // Pour l'instant on simule le succès
-      await Future.delayed(const Duration(seconds: 1));
+      final success = await AuthService.resetPassword(
+        username: username,
+        newPassword: newPassword,
+      );
+      if (!success) {
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Nom d\'utilisateur introuvable'),
+            backgroundColor: Colors.red,
+          ),
+        );
+        setState(() => _isLoading = false);
+        return;
+      }
 
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
