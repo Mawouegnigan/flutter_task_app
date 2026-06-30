@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_task_app/providers/app_settings_provider.dart';
 import 'package:flutter_task_app/utils/constants.dart';
 import 'package:flutter_task_app/views/screens/categories_settings_screen.dart';
+import 'package:flutter_task_app/utils/translations.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -13,7 +14,7 @@ class SettingsScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Paramètres'),
+        title: Text('settings_title'.tr(context)),
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
@@ -24,12 +25,14 @@ class SettingsScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
         children: [
           // ── Thème ───────────────────────────────────────────────
-          _SectionTitle(label: 'Apparence'),
+          _SectionTitle(label: 'settings_appearance'.tr(context)),
           const SizedBox(height: 8),
           _SettingCard(
             icon: Icons.dark_mode_outlined,
-            title: 'Mode sombre',
-            subtitle: settings.isDarkMode ? 'Activé' : 'Désactivé',
+            title: 'settings_dark_mode'.tr(context),
+            subtitle: settings.isDarkMode
+                ? 'settings_enabled'.tr(context)
+                : 'settings_disabled'.tr(context),
             trailing: Switch(
               value: settings.isDarkMode,
               activeColor: AppColors.primary,
@@ -40,11 +43,11 @@ class SettingsScreen extends StatelessWidget {
           const SizedBox(height: 20),
 
           // ── Langue ──────────────────────────────────────────────
-          _SectionTitle(label: 'Langue'),
+          _SectionTitle(label: 'settings_language'.tr(context)),
           const SizedBox(height: 8),
           _SettingCard(
             icon: Icons.language_outlined,
-            title: 'Langue de l\'application',
+            title: 'settings_app_language'.tr(context),
             subtitle: settings.languageCode == 'fr' ? 'Français' : 'English',
             trailing: DropdownButton<String>(
               value: settings.languageCode,
@@ -62,12 +65,12 @@ class SettingsScreen extends StatelessWidget {
           const SizedBox(height: 20),
 
           // ── Catégories ──────────────────────────────────────────
-          _SectionTitle(label: 'Tâches'),
+          _SectionTitle(label: 'settings_tasks_section'.tr(context)),
           const SizedBox(height: 8),
           _SettingCard(
             icon: Icons.category_outlined,
-            title: 'Catégories',
-            subtitle: 'Gérer mes catégories de tâches',
+            title: 'settings_categories'.tr(context),
+            subtitle: 'settings_categories_subtitle'.tr(context),
             trailing: const Icon(
               Icons.chevron_right,
               color: AppColors.textDarkSecondary,

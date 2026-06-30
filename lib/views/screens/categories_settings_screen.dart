@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_task_app/providers/category_provider.dart';
 import 'package:flutter_task_app/utils/constants.dart';
+import 'package:flutter_task_app/utils/translations.dart';
 
 class CategoriesSettingsScreen extends StatelessWidget {
   const CategoriesSettingsScreen({super.key});
@@ -14,19 +15,19 @@ class CategoriesSettingsScreen extends StatelessWidget {
       context: context,
       builder: (dialogContext) {
         return AlertDialog(
-          title: const Text('Nouvelle catégorie'),
+          title: Text('categories_new_title'.tr(context)),
           content: TextField(
             controller: controller,
             autofocus: true,
             maxLength: 30,
-            decoration: const InputDecoration(
-              hintText: 'Nom de la catégorie',
+            decoration: InputDecoration(
+              hintText: 'categories_name_hint'.tr(context),
             ),
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(dialogContext),
-              child: const Text('Annuler'),
+              child: Text('cancel'.tr(context)),
             ),
             TextButton(
               onPressed: () async {
@@ -37,15 +38,15 @@ class CategoriesSettingsScreen extends StatelessWidget {
                 Navigator.pop(dialogContext);
                 if (!success) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
+                    SnackBar(
                       content: Text(
-                        'Cette catégorie existe déjà ou le nom est invalide',
+                        'categories_invalid_or_duplicate'.tr(context),
                       ),
                     ),
                   );
                 }
               },
-              child: const Text('Ajouter'),
+              child: Text('add'.tr(context)),
             ),
           ],
         );
@@ -61,19 +62,19 @@ class CategoriesSettingsScreen extends StatelessWidget {
       context: context,
       builder: (dialogContext) {
         return AlertDialog(
-          title: const Text('Renommer la catégorie'),
+          title: Text('categories_rename_title'.tr(context)),
           content: TextField(
             controller: controller,
             autofocus: true,
             maxLength: 30,
-            decoration: const InputDecoration(
-              hintText: 'Nouveau nom',
+            decoration: InputDecoration(
+              hintText: 'categories_new_name_hint'.tr(context),
             ),
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(dialogContext),
-              child: const Text('Annuler'),
+              child: Text('cancel'.tr(context)),
             ),
             TextButton(
               onPressed: () async {
@@ -85,15 +86,15 @@ class CategoriesSettingsScreen extends StatelessWidget {
                 Navigator.pop(dialogContext);
                 if (!success) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
+                    SnackBar(
                       content: Text(
-                        'Ce nom existe déjà ou est invalide',
+                        'categories_invalid_name'.tr(context),
                       ),
                     ),
                   );
                 }
               },
-              child: const Text('Renommer'),
+              child: Text('edit'.tr(context)),
             ),
           ],
         );
@@ -108,25 +109,23 @@ class CategoriesSettingsScreen extends StatelessWidget {
       context: context,
       builder: (dialogContext) {
         return AlertDialog(
-          title: const Text('Supprimer la catégorie ?'),
+          title: Text('categories_delete_confirm_title'.tr(context)),
           content: Text(
-            'Les tâches existantes utilisant "$name" garderont cette '
-            'valeur, mais elle ne sera plus proposée pour les nouvelles '
-            'tâches.',
+            'categories_delete_confirm_body'.tr(context, name: name),
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(dialogContext),
-              child: const Text('Annuler'),
+              child: Text('cancel'.tr(context)),
             ),
             TextButton(
               onPressed: () async {
                 await categoryProvider.deleteCategory(name);
                 if (dialogContext.mounted) Navigator.pop(dialogContext);
               },
-              child: const Text(
-                'Supprimer',
-                style: TextStyle(color: Colors.red),
+              child: Text(
+                'delete'.tr(context),
+                style: const TextStyle(color: Colors.red),
               ),
             ),
           ],
@@ -142,22 +141,19 @@ class CategoriesSettingsScreen extends StatelessWidget {
       context: context,
       builder: (dialogContext) {
         return AlertDialog(
-          title: const Text('Réinitialiser les catégories ?'),
-          content: const Text(
-            'Cela restaurera les 6 catégories par défaut '
-            '(Travail, Personnel, Études, Santé, Courses, Autre).',
-          ),
+          title: Text('categories_reset_title'.tr(context)),
+          content: Text('categories_reset_body'.tr(context)),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(dialogContext),
-              child: const Text('Annuler'),
+              child: Text('cancel'.tr(context)),
             ),
             TextButton(
               onPressed: () async {
                 await categoryProvider.resetToDefault();
                 if (dialogContext.mounted) Navigator.pop(dialogContext);
               },
-              child: const Text('Réinitialiser'),
+              child: Text('categories_reset_button'.tr(context)),
             ),
           ],
         );
@@ -171,7 +167,7 @@ class CategoriesSettingsScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Catégories'),
+        title: Text('categories_title'.tr(context)),
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
@@ -180,17 +176,17 @@ class CategoriesSettingsScreen extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.restore),
-            tooltip: 'Réinitialiser',
+            tooltip: 'categories_reset_button'.tr(context),
             onPressed: () => _confirmReset(context),
           ),
         ],
       ),
       body: categories.isEmpty
-          ? const Center(
+          ? Center(
               child: Text(
-                'Aucune catégorie. Appuie sur + pour en créer une.',
+                'categories_empty'.tr(context),
                 textAlign: TextAlign.center,
-                style: TextStyle(color: AppColors.textDarkSecondary),
+                style: const TextStyle(color: AppColors.textDarkSecondary),
               ),
             )
           : ListView.separated(
