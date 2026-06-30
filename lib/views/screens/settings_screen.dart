@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_task_app/providers/app_settings_provider.dart';
 import 'package:flutter_task_app/utils/constants.dart';
+import 'package:flutter_task_app/views/screens/categories_settings_screen.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -57,6 +58,29 @@ class SettingsScreen extends StatelessWidget {
               },
             ),
           ),
+
+          const SizedBox(height: 20),
+
+          // ── Catégories ──────────────────────────────────────────
+          _SectionTitle(label: 'Tâches'),
+          const SizedBox(height: 8),
+          _SettingCard(
+            icon: Icons.category_outlined,
+            title: 'Catégories',
+            subtitle: 'Gérer mes catégories de tâches',
+            trailing: const Icon(
+              Icons.chevron_right,
+              color: AppColors.textDarkSecondary,
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const CategoriesSettingsScreen(),
+                ),
+              );
+            },
+          ),
         ],
       ),
     );
@@ -88,12 +112,14 @@ class _SettingCard extends StatelessWidget {
   final String title;
   final String subtitle;
   final Widget trailing;
+  final VoidCallback? onTap;
 
   const _SettingCard({
     required this.icon,
     required this.title,
     required this.subtitle,
     required this.trailing,
+    this.onTap,
   });
 
   @override
@@ -104,6 +130,7 @@ class _SettingCard extends StatelessWidget {
       margin: EdgeInsets.zero,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: ListTile(
+        onTap: onTap,
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
         leading: Container(
           width: 42,

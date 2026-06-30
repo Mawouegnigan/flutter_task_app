@@ -1,20 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter_task_app/models/task_api_model.dart';
+import 'package:flutter_task_app/providers/category_provider.dart';
 import 'package:flutter_task_app/services/task_service.dart';
 import 'package:flutter_task_app/utils/constants.dart';
 import 'package:flutter_task_app/views/widgets/cta_button_widget.dart';
 import 'package:flutter_task_app/services/notification_service.dart';
 import 'package:flutter_task_app/views/screens/calendar_screen.dart';
 import 'package:flutter_task_app/views/screens/notifications_settings_screen.dart';
-
-const List<String> kCategories = [
-  'Travail',
-  'Personnel',
-  'Études',
-  'Santé',
-  'Courses',
-  'Autre',
-];
 
 class AddEditingTaskScreen extends StatefulWidget {
   final String mode;
@@ -232,7 +225,10 @@ class _AddEditingTaskScreenState extends State<AddEditingTaskScreen> {
             Wrap(
               spacing: 10,
               runSpacing: 8,
-              children: kCategories.map((cat) {
+              children: context
+                  .watch<CategoryProvider>()
+                  .categories
+                  .map((cat) {
                 final isSelected = _selectedCategory == cat;
                 return GestureDetector(
                   onTap: () => setState(() {

@@ -101,12 +101,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   // ── Groupe Tâches ───────────────────────────────
                   _CardGroup(
                     items: [
-                      _CardItemData(
-                        icon: Icons.bookmarks_outlined,
-                        title: 'Catégorie & Priorité',
-                        subtitle: 'Gérer vos catégories de tâches',
-                        onTap: () {},
-                      ),
+ 
                       _CardItemData(
                         icon: Icons.notifications_outlined,
                         title: 'Rappels & Notifications',

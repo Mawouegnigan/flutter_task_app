@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter_task_app/models/task_api_model.dart';
+import 'package:flutter_task_app/providers/category_provider.dart';
 import 'package:flutter_task_app/services/task_service.dart';
 import 'package:flutter_task_app/utils/constants.dart';
 import 'package:flutter_task_app/views/screens/add_editing_task_screen.dart';
@@ -361,7 +363,7 @@ class _HomeScreenState extends State<HomeScreen> {
               style: TextStyle(fontSize: 13),
             ),
             const SizedBox(height: 12),
-            ...kCategories.map((cat) => ListTile(
+            ...context.read<CategoryProvider>().categories.map((cat) => ListTile(
                   dense: true,
                   title: Text(cat),
                   leading: const Icon(Icons.label_outline),

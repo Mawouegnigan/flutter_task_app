@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_task_app/providers/app_settings_provider.dart';
+import 'package:flutter_task_app/providers/category_provider.dart';
 import 'package:flutter_task_app/services/notification_service.dart';
 import 'package:flutter_task_app/utils/constants.dart';
 import 'package:flutter_task_app/views/screens/splash_screen.dart';
@@ -26,8 +27,11 @@ void main() async {
   );
 
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => AppSettingsProvider(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AppSettingsProvider()),
+        ChangeNotifierProvider(create: (_) => CategoryProvider()),
+      ],
       child: const TaskApp(),
     ),
   );
