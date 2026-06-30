@@ -162,6 +162,120 @@ class AppTranslations {
           'Studies, Health, Shopping, Other).',
     },
     'categories_reset_button': {'fr': 'Réinitialiser', 'en': 'Reset'},
+
+    // ── Connexion (login_screen) ──────────────────────────────────
+    'login_welcome': {'fr': 'Bon retour !', 'en': 'Welcome back!'},
+    'login_subtitle': {
+      'fr': 'Connectez-vous pour continuer',
+      'en': 'Sign in to continue',
+    },
+    'login_username': {'fr': "Nom d'utilisateur", 'en': 'Username'},
+    'login_password': {'fr': 'Mot de passe', 'en': 'Password'},
+    'login_no_account': {
+      'fr': 'Pas encore de compte ? ',
+      'en': 'No account yet? ',
+    },
+    'login_fill_fields': {
+      'fr': 'Veuillez remplir tous les champs',
+      'en': 'Please fill in all fields',
+    },
+    'login_wrong_credentials': {
+      'fr': "Nom d'utilisateur ou mot de passe incorrect",
+      'en': 'Incorrect username or password',
+    },
+    'login_server_error': {
+      'fr': 'Erreur de connexion au serveur',
+      'en': 'Server connection error',
+    },
+
+    // ── Inscription (register_screen) ────────────────────────────
+    'register_welcome': {'fr': 'Bienvenue parmi nous !', 'en': 'Welcome!'},
+    'register_subtitle': {
+      'fr': 'Créez votre compte pour commencer',
+      'en': 'Create your account to get started',
+    },
+    'register_last_name': {'fr': 'Nom', 'en': 'Last name'},
+    'register_first_name': {'fr': 'Prénom', 'en': 'First name'},
+    'register_username': {'fr': "Nom d'utilisateur", 'en': 'Username'},
+    'register_email': {'fr': 'Email', 'en': 'Email'},
+    'register_password': {'fr': 'Mot de passe', 'en': 'Password'},
+    'register_confirm_password': {
+      'fr': 'Confirmer le mot de passe',
+      'en': 'Confirm password',
+    },
+    'register_already_member': {
+      'fr': 'Déjà membre ? ',
+      'en': 'Already a member? ',
+    },
+    'register_fill_fields': {
+      'fr': 'Veuillez remplir tous les champs',
+      'en': 'Please fill in all fields',
+    },
+    'register_username_taken': {
+      'fr': "Ce nom d'utilisateur est déjà pris",
+      'en': 'This username is already taken',
+    },
+    'register_passwords_mismatch': {
+      'fr': 'Les mots de passe ne correspondent pas',
+      'en': 'Passwords do not match',
+    },
+    'register_success': {
+      'fr': 'Compte créé avec succès !',
+      'en': 'Account created successfully!',
+    },
+
+    // ── Mot de passe oublié (forgot_password_screen) ─────────────
+    'forgot_title': {'fr': 'Mot de passe oublié', 'en': 'Forgot password'},
+    'forgot_new_password': {
+      'fr': 'Nouveau mot de passe',
+      'en': 'New password',
+    },
+    'forgot_confirm_password': {
+      'fr': 'Confirmer le nouveau mot de passe',
+      'en': 'Confirm new password',
+    },
+    'forgot_fill_fields': {
+      'fr': 'Veuillez remplir tous les champs',
+      'en': 'Please fill in all fields',
+    },
+    'forgot_passwords_mismatch': {
+      'fr': 'Les mots de passe ne correspondent pas',
+      'en': 'Passwords do not match',
+    },
+    'forgot_user_not_found': {
+      'fr': "Nom d'utilisateur introuvable",
+      'en': 'Username not found',
+    },
+    'forgot_success': {
+      'fr': 'Mot de passe réinitialisé avec succès !',
+      'en': 'Password reset successfully!',
+    },
+    'forgot_error': {
+      'fr': 'Erreur lors de la réinitialisation',
+      'en': 'Error during reset',
+    },
+
+    // ── Ajout / édition de tâche (add_editing_task_screen) ───────
+    'task_fill_fields': {
+      'fr': 'Veuillez remplir le titre et la description',
+      'en': 'Please fill in the title and description',
+    },
+    'task_created_success': {
+      'fr': 'Tâche créée avec succès !',
+      'en': 'Task created successfully!',
+    },
+    'task_updated_success': {
+      'fr': 'Tâche modifiée avec succès !',
+      'en': 'Task updated successfully!',
+    },
+    'task_save_error': {
+      'fr': "Erreur lors de l'enregistrement",
+      'en': 'Error while saving',
+    },
+    'task_title_hint2': {
+      'fr': 'Saisissez votre titre',
+      'en': 'Enter your title',
+    },
   };
 
   static String of(String key, BuildContext context, {String? title, String? name}) {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_task_app/utils/constants.dart';
+import 'package:flutter_task_app/utils/translations.dart';
 import 'package:flutter_task_app/services/auth_service.dart';
 import 'package:flutter_task_app/views/screens/home_screen.dart';
 import 'package:flutter_task_app/views/screens/register_screen.dart';
@@ -36,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     if (username.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Veuillez remplir tous les champs')),
+        SnackBar(content: Text('login_fill_fields'.tr(context))),
       );
       return;
     }
@@ -58,13 +59,13 @@ class _LoginScreenState extends State<LoginScreen> {
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Nom d\'utilisateur ou mot de passe incorrect')),
+          SnackBar(content: Text('login_wrong_credentials'.tr(context))),
         );
       }
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Erreur de connexion au serveur')),
+        SnackBar(content: Text('login_server_error'.tr(context))),
       );
     } finally {
       if (mounted) setState(() => _isLoading = false);
@@ -81,9 +82,8 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               // Header de bienvenue
               AuthHeaderView(
-                title: "Bon retour !",
-                subtitle:
-                    "Connectez-vous à votre espace et organisez votre journée en un clic.",
+                title: 'login_welcome'.tr(context),
+                subtitle: 'login_subtitle'.tr(context),
               ),
               SizedBox(height: 30),
 
@@ -93,7 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     // Champ nom d'utilisateur
                     TextFieldWidget(
-                      label: "Nom d'utilisateur",
+                      label: 'login_username'.tr(context),
                       placeholder: "John DOE",
                       prefixIcon: Icons.person_outline,
                       controller: _usernameController,
@@ -109,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           _isPasswordVisible = !_isPasswordVisible;
                         });
                       },
-                      label: "Mot de passe",
+                      label: 'login_password'.tr(context),
                       placeholder: "Saisissez votre mot de passe ici",
                       prefixIcon: Icons.lock_outline,
                       controller: _passwordController,
@@ -160,7 +160,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Pas encore de compte ? "),
+                  Text('login_no_account'.tr(context)),
                   InkWell(
                     onTap: () {
                       Navigator.push(

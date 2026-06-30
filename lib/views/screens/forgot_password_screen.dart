@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_task_app/utils/constants.dart';
+import 'package:flutter_task_app/utils/translations.dart';
 import 'package:flutter_task_app/views/widgets/cta_button_widget.dart';
 import 'package:flutter_task_app/views/widgets/text_field_widget.dart';
 import 'package:flutter_task_app/services/auth_service.dart';
@@ -48,7 +49,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
     if (username.isEmpty || newPassword.isEmpty || confirmPassword.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Veuillez remplir tous les champs')),
+        SnackBar(content: Text('forgot_fill_fields'.tr(context))),
       );
       return;
     }
@@ -63,8 +64,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
     if (newPassword != confirmPassword) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Les mots de passe ne correspondent pas'),
+        SnackBar(
+          content: Text('forgot_passwords_mismatch'.tr(context)),
           backgroundColor: Colors.red,
         ),
       );
@@ -81,8 +82,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       if (!success) {
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Nom d\'utilisateur introuvable'),
+          SnackBar(
+            content: Text('forgot_user_not_found'.tr(context)),
             backgroundColor: Colors.red,
           ),
         );
@@ -92,8 +93,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Mot de passe réinitialisé avec succès !'),
+        SnackBar(
+          content: Text('forgot_success'.tr(context)),
           backgroundColor: Colors.green,
         ),
       );
@@ -101,8 +102,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Erreur lors de la réinitialisation'),
+        SnackBar(
+          content: Text('forgot_error'.tr(context)),
           backgroundColor: Colors.red,
         ),
       );
@@ -115,7 +116,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Mot de passe oublié'),
+        title: Text('forgot_title'.tr(context)),
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
@@ -153,7 +154,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               const SizedBox(height: 32),
 
               TextFieldWidget(
-                label: "Nom d'utilisateur",
+                label: 'login_username'.tr(context),
                 placeholder: "Votre nom d'utilisateur",
                 prefixIcon: Icons.person_outline,
                 controller: _usernameController,
@@ -165,7 +166,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 isPasswordVisible: _isPasswordVisible,
                 onSuffixIconPressed: () =>
                     setState(() => _isPasswordVisible = !_isPasswordVisible),
-                label: "Nouveau mot de passe",
+                label: 'forgot_new_password'.tr(context),
                 placeholder: "Min. 8 car., maj., chiffre, symbole",
                 prefixIcon: Icons.lock_outline,
                 controller: _newPasswordController,
@@ -177,7 +178,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 isPasswordVisible: _isConfirmPasswordVisible,
                 onSuffixIconPressed: () => setState(
                     () => _isConfirmPasswordVisible = !_isConfirmPasswordVisible),
-                label: "Confirmer le nouveau mot de passe",
+                label: 'forgot_confirm_password'.tr(context),
                 placeholder: "Confirmez votre mot de passe",
                 prefixIcon: Icons.lock_outline,
                 controller: _confirmPasswordController,

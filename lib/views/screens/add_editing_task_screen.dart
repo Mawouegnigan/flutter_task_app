@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_task_app/models/task_api_model.dart';
 import 'package:flutter_task_app/providers/category_provider.dart';
 import 'package:flutter_task_app/services/task_service.dart';
+import 'package:flutter_task_app/utils/translations.dart';
 import 'package:flutter_task_app/utils/constants.dart';
 import 'package:flutter_task_app/views/widgets/cta_button_widget.dart';
 import 'package:flutter_task_app/services/notification_service.dart';
@@ -93,8 +94,8 @@ class _AddEditingTaskScreenState extends State<AddEditingTaskScreen> {
 
     if (title.isEmpty || content.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Text('Veuillez remplir le titre et la description')),
+        SnackBar(
+            content: Text('task_fill_fields'.tr(context))),
       );
       return;
     }
@@ -118,7 +119,7 @@ class _AddEditingTaskScreenState extends State<AddEditingTaskScreen> {
         } catch (_) {}
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Tâche créée avec succès !')),
+          SnackBar(content: Text('task_created_success'.tr(context))),
         );
       } else {
         final updatedTask =
@@ -129,7 +130,7 @@ class _AddEditingTaskScreenState extends State<AddEditingTaskScreen> {
         } catch (_) {}
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Tâche modifiée avec succès !')),
+          SnackBar(content: Text('task_updated_success'.tr(context))),
         );
       }
 
@@ -137,7 +138,7 @@ class _AddEditingTaskScreenState extends State<AddEditingTaskScreen> {
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Erreur lors de l\'enregistrement')),
+        SnackBar(content: Text('task_save_error'.tr(context))),
       );
     } finally {
       if (mounted) setState(() => _isLoading = false);
@@ -162,8 +163,8 @@ class _AddEditingTaskScreenState extends State<AddEditingTaskScreen> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(widget.mode == "Add"
-            ? "Ajouter une tâche"
-            : "Modifier une tâche"),
+            ? 'task_create_button'.tr(context)
+            : 'task_save_button'.tr(context)),
         centerTitle: true,
         actions: [
           IconButton(
@@ -198,16 +199,16 @@ class _AddEditingTaskScreenState extends State<AddEditingTaskScreen> {
           children: [
             // Champ titre
             CustomInputField(
-              label: "Titre",
-              hintText: "Saisissez votre titre",
+              label: 'task_title_label'.tr(context),
+              hintText: 'task_title_hint2'.tr(context),
               controller: _titleController,
             ),
             const SizedBox(height: 20),
 
             // Champ description
             CustomInputField(
-              label: "Description de la tâche",
-              hintText: "Décrivez votre tâche...",
+              label: 'task_description_label'.tr(context),
+              hintText: 'task_description_hint'.tr(context),
               isTextArea: true,
               controller: _contentController,
             ),
