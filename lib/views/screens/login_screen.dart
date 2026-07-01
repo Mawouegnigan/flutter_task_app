@@ -128,9 +128,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           );
                         },
-                        child: const Text(
-                          "Mot de passe oublié ?",
-                          style: TextStyle(
+                        child: Text(
+                          'login_forgot_password'.tr(context),
+                          style: const TextStyle(
                             color: AppColors.textDarkSecondary,
                             fontSize: 14,
                             fontStyle: FontStyle.italic,
@@ -144,7 +144,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     _isLoading
                         ? const CircularProgressIndicator()
                         : CtaButtonWidget(
-                            text: "Se Connecter",
+                            text: 'login_button'.tr(context),
                             onPressed: _handleLogin,
                           ),
                   ],
@@ -171,7 +171,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       );
                     },
                     child: Text(
-                      "Inscrivez-vous",
+                      'login_register_link'.tr(context),
                       style: TextStyle(
                         color: AppColors.primary,
                         fontWeight: FontWeight.w600,

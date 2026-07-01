@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_task_app/services/google_auth_service.dart';
+import 'package:flutter_task_app/utils/translations.dart';
 import 'package:flutter_task_app/views/screens/home_screen.dart';
 import 'package:flutter_task_app/views/widgets/separateur_widget.dart';
 import 'package:flutter_task_app/views/widgets/social_auth_button_widget.dart';
@@ -22,8 +23,9 @@ class _SocialAuthSectionViewState extends State<SocialAuthSectionView> {
       if (!mounted) return;
       if (user != null) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Connecté en tant que ${user.displayName ?? user.email}'),
+        SnackBar(
+            content: Text('social_google_success'.tr(context,
+                title: user.displayName ?? user.email ?? '')),
             backgroundColor: Colors.green,
           ),
         );
@@ -34,8 +36,8 @@ class _SocialAuthSectionViewState extends State<SocialAuthSectionView> {
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Connexion Google annulée'),
+          SnackBar(
+            content: Text('social_google_cancelled'.tr(context)),
             backgroundColor: Colors.orange,
           ),
         );
@@ -66,8 +68,8 @@ class _SocialAuthSectionViewState extends State<SocialAuthSectionView> {
                 ? const CircularProgressIndicator()
                 : SocialAuthButtonWidget(
                     label: widget.isLoginScreen
-                        ? "Se connecter avec Google"
-                        : "S'inscrire avec Google",
+                        ? 'social_login_google'.tr(context)
+                        : 'social_register_google'.tr(context),
                     icon: "assets/images/google-logo.svg",
                     onPressed: _handleGoogleSignIn,
                   ),
@@ -76,13 +78,13 @@ class _SocialAuthSectionViewState extends State<SocialAuthSectionView> {
             // Facebook — désactivé
             SocialAuthButtonWidget(
               label: widget.isLoginScreen
-                  ? "Se connecter avec Facebook"
-                  : "S'inscrire avec Facebook",
+                  ? 'social_login_facebook'.tr(context)
+                  : 'social_register_facebook'.tr(context),
               icon: "assets/images/facebook-logo.svg",
               onPressed: () {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Facebook non disponible pour le moment'),
+                  SnackBar(
+                    content: Text('social_facebook_unavailable'.tr(context)),
                     backgroundColor: Colors.orange,
                   ),
                 );

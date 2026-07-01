@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_task_app/utils/constants.dart';
+import 'package:flutter_task_app/utils/translations.dart';
 import 'package:flutter_task_app/services/auth_service.dart';
 import 'package:flutter_task_app/views/screens/login_screen.dart';
 import 'package:flutter_task_app/views/view/auth_header_view.dart';
@@ -124,7 +125,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         password.isEmpty ||
         confirmPassword.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Veuillez remplir tous les champs')),
+        SnackBar(content: Text('register_fill_fields'.tr(context))),
       );
       return;
     }
@@ -132,8 +133,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     // Vérifier username disponible
     if (_isUsernameAvailable == false) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Ce nom d\'utilisateur est déjà pris'),
+        SnackBar(
+          content: Text('register_username_taken'.tr(context)),
           backgroundColor: Colors.red,
         ),
       );
@@ -151,8 +152,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     if (password != confirmPassword) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Les mots de passe ne correspondent pas'),
+        SnackBar(
+          content: Text('register_passwords_mismatch'.tr(context)),
           backgroundColor: Colors.red,
         ),
       );
@@ -174,7 +175,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
       if (success) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Compte créé avec succès !')),
+          SnackBar(content: Text('register_success'.tr(context))),
         );
       }
 
@@ -207,9 +208,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
               const SizedBox(height: 20),
 
               AuthHeaderView(
-                title: "Bienvenue parmi nous !",
-                subtitle:
-                    "Créez votre espace personnel pour organiser vos projets en toute simplicité.",
+                title: 'register_welcome'.tr(context),
+                subtitle: 'register_subtitle'.tr(context),
               ),
               const SizedBox(height: 24),
 
@@ -247,9 +247,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
               ),
               const SizedBox(height: 8),
-              const Text(
-                'Photo de profil (optionnelle)',
-                style: TextStyle(
+              Text(
+                'register_photo_optional'.tr(context),
+                style: const TextStyle(
                   color: AppColors.textDarkSecondary,
                   fontSize: 12,
                 ),
@@ -261,7 +261,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 child: Column(
                   children: [
                     TextFieldWidget(
-                      label: "Nom",
+                      label: 'register_last_name'.tr(context),
                       placeholder: "DOE",
                       prefixIcon: Icons.person_outline,
                       controller: _nomController,
@@ -269,7 +269,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     const SizedBox(height: 20),
 
                     TextFieldWidget(
-                      label: "Prénom",
+                      label: 'register_first_name'.tr(context),
                       placeholder: "John",
                       prefixIcon: Icons.person_outline,
                       controller: _prenomController,
@@ -278,7 +278,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                     // Username avec vérification
                     TextFieldWidget(
-                      label: "Nom d'utilisateur",
+                      label: 'register_username'.tr(context),
                       placeholder: "johndoe",
                       prefixIcon: Icons.badge_outlined,
                       controller: _usernameController,
@@ -301,32 +301,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 ),
                     ),
                     if (_isUsernameAvailable == false)
-                      const Padding(
-                        padding: EdgeInsets.only(top: 4, left: 4),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 4, left: 4),
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            'Ce nom d\'utilisateur est déjà pris',
-                            style: TextStyle(color: Colors.red, fontSize: 12),
+                            'register_username_taken_inline'.tr(context),
+                            style: const TextStyle(color: Colors.red, fontSize: 12),
                           ),
                         ),
                       ),
                     if (_isUsernameAvailable == true)
-                      const Padding(
-                        padding: EdgeInsets.only(top: 4, left: 4),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 4, left: 4),
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            'Nom d\'utilisateur disponible',
-                            style:
-                                TextStyle(color: Colors.green, fontSize: 12),
+                            'register_username_available'.tr(context),
+                            style: const TextStyle(color: Colors.green, fontSize: 12),
                           ),
                         ),
                       ),
                     const SizedBox(height: 20),
 
                     TextFieldWidget(
-                      label: "Email",
+                      label: 'register_email'.tr(context),
                       placeholder: "john.doe@exemple.com",
                       prefixIcon: Icons.email_outlined,
                       controller: _emailController,
@@ -339,7 +338,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       isPasswordVisible: _isPasswordVisible,
                       onSuffixIconPressed: () => setState(
                           () => _isPasswordVisible = !_isPasswordVisible),
-                      label: "Mot de passe",
+                      label: 'register_password'.tr(context),
                       placeholder: "Min. 8 car., maj., chiffre, symbole",
                       prefixIcon: Icons.lock_outline,
                       controller: _passwordController,
@@ -395,7 +394,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       onSuffixIconPressed: () => setState(() =>
                           _isConfirmPasswordVisible =
                               !_isConfirmPasswordVisible),
-                      label: "Confirmer le mot de passe",
+                      label: 'register_confirm_password'.tr(context),
                       placeholder: "Confirmez votre mot de passe",
                       prefixIcon: Icons.lock_outline,
                       controller: _confirmPasswordController,
@@ -405,7 +404,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     _isLoading
                         ? const CircularProgressIndicator()
                         : CtaButtonWidget(
-                            text: "S'inscrire",
+                            text: 'register_button'.tr(context),
                             onPressed: _handleRegister,
                           ),
                   ],
@@ -416,7 +415,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text("Déjà membre ? "),
+                  Text('register_already_member'.tr(context)),
                   InkWell(
                     onTap: () {
                       Navigator.push(
@@ -426,9 +425,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       );
                     },
-                    child: const Text(
-                      "Connectez-vous ici",
-                      style: TextStyle(
+                    child: Text(
+                      'register_login_link'.tr(context),
+                      style: const TextStyle(
                         color: AppColors.primary,
                         fontWeight: FontWeight.w600,
                         fontStyle: FontStyle.italic,

@@ -276,6 +276,60 @@ class AppTranslations {
       'fr': 'Saisissez votre titre',
       'en': 'Enter your title',
     },
+
+    // ── Textes login restants ─────────────────────────────────────
+    'login_forgot_password': {
+      'fr': 'Mot de passe oublié ?',
+      'en': 'Forgot password?',
+    },
+    'login_button': {'fr': 'Se Connecter', 'en': 'Sign In'},
+    'login_register_link': {'fr': 'Inscrivez-vous', 'en': 'Sign up'},
+
+    // ── Textes register restants ──────────────────────────────────
+    'register_photo_optional': {
+      'fr': 'Photo de profil (optionnelle)',
+      'en': 'Profile photo (optional)',
+    },
+    'register_username_taken_inline': {
+      'fr': "Ce nom d'utilisateur est déjà pris",
+      'en': 'This username is already taken',
+    },
+    'register_username_available': {
+      'fr': "Nom d'utilisateur disponible",
+      'en': 'Username available',
+    },
+    'register_button': {"fr": "S'inscrire", 'en': 'Sign Up'},
+    'register_login_link': {'fr': 'Connectez-vous ici', 'en': 'Sign in here'},
+
+    // ── Social auth (social_auth_section_view) ────────────────────
+    'social_login_google': {
+      'fr': 'Se connecter avec Google',
+      'en': 'Sign in with Google',
+    },
+    'social_register_google': {
+      'fr': "S'inscrire avec Google",
+      'en': 'Sign up with Google',
+    },
+    'social_login_facebook': {
+      'fr': 'Se connecter avec Facebook',
+      'en': 'Sign in with Facebook',
+    },
+    'social_register_facebook': {
+      'fr': "S'inscrire avec Facebook",
+      'en': 'Sign up with Facebook',
+    },
+    'social_google_success': {
+      'fr': 'Connecté en tant que {title}',
+      'en': 'Signed in as {title}',
+    },
+    'social_google_cancelled': {
+      'fr': 'Connexion Google annulée',
+      'en': 'Google sign-in cancelled',
+    },
+    'social_facebook_unavailable': {
+      'fr': 'Facebook non disponible pour le moment',
+      'en': 'Facebook not available yet',
+    },
   };
 
   static String of(String key, BuildContext context, {String? title, String? name}) {
