@@ -134,19 +134,19 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 color: AppColors.primary,
               ),
               const SizedBox(height: 16),
-              const Text(
+              Text(
                 'forgot_screen_title'.tr(context),
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                   color: AppColors.textDarkPrimary,
                 ),
               ),
               const SizedBox(height: 8),
-              const Text(
+              Text(
                 'forgot_screen_subtitle'.tr(context),
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   color: AppColors.textDarkSecondary,
                   fontSize: 14,
                 ),
