@@ -30,15 +30,15 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   }
 
   // Validation mot de passe robuste
-  String? _validatePassword(String password) {
-    if (password.length < 8) return 'Au moins 8 caractères requis';
+  String? _validatePassword(String password, BuildContext context) {
+    if (password.length < 8) return 'password_min_length'.tr(context);
     if (!password.contains(RegExp(r'[A-Z]')))
-      return 'Au moins une lettre majuscule requise';
+      return 'password_uppercase'.tr(context);
     if (!password.contains(RegExp(r'[a-z]')))
-      return 'Au moins une lettre minuscule requise';
-    if (!password.contains(RegExp(r'[0-9]'))) return 'Au moins un chiffre requis';
+      return 'password_lowercase'.tr(context);
+    if (!password.contains(RegExp(r'[0-9]'))) return 'password_digit'.tr(context);
     if (!password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]')))
-      return 'Au moins un caractère spécial requis';
+      return 'password_special'.tr(context);
     return null;
   }
 
@@ -54,7 +54,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       return;
     }
 
-    final passwordError = _validatePassword(newPassword);
+    final passwordError = _validatePassword(newPassword, context);
     if (passwordError != null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(passwordError), backgroundColor: Colors.red),
@@ -135,7 +135,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               ),
               const SizedBox(height: 16),
               const Text(
-                'Réinitialiser le mot de passe',
+                'forgot_screen_title'.tr(context),
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
@@ -144,7 +144,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               ),
               const SizedBox(height: 8),
               const Text(
-                'Entrez votre nom d\'utilisateur et votre nouveau mot de passe.',
+                'forgot_screen_subtitle'.tr(context),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: AppColors.textDarkSecondary,
@@ -188,7 +188,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               _isLoading
                   ? const CircularProgressIndicator()
                   : CtaButtonWidget(
-                      text: "Réinitialiser",
+                      text: 'forgot_reset_button'.tr(context),
                       onPressed: _handleReset,
                     ),
             ],

@@ -330,6 +330,42 @@ class AppTranslations {
       'fr': 'Facebook non disponible pour le moment',
       'en': 'Facebook not available yet',
     },
+
+    // ── Validation mot de passe ───────────────────────────────────
+    'password_min_length': {
+      'fr': 'Au moins 8 caractères requis',
+      'en': 'At least 8 characters required',
+    },
+    'password_uppercase': {
+      'fr': 'Au moins une lettre majuscule requise',
+      'en': 'At least one uppercase letter required',
+    },
+    'password_lowercase': {
+      'fr': 'Au moins une lettre minuscule requise',
+      'en': 'At least one lowercase letter required',
+    },
+    'password_digit': {
+      'fr': 'Au moins un chiffre requis',
+      'en': 'At least one digit required',
+    },
+    'password_special': {
+      'fr': 'Au moins un caractère spécial requis',
+      'en': 'At least one special character required',
+    },
+
+    // ── forgot_password textes restants ───────────────────────────
+    'forgot_screen_title': {
+      'fr': 'Réinitialiser le mot de passe',
+      'en': 'Reset password',
+    },
+    'forgot_screen_subtitle': {
+      'fr': 'Entrez votre nom d\'utilisateur et votre nouveau mot de passe.',
+      'en': 'Enter your username and your new password.',
+    },
+    'forgot_reset_button': {
+      'fr': 'Réinitialiser',
+      'en': 'Reset',
+    },
   };
 
   static String of(String key, BuildContext context, {String? title, String? name}) {
