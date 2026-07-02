@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_task_app/models/task_api_model.dart';
 import 'package:flutter_task_app/providers/category_provider.dart';
 import 'package:flutter_task_app/services/task_service.dart';
+import 'package:flutter_task_app/utils/translations.dart';
 import 'package:flutter_task_app/utils/constants.dart';
 import 'package:flutter_task_app/views/screens/add_editing_task_screen.dart';
 import 'package:flutter_task_app/views/screens/profile_screen.dart';
@@ -152,13 +153,13 @@ class _HomeScreenState extends State<HomeScreen> {
       await _loadTasks();
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Tâche supprimée avec succès')),
+          SnackBar(content: Text('home_delete_success'.tr(context))),
         );
       }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Erreur lors de la suppression')),
+          SnackBar(content: Text('home_delete_error2'.tr(context))),
         );
       }
     }
@@ -189,7 +190,7 @@ class _HomeScreenState extends State<HomeScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Erreur lors de la mise à jour')),
+          SnackBar(content: Text('home_update_error2'.tr(context))),
         );
       }
     }
@@ -199,18 +200,18 @@ class _HomeScreenState extends State<HomeScreen> {
     final confirm = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Supprimer la tâche'),
-        content: Text('Voulez-vous vraiment supprimer "${task.title}" ?'),
+        title: Text('home_delete_dialog_title'.tr(context)),
+        content: Text('home_delete_dialog_body'.tr(context, title: task.title)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Annuler'),
+            child: Text('cancel'.tr(context)),
           ),
           TextButton(
             onPressed: () => Navigator.pop(ctx, true),
-            child: const Text(
-              'Supprimer',
-              style: TextStyle(color: Colors.red),
+            child: Text(
+              'delete'.tr(context),
+              style: const TextStyle(color: Colors.red),
             ),
           ),
         ],
@@ -237,16 +238,13 @@ class _HomeScreenState extends State<HomeScreen> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Trier par',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            Text('home_sort_title'.tr(context),
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 16),
-            _sortOption(
-                'Priorité croissante', 'priority_asc', Icons.arrow_upward),
-            _sortOption('Priorité décroissante', 'priority_desc',
-                Icons.arrow_downward),
-            _sortOption(
-                'Date croissante', 'date_asc', Icons.calendar_today),
-            _sortOption('Date décroissante', 'date_desc',
+            _sortOption('home_sort_priority_asc'.tr(context), 'priority_asc', Icons.arrow_upward),
+            _sortOption('home_sort_priority_desc'.tr(context), 'priority_desc', Icons.arrow_downward),
+            _sortOption('home_sort_date_asc'.tr(context), 'date_asc', Icons.calendar_today),
+            _sortOption('home_sort_date_desc'.tr(context), 'date_desc',
                 Icons.calendar_today_outlined),
             _sortOption('Aucun tri', 'none', Icons.clear),
             const SizedBox(height: 8),
@@ -354,13 +352,13 @@ class _HomeScreenState extends State<HomeScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Ajouter une catégorie'),
+        title: Text('home_add_category'.tr(context)),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text(
-              'Sélectionnez une catégorie existante :',
-              style: TextStyle(fontSize: 13),
+            Text(
+              'home_select_category'.tr(context),
+              style: const TextStyle(fontSize: 13),
             ),
             const SizedBox(height: 12),
             ...context.read<CategoryProvider>().categories.map((cat) => ListTile(
@@ -379,7 +377,7 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Annuler'),
+            child: Text('cancel'.tr(context)),
           ),
         ],
       ),
@@ -389,11 +387,11 @@ class _HomeScreenState extends State<HomeScreen> {
   String _priorityLabel(String priority) {
     switch (priority.toLowerCase()) {
       case 'high':
-        return 'Haute';
+        return 'task_priority_high'.tr(context);
       case 'medium':
-        return 'Moyenne';
+        return 'task_priority_medium'.tr(context);
       case 'low':
-        return 'Basse';
+        return 'task_priority_low'.tr(context);
       default:
         return priority;
     }
@@ -434,7 +432,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ),
-        title: const Text("Mes tâches"),
+        title: Text('home_my_tasks'.tr(context)),
         centerTitle: true,
         actions: [
           IconButton(
@@ -508,7 +506,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       _applyFilters();
                     },
                     decoration: InputDecoration(
-                      hintText: "Rechercher une tâche, un projet...",
+                      hintText: 'home_search_hint2'.tr(context),
                       hintStyle: TextStyle(
                         color: AppColors.textDarkSecondary,
                         fontSize: 14,
@@ -855,23 +853,23 @@ class _HomeScreenState extends State<HomeScreen> {
                                     PopupMenuItem(
                                       value: 'edit',
                                       child: Row(
-                                        children: const [
-                                          Icon(Icons.edit_outlined,
+                                        children: [
+                                          const Icon(Icons.edit_outlined,
                                               size: 18),
-                                          SizedBox(width: 8),
-                                          Text('Modifier'),
+                                          const SizedBox(width: 8),
+                                          Text('home_edit'.tr(context)),
                                         ],
                                       ),
                                     ),
                                     PopupMenuItem(
                                       value: 'delete',
                                       child: Row(
-                                        children: const [
-                                          Icon(Icons.delete_outline,
+                                        children: [
+                                          const Icon(Icons.delete_outline,
                                               size: 18, color: Colors.red),
-                                          SizedBox(width: 8),
-                                          Text('Supprimer',
-                                              style: TextStyle(
+                                          const SizedBox(width: 8),
+                                          Text('home_delete'.tr(context),
+                                              style: const TextStyle(
                                                   color: Colors.red)),
                                         ],
                                       ),

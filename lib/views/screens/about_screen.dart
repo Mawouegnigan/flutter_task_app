@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_task_app/utils/constants.dart';
+import 'package:flutter_task_app/utils/translations.dart';
 
 class AboutScreen extends StatelessWidget {
   const AboutScreen({super.key});
@@ -8,7 +9,7 @@ class AboutScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('À propos'),
+        title: Text('about_title'.tr(context)),
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
@@ -46,7 +47,7 @@ class AboutScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Version 1.0.0',
+                  '${'about_version'.tr(context)} 1.0.0',
                   style: TextStyle(
                     color: AppColors.textDarkSecondary.withValues(alpha: 0.8),
                     fontSize: 13,
@@ -59,19 +60,16 @@ class AboutScreen extends StatelessWidget {
           const SizedBox(height: 32),
 
           // ── Description ──────────────────────────────────────────
-          _SectionTitle(label: 'Description'),
+          _SectionTitle(label: 'about_description_title'.tr(context)),
           const SizedBox(height: 8),
-          _InfoCard(
-            content:
-                'TaskFlow est une application mobile de gestion de tâches en équipe, développée dans le cadre de la formation FORCE-N (Formations Ouvertes pour le Renforcement des Compétences, de l\'Emploi et de l\'Entrepreneuriat dans le Numérique), un programme porté par l\'Université Numérique Cheikh Hamidou Kane (UN-CHK) et la Fondation Mastercard.',
-          ),
+          _InfoCard(content: 'about_description'.tr(context)),
 
           const SizedBox(height: 20),
 
           // ── Mentor ───────────────────────────────────────────────
-          _SectionTitle(label: 'Sous la direction de'),
+          _SectionTitle(label: 'about_mentor'.tr(context)),
           const SizedBox(height: 8),
-          _TeamCard(
+          const _TeamCard(
             name: 'Professeur Papa Ngom',
             role: 'Professeur Titulaire en Analyse, Statistique et Applications\nDépartement de Mathématiques et Informatique — FST/UCAD\nDirecteur du Laboratoire de Mathématiques Appliquées (LMA)',
             icon: Icons.school_outlined,
@@ -80,21 +78,21 @@ class AboutScreen extends StatelessWidget {
           const SizedBox(height: 20),
 
           // ── Équipe ───────────────────────────────────────────────
-          _SectionTitle(label: 'Équipe de développement'),
+          _SectionTitle(label: 'about_team'.tr(context)),
           const SizedBox(height: 8),
-          _TeamCard(
+          const _TeamCard(
             name: 'FANGNON Mawouégnigan Grégoire',
             role: 'Développeur Flutter — TaskFlow',
             icon: Icons.code_outlined,
           ),
           const SizedBox(height: 4),
-          _TeamCard(
+          const _TeamCard(
             name: 'KAHOBETE Gloria',
             role: 'Développeuse Flutter — TaskFlow',
             icon: Icons.code_outlined,
           ),
           const SizedBox(height: 4),
-          _TeamCard(
+          const _TeamCard(
             name: 'KEDEGUE Armel',
             role: 'Développeur Flutter — TaskFlow',
             icon: Icons.code_outlined,
@@ -103,9 +101,9 @@ class AboutScreen extends StatelessWidget {
           const SizedBox(height: 20),
 
           // ── Repo ─────────────────────────────────────────────────
-          _SectionTitle(label: 'Dépôt source'),
+          _SectionTitle(label: 'about_repo'.tr(context)),
           const SizedBox(height: 8),
-          _InfoCard(
+          const _InfoCard(
             content: 'github.com/Mawouegnigan/flutter_task_app',
             icon: Icons.code,
           ),
@@ -113,9 +111,9 @@ class AboutScreen extends StatelessWidget {
           const SizedBox(height: 20),
 
           // ── Stack technique ──────────────────────────────────────
-          _SectionTitle(label: 'Technologies utilisées'),
+          _SectionTitle(label: 'about_tech'.tr(context)),
           const SizedBox(height: 8),
-          _InfoCard(
+          const _InfoCard(
             content:
                 'Flutter • Dart • NestJS • SQLite\nFirebase • Hive • Provider • Firestore',
           ),

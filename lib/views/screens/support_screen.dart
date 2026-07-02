@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_task_app/utils/constants.dart';
+import 'package:flutter_task_app/utils/translations.dart';
 
 class SupportScreen extends StatelessWidget {
   const SupportScreen({super.key});
@@ -8,7 +9,7 @@ class SupportScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Aide & Support'),
+        title: Text('support_title'.tr(context)),
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),

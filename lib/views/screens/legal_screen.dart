@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_task_app/utils/constants.dart';
+import 'package:flutter_task_app/utils/translations.dart';
 
 class LegalScreen extends StatelessWidget {
   const LegalScreen({super.key});
@@ -10,19 +11,19 @@ class LegalScreen extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Conditions & Confidentialité'),
+          title: Text('legal_title'.tr(context)),
           centerTitle: true,
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
             onPressed: () => Navigator.pop(context),
           ),
-          bottom: const TabBar(
+          bottom: TabBar(
             indicatorColor: AppColors.primary,
             labelColor: AppColors.primary,
             unselectedLabelColor: AppColors.textDarkSecondary,
             tabs: [
-              Tab(text: 'CGU'),
-              Tab(text: 'Confidentialité'),
+              Tab(text: 'legal_tab_cgu'.tr(context)),
+              Tab(text: 'legal_tab_privacy'.tr(context)),
             ],
           ),
         ),

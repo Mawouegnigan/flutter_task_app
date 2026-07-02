@@ -3,6 +3,7 @@ import 'package:flutter_task_app/models/task_api_model.dart';
 import 'package:flutter_task_app/services/auth_service.dart';
 import 'package:flutter_task_app/services/share_service.dart';
 import 'package:flutter_task_app/utils/constants.dart';
+import 'package:flutter_task_app/utils/translations.dart';
 import 'package:flutter_task_app/views/screens/task_chat_screen.dart';
 
 class TaskDetailScreen extends StatelessWidget {
@@ -54,7 +55,7 @@ class TaskDetailScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Détail de la tâche"),
+        title: Text('task_detail_title'.tr(context)),
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
@@ -174,7 +175,7 @@ class TaskDetailScreen extends StatelessWidget {
                 ),
                 const SizedBox(width: 8),
                 Text(
-                  isCompleted ? "Terminée" : "En cours",
+                  isCompleted ? 'task_detail_done'.tr(context) : 'task_detail_in_progress'.tr(context),
                   style: TextStyle(
                     fontSize: 14,
                     color: isCompleted ? AppColors.primary : Colors.grey,
@@ -192,7 +193,7 @@ class TaskDetailScreen extends StatelessWidget {
                   const Icon(Icons.calendar_today_outlined, size: 18),
                   const SizedBox(width: 8),
                   Text(
-                    "Créée le ${task.createdAt!.day}/${task.createdAt!.month}/${task.createdAt!.year}",
+                    "${' task_detail_created'.tr(context)} ${task.createdAt!.day}/${task.createdAt!.month}/${task.createdAt!.year}",
                     style: const TextStyle(
                       fontSize: 14,
                       color: AppColors.textDarkSecondary,

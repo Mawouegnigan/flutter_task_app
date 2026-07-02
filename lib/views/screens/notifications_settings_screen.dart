@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_task_app/utils/constants.dart';
+import 'package:flutter_task_app/utils/translations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NotificationsSettingsScreen extends StatefulWidget {
@@ -40,7 +41,7 @@ class _NotificationsSettingsScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Notifications'),
+        title: Text('notif_title'.tr(context)),
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
@@ -51,12 +52,12 @@ class _NotificationsSettingsScreenState
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
         children: [
           // ── Global ──────────────────────────────────────────────
-          _SectionTitle(label: 'Général'),
+          _SectionTitle(label: 'notif_section_general'.tr(context)),
           const SizedBox(height: 8),
           _ToggleCard(
             icon: Icons.notifications_outlined,
-            title: 'Activer les notifications',
-            subtitle: 'Recevoir toutes les alertes de l\'app',
+            title: 'notif_enable_title'.tr(context),
+            subtitle: 'notif_enable_subtitle'.tr(context),
             value: _notificationsEnabled,
             onChanged: (val) {
               setState(() => _notificationsEnabled = val);
@@ -67,12 +68,12 @@ class _NotificationsSettingsScreenState
           const SizedBox(height: 20),
 
           // ── Détail ──────────────────────────────────────────────
-          _SectionTitle(label: 'Types de notifications'),
+          _SectionTitle(label: 'notif_section_types'.tr(context)),
           const SizedBox(height: 8),
           _ToggleCard(
             icon: Icons.alarm_outlined,
-            title: 'Rappels de tâches',
-            subtitle: 'Alertes avant l\'échéance d\'une tâche',
+            title: 'notif_reminders_title'.tr(context),
+            subtitle: 'notif_reminders_subtitle'.tr(context),
             value: _taskReminders && _notificationsEnabled,
             enabled: _notificationsEnabled,
             onChanged: (val) {
@@ -83,8 +84,8 @@ class _NotificationsSettingsScreenState
           const SizedBox(height: 1),
           _ToggleCard(
             icon: Icons.warning_amber_outlined,
-            title: 'Alertes d\'échéance',
-            subtitle: 'Notification quand une tâche est en retard',
+            title: 'notif_deadlines_title'.tr(context),
+            subtitle: 'notif_deadlines_subtitle'.tr(context),
             value: _deadlineAlerts && _notificationsEnabled,
             enabled: _notificationsEnabled,
             onChanged: (val) {

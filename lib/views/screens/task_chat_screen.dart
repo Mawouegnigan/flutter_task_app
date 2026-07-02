@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_task_app/models/task_api_model.dart';
 import 'package:flutter_task_app/services/firebase_service.dart';
 import 'package:flutter_task_app/utils/constants.dart';
+import 'package:flutter_task_app/utils/translations.dart';
 
 class TaskChatScreen extends StatefulWidget {
   final TaskApiModel task;
@@ -85,11 +86,11 @@ class _TaskChatScreenState extends State<TaskChatScreen> {
                 }
 
                 if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                  return const Center(
+                  return Center(
                     child: Text(
-                      'Aucun message pour le moment.\nSoyez le premier à écrire !',
+                      'chat_empty'.tr(context),
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: AppColors.textDarkSecondary),
+                      style: const TextStyle(color: AppColors.textDarkSecondary),
                     ),
                   );
                 }
@@ -195,7 +196,7 @@ class _TaskChatScreenState extends State<TaskChatScreen> {
                   child: TextField(
                     controller: _messageController,
                     decoration: InputDecoration(
-                      hintText: 'Écrire un message...',
+                      hintText: 'chat_hint'.tr(context),
                       hintStyle: const TextStyle(
                           color: AppColors.textDarkSecondary),
                       border: OutlineInputBorder(

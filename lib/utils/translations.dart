@@ -366,6 +366,187 @@ class AppTranslations {
       'fr': 'Réinitialiser',
       'en': 'Reset',
     },
+
+    // ── Accueil (home_screen) ─────────────────────────────────────
+    'home_my_tasks': {'fr': 'Mes tâches', 'en': 'My tasks'},
+    'home_search_hint2': {
+      'fr': 'Rechercher une tâche, un projet...',
+      'en': 'Search a task, a project...',
+    },
+    'home_delete_success': {
+      'fr': 'Tâche supprimée avec succès',
+      'en': 'Task deleted successfully',
+    },
+    'home_delete_error2': {
+      'fr': 'Erreur lors de la suppression',
+      'en': 'Error while deleting',
+    },
+    'home_update_error2': {
+      'fr': 'Erreur lors de la mise à jour',
+      'en': 'Error while updating',
+    },
+    'home_delete_dialog_title': {
+      'fr': 'Supprimer la tâche',
+      'en': 'Delete task',
+    },
+    'home_delete_dialog_body': {
+      'fr': 'Voulez-vous vraiment supprimer "{title}" ?',
+      'en': 'Do you really want to delete "{title}"?',
+    },
+    'home_sort_title': {'fr': 'Trier par', 'en': 'Sort by'},
+    'home_sort_priority_asc': {'fr': 'Priorité croissante', 'en': 'Priority ascending'},
+    'home_sort_priority_desc': {'fr': 'Priorité décroissante', 'en': 'Priority descending'},
+    'home_sort_date_asc': {'fr': 'Date croissante', 'en': 'Date ascending'},
+    'home_sort_date_desc': {'fr': 'Date décroissante', 'en': 'Date descending'},
+    'home_add_category': {
+      'fr': 'Ajouter une catégorie',
+      'en': 'Add a category',
+    },
+    'home_select_category': {
+      'fr': 'Sélectionnez une catégorie existante :',
+      'en': 'Select an existing category:',
+    },
+    'home_edit': {'fr': 'Modifier', 'en': 'Edit'},
+    'home_delete': {'fr': 'Supprimer', 'en': 'Delete'},
+    'home_offline_banner': {
+      'fr': 'Mode hors ligne — données en cache',
+      'en': 'Offline mode — cached data',
+    },
+    'home_no_tasks': {
+      'fr': 'Aucune tâche pour le moment',
+      'en': 'No tasks yet',
+    },
+    'home_loading': {'fr': 'Chargement...', 'en': 'Loading...'},
+
+    // ── Notifications (notifications_settings_screen) ─────────────
+    'notif_title': {'fr': 'Notifications', 'en': 'Notifications'},
+    'notif_section_general': {'fr': 'Général', 'en': 'General'},
+    'notif_section_types': {
+      'fr': 'Types de notifications',
+      'en': 'Notification types',
+    },
+    'notif_enable_title': {
+      'fr': 'Activer les notifications',
+      'en': 'Enable notifications',
+    },
+    'notif_enable_subtitle': {
+      'fr': "Recevoir toutes les alertes de l'app",
+      'en': 'Receive all app alerts',
+    },
+    'notif_reminders_title': {
+      'fr': 'Rappels de tâches',
+      'en': 'Task reminders',
+    },
+    'notif_reminders_subtitle': {
+      'fr': "Alertes avant l'échéance d'une tâche",
+      'en': 'Alerts before a task deadline',
+    },
+    'notif_deadlines_title': {
+      'fr': "Alertes d'échéance",
+      'en': 'Deadline alerts',
+    },
+    'notif_deadlines_subtitle': {
+      'fr': 'Notification quand une tâche est en retard',
+      'en': 'Notification when a task is overdue',
+    },
+
+    // ── Profil (profile_screen) ───────────────────────────────────
+    'profile_title': {'fr': 'Profil', 'en': 'Profile'},
+    'profile_settings': {'fr': 'Paramètres', 'en': 'Settings'},
+    'profile_settings_subtitle': {
+      'fr': 'Stockage, langue, thème, police',
+      'en': 'Storage, language, theme, font',
+    },
+    'profile_notif': {'fr': 'Rappels & Notifications', 'en': 'Reminders & Notifications'},
+    'profile_notif_subtitle': {
+      'fr': "Alertes, fréquence, heure de rappel",
+      'en': 'Alerts, frequency, reminder time',
+    },
+    'profile_legal': {
+      'fr': 'Conditions & Confidentialité',
+      'en': 'Terms & Privacy',
+    },
+    'profile_legal_subtitle': {
+      'fr': 'CGU, politique de confidentialité',
+      'en': 'ToS, privacy policy',
+    },
+    'profile_support': {'fr': 'Aide & Support', 'en': 'Help & Support'},
+    'profile_support_subtitle': {
+      'fr': 'FAQ, contacter le support',
+      'en': 'FAQ, contact support',
+    },
+    'profile_about': {'fr': 'À propos', 'en': 'About'},
+    'profile_about_subtitle': {
+      'fr': "Version, équipe, mentions légales",
+      'en': 'Version, team, legal notices',
+    },
+
+    // ── Détail de tâche (task_detail_screen) ─────────────────────
+    'task_detail_title': {'fr': 'Détail de la tâche', 'en': 'Task detail'},
+    'task_detail_done': {'fr': 'Terminée', 'en': 'Done'},
+    'task_detail_in_progress': {'fr': 'En cours', 'en': 'In progress'},
+    'task_detail_created': {'fr': 'Créée le', 'en': 'Created on'},
+    'task_detail_category': {'fr': 'Catégorie', 'en': 'Category'},
+    'task_detail_priority': {'fr': 'Priorité', 'en': 'Priority'},
+    'task_detail_deadline': {"fr": "Date d'échéance", 'en': 'Due date'},
+    'task_detail_created': {'fr': 'Créée le', 'en': 'Created on'},
+    'task_detail_chat': {'fr': 'Discussion', 'en': 'Chat'},
+    'task_detail_no_description': {
+      'fr': 'Aucune description',
+      'en': 'No description',
+    },
+
+    // ── Chat (task_chat_screen) ───────────────────────────────────
+    'chat_hint': {'fr': 'Écrire un message...', 'en': 'Write a message...'},
+    'chat_empty': {
+      'fr': 'Aucun message. Soyez le premier à écrire !',
+      'en': 'No messages yet. Be the first to write!',
+    },
+
+    // ── À propos (about_screen) ───────────────────────────────────
+    'about_title': {'fr': 'À propos', 'en': 'About'},
+    'about_version': {'fr': 'Version', 'en': 'Version'},
+    'about_description_title': {'fr': 'Description', 'en': 'Description'},
+    'about_description': {
+      'fr': 'TaskFlow est une application mobile de gestion de tâches en équipe, développée dans le cadre de la formation FORCE-N (Formations Ouvertes pour le Renforcement des Compétences, de l\'Emploi et de l\'Entrepreneuriat dans le Numérique), un programme porté par l\'Université Numérique Cheikh Hamidou Kane (UN-CHK) et la Fondation Mastercard.',
+      'en': 'TaskFlow is a mobile team task management app, developed as part of the FORCE-N training program (Open Training for Skills, Employment and Digital Entrepreneurship), a program led by the Cheikh Hamidou Kane Digital University (UN-CHK) and the Mastercard Foundation.',
+    },
+    'about_mentor': {'fr': 'Sous la direction de', 'en': 'Under the supervision of'},
+    'about_team': {'fr': 'Équipe de développement', 'en': 'Development team'},
+    'about_repo': {'fr': 'Dépôt source', 'en': 'Source repository'},
+    'about_tech': {'fr': 'Technologies utilisées', 'en': 'Technologies used'},
+      'fr': 'TaskFlow est une application de gestion de tâches développée dans le cadre de la formation FORCE-N.',
+      'en': 'TaskFlow is a task management app developed as part of the FORCE-N training program.',
+    },
+    'about_team': {'fr': 'Équipe', 'en': 'Team'},
+    'about_repo': {'fr': 'Dépôt GitHub', 'en': 'GitHub repository'},
+    'about_mentor': {'fr': 'Mentorat', 'en': 'Mentorship'},
+    'about_license': {'fr': 'Licence', 'en': 'License'},
+
+    // ── Support (support_screen) ──────────────────────────────────
+    'support_title': {'fr': 'Aide & Support', 'en': 'Help & Support'},
+    'support_faq_title': {'fr': 'Questions fréquentes', 'en': 'FAQ'},
+    'support_contact_title': {'fr': 'Nous contacter', 'en': 'Contact us'},
+
+    // ── Légal (legal_screen) ──────────────────────────────────────
+    'legal_title': {
+      'fr': 'Conditions & Confidentialité',
+      'en': 'Terms & Privacy',
+    },
+    'legal_tab_cgu': {'fr': 'CGU', 'en': 'ToS'},
+    'legal_tab_privacy': {'fr': 'Confidentialité', 'en': 'Privacy'},
+    'legal_terms_title': {
+      'fr': "Conditions d'utilisation",
+      'en': 'Terms of use',
+    },
+    'legal_privacy_title': {
+      'fr': 'Politique de confidentialité',
+      'en': 'Privacy policy',
+    },
+    'legal_last_updated': {
+      'fr': 'Dernière mise à jour :',
+      'en': 'Last updated:',
+    },
   };
 
   static String of(String key, BuildContext context, {String? title, String? name}) {

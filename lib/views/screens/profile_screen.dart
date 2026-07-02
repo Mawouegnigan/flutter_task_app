@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_task_app/services/auth_service.dart';
 import 'package:flutter_task_app/utils/constants.dart';
+import 'package:flutter_task_app/utils/translations.dart';
 import 'package:flutter_task_app/views/screens/about_screen.dart';
 import 'package:flutter_task_app/views/screens/legal_screen.dart';
 import 'package:flutter_task_app/views/screens/login_screen.dart';
@@ -61,7 +62,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text('Profil'),
+        title: Text('profile_title'.tr(context)),
         centerTitle: true,
         actions: [
           IconButton(
@@ -91,8 +92,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   // ── Paramètres généraux ─────────────────────────
                   _CardItem(
                     icon: Icons.settings_outlined,
-                    title: 'Paramètres',
-                    subtitle: 'Stockage, langue, thème, police',
+                    title: 'profile_settings'.tr(context),
+                    subtitle: 'profile_settings_subtitle'.tr(context),
                     onTap: () => _navigate(const SettingsScreen()),
                   ),
 
@@ -104,8 +105,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
  
                       _CardItemData(
                         icon: Icons.notifications_outlined,
-                        title: 'Rappels & Notifications',
-                        subtitle: 'Alertes, fréquence, heure de rappel',
+                        title: 'profile_notif'.tr(context),
+                        subtitle: 'profile_notif_subtitle'.tr(context),
                         onTap: () => _navigate(const NotificationsSettingsScreen()),
                       ),
                     ],
@@ -118,20 +119,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     items: [
                       _CardItemData(
                         icon: Icons.info_outline_rounded,
-                        title: 'Conditions & Confidentialité',
-                        subtitle: 'CGU, politique de confidentialité',
+                        title: 'profile_legal'.tr(context),
+                        subtitle: 'profile_legal_subtitle'.tr(context),
                         onTap: () => _navigate(const LegalScreen()),
                       ),
                       _CardItemData(
                         icon: Icons.shield_outlined,
-                        title: 'Aide & Support',
-                        subtitle: 'FAQ, contacter le support',
+                        title: 'profile_support'.tr(context),
+                        subtitle: 'profile_support_subtitle'.tr(context),
                         onTap: () => _navigate(const SupportScreen()),
                       ),
                       _CardItemData(
                         icon: Icons.help_outline_rounded,
-                        title: 'À propos',
-                        subtitle: "Version de l'application V1.0.0",
+                        title: 'profile_about'.tr(context),
+                        subtitle: 'profile_about_subtitle'.tr(context),
                         onTap: () => _navigate(const AboutScreen()),
                       ),
                     ],
