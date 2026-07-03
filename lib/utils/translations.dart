@@ -489,7 +489,6 @@ class AppTranslations {
     'task_detail_category': {'fr': 'Catégorie', 'en': 'Category'},
     'task_detail_priority': {'fr': 'Priorité', 'en': 'Priority'},
     'task_detail_deadline': {"fr": "Date d'échéance", 'en': 'Due date'},
-    'task_detail_created': {'fr': 'Créée le', 'en': 'Created on'},
     'task_detail_chat': {'fr': 'Discussion', 'en': 'Chat'},
     'task_detail_no_description': {
       'fr': 'Aucune description',
@@ -565,19 +564,6 @@ class AppTranslations {
 
     // ── Erreur générique social auth ──────────────────────────────
     'social_error': {'fr': 'Erreur : ', 'en': 'Error: '},
-  };
-    'legal_terms_title': {
-      'fr': "Conditions d'utilisation",
-      'en': 'Terms of use',
-    },
-    'legal_privacy_title': {
-      'fr': 'Politique de confidentialité',
-      'en': 'Privacy policy',
-    },
-    'legal_last_updated': {
-      'fr': 'Dernière mise à jour :',
-      'en': 'Last updated:',
-    },
   };
 
   static String of(String key, BuildContext context, {String? title, String? name}) {
