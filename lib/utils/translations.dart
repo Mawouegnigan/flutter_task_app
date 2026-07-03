@@ -104,6 +104,16 @@ class AppTranslations {
       'en': 'App language',
     },
     'settings_tasks_section': {'fr': 'Tâches', 'en': 'Tasks'},
+    'settings_network': {'fr': 'Réseau', 'en': 'Network'},
+    'settings_offline_mode': {'fr': 'Mode hors ligne', 'en': 'Offline mode'},
+    'settings_offline_active': {
+      'fr': 'Activé — données en cache utilisées',
+      'en': 'Enabled — using cached data',
+    },
+    'settings_offline_inactive': {
+      'fr': 'Désactivé — connexion internet utilisée',
+      'en': 'Disabled — using internet connection',
+    },
     'settings_categories': {'fr': 'Catégories', 'en': 'Categories'},
     'settings_categories_subtitle': {
       'fr': 'Gérer mes catégories de tâches',

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_task_app/models/task_api_model.dart';
+import 'package:flutter_task_app/providers/app_settings_provider.dart';
 import 'package:flutter_task_app/providers/category_provider.dart';
 import 'package:flutter_task_app/services/task_service.dart';
 import 'package:flutter_task_app/utils/translations.dart';
@@ -44,10 +45,13 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _loadTasks() async {
+    // Vérifier d'abord le mode offline manuel
+    final isManualOffline = context.read<AppSettingsProvider>().isManualOffline;
+
     final connectivityResult = await Connectivity().checkConnectivity();
     final hasNetwork = connectivityResult != ConnectivityResult.none;
 
-    if (!hasNetwork) {
+    if (!hasNetwork || isManualOffline) {
       final cached = CacheService.getCachedTasks();
       if (mounted) {
         setState(() {
@@ -56,7 +60,6 @@ class _HomeScreenState extends State<HomeScreen> {
           _isOffline = true;
         });
         _applyFilters();
-        
       }
       return;
     }

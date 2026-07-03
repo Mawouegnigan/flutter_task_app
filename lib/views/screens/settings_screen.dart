@@ -64,6 +64,24 @@ class SettingsScreen extends StatelessWidget {
 
           const SizedBox(height: 20),
 
+          // ── Mode hors ligne ──────────────────────────────────────
+          _SectionTitle(label: 'settings_network'.tr(context)),
+          const SizedBox(height: 8),
+          _SettingCard(
+            icon: Icons.wifi_off_outlined,
+            title: 'settings_offline_mode'.tr(context),
+            subtitle: settings.isManualOffline
+                ? 'settings_offline_active'.tr(context)
+                : 'settings_offline_inactive'.tr(context),
+            trailing: Switch(
+              value: settings.isManualOffline,
+              activeColor: AppColors.primary,
+              onChanged: (val) => settings.toggleOfflineMode(val),
+            ),
+          ),
+
+          const SizedBox(height: 20),
+
           // ── Catégories ──────────────────────────────────────────
           _SectionTitle(label: 'settings_tasks_section'.tr(context)),
           const SizedBox(height: 8),
