@@ -73,23 +73,6 @@ class _SocialAuthSectionViewState extends State<SocialAuthSectionView> {
                     icon: "assets/images/google-logo.svg",
                     onPressed: _handleGoogleSignIn,
                   ),
-            const SizedBox(height: 10),
-
-            // Facebook — désactivé
-            SocialAuthButtonWidget(
-              label: widget.isLoginScreen
-                  ? 'social_login_facebook'.tr(context)
-                  : 'social_register_facebook'.tr(context),
-              icon: "assets/images/facebook-logo.svg",
-              onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('social_facebook_unavailable'.tr(context)),
-                    backgroundColor: Colors.orange,
-                  ),
-                );
-              },
-            ),
           ],
         ),
       ],
