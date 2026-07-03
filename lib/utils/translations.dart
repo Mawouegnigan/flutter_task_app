@@ -515,13 +515,6 @@ class AppTranslations {
     'about_team': {'fr': 'Équipe de développement', 'en': 'Development team'},
     'about_repo': {'fr': 'Dépôt source', 'en': 'Source repository'},
     'about_tech': {'fr': 'Technologies utilisées', 'en': 'Technologies used'},
-      'fr': 'TaskFlow est une application de gestion de tâches développée dans le cadre de la formation FORCE-N.',
-      'en': 'TaskFlow is a task management app developed as part of the FORCE-N training program.',
-    },
-    'about_team': {'fr': 'Équipe', 'en': 'Team'},
-    'about_repo': {'fr': 'Dépôt GitHub', 'en': 'GitHub repository'},
-    'about_mentor': {'fr': 'Mentorat', 'en': 'Mentorship'},
-    'about_license': {'fr': 'Licence', 'en': 'License'},
 
     // ── Support (support_screen) ──────────────────────────────────
     'support_title': {'fr': 'Aide & Support', 'en': 'Help & Support'},

@@ -140,7 +140,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
     if (success) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
+        SnackBar(
           content: Text('edit_profile_success'.tr(context)),
           backgroundColor: AppColors.priorityLow,
         ),
