@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_task_app/services/auth_service.dart';
 import 'package:flutter_task_app/utils/constants.dart';
+import 'package:flutter_task_app/utils/translations.dart';
 
 class EditProfileScreen extends StatefulWidget {
   final String initialNom;
@@ -91,19 +92,19 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               ),
               ListTile(
                 leading: const Icon(Icons.camera_alt_outlined),
-                title: const Text('Prendre une photo'),
+                title: Text('edit_profile_take_photo'.tr(context)),
                 onTap: () => _pickPhoto(ImageSource.camera),
               ),
               ListTile(
                 leading: const Icon(Icons.photo_library_outlined),
-                title: const Text('Choisir depuis la galerie'),
+                title: Text('edit_profile_gallery'.tr(context)),
                 onTap: () => _pickPhoto(ImageSource.gallery),
               ),
               if (_photoFile != null || widget.initialPhotoUrl != null)
                 ListTile(
                   leading: Icon(Icons.delete_outline,
                       color: Theme.of(context).colorScheme.error),
-                  title: Text('Supprimer la photo',
+                  title: Text('edit_profile_delete_photo'.tr(context),
                       style: TextStyle(
                           color: Theme.of(context).colorScheme.error)),
                   onTap: () {
@@ -140,7 +141,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     if (success) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Profil mis à jour avec succès'),
+          content: Text('edit_profile_success'.tr(context)),
           backgroundColor: AppColors.priorityLow,
         ),
       );
@@ -148,7 +149,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text('Échec de la mise à jour. Veuillez réessayer.'),
+          content: Text('edit_profile_error'.tr(context)),
           backgroundColor: Theme.of(context).colorScheme.error,
         ),
       );
@@ -303,7 +304,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text('Modifier le profil'),
+        title: Text('edit_profile_title'.tr(context)),
         centerTitle: true,
         actions: [
           // Bouton Sauvegarder dans l'AppBar

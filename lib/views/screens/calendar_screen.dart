@@ -3,6 +3,7 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter_task_app/models/task_api_model.dart';
 import 'package:flutter_task_app/services/task_service.dart';
 import 'package:flutter_task_app/utils/constants.dart';
+import 'package:flutter_task_app/utils/translations.dart';
 import 'package:flutter_task_app/views/screens/task_detail_screen.dart';
 
 class CalendarScreen extends StatefulWidget {
@@ -71,7 +72,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
           icon: Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text("Calendrier"),
+        title: Text('calendar_title'.tr(context)),
         centerTitle: true,
       ),
       body: _isLoading

@@ -535,6 +535,44 @@ class AppTranslations {
     },
     'legal_tab_cgu': {'fr': 'CGU', 'en': 'ToS'},
     'legal_tab_privacy': {'fr': 'Confidentialité', 'en': 'Privacy'},
+
+    // ── Déconnexion (logout_button_widget) ────────────────────────
+    'logout_title': {'fr': 'Déconnexion', 'en': 'Sign out'},
+    'logout_body': {
+      'fr': 'Êtes-vous sûr de vouloir vous déconnecter ?\nVous devrez vous reconnecter pour accéder à vos tâches.',
+      'en': 'Are you sure you want to sign out?\nYou will need to sign in again to access your tasks.',
+    },
+    'logout_confirm': {'fr': 'Se déconnecter', 'en': 'Sign out'},
+
+    // ── En-tête profil (profile_header_view) ─────────────────────
+    'profile_edit_button': {'fr': 'Modifier le profil', 'en': 'Edit profile'},
+
+    // ── Calendrier (calendar_screen) ──────────────────────────────
+    'calendar_title': {'fr': 'Calendrier', 'en': 'Calendar'},
+
+    // ── Édition profil (edit_profile_screen) ─────────────────────
+    'edit_profile_title': {'fr': 'Modifier le profil', 'en': 'Edit profile'},
+    'edit_profile_take_photo': {'fr': 'Prendre une photo', 'en': 'Take a photo'},
+    'edit_profile_gallery': {
+      'fr': 'Choisir depuis la galerie',
+      'en': 'Choose from gallery',
+    },
+    'edit_profile_delete_photo': {
+      'fr': 'Supprimer la photo',
+      'en': 'Delete photo',
+    },
+    'edit_profile_success': {
+      'fr': 'Profil mis à jour avec succès',
+      'en': 'Profile updated successfully',
+    },
+    'edit_profile_error': {
+      'fr': 'Échec de la mise à jour. Veuillez réessayer.',
+      'en': 'Update failed. Please try again.',
+    },
+
+    // ── Erreur générique social auth ──────────────────────────────
+    'social_error': {'fr': 'Erreur : ', 'en': 'Error: '},
+  };
     'legal_terms_title': {
       'fr': "Conditions d'utilisation",
       'en': 'Terms of use',

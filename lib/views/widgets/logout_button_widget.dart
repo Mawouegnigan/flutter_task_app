@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_task_app/utils/translations.dart';
 
 class LogoutButtonWidget extends StatelessWidget {
   final VoidCallback onConfirm;
@@ -20,20 +21,18 @@ class LogoutButtonWidget extends StatelessWidget {
               Icons.logout_rounded,
               color: Theme.of(context).colorScheme.error
             ),
-            const Text(
-              "Déconnexion",
-              style: TextStyle(fontWeight: FontWeight.w700)
+            Text(
+              'logout_title'.tr(context),
+              style: const TextStyle(fontWeight: FontWeight.w700)
             ),
           ],
         ),
-        content: const Text(
-          "Êtes-vous sûr de vouloir vous déconnecter ?\nVous devrez vous reconnecter pour accéder à vos tâches.",
-        ),
+        content: Text('logout_body'.tr(context)),
         actions: [
           // ── Annuler ────────────────────────────────────────────
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text("Annuler"),
+            child: Text('cancel'.tr(context)),
           ),
           // ── Confirmer ──────────────────────────────────────────
           FilledButton(
@@ -48,7 +47,7 @@ class LogoutButtonWidget extends StatelessWidget {
               Navigator.pop(ctx);
               onConfirm();
             },
-            child: const Text("Se déconnecter"),
+            child: Text('logout_confirm'.tr(context)),
           ),
         ],
       ),

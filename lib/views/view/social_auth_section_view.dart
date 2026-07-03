@@ -46,7 +46,7 @@ class _SocialAuthSectionViewState extends State<SocialAuthSectionView> {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Erreur : $e'),
+          content: Text('${'social_error'.tr(context)}$e'),
           backgroundColor: Colors.red,
         ),
       );

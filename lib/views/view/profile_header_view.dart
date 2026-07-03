@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_task_app/utils/constants.dart';
+import 'package:flutter_task_app/utils/translations.dart';
 import 'package:flutter_task_app/views/screens/edit_profile_screen.dart';
 
 class ProfileHeaderView extends StatelessWidget {
@@ -154,7 +155,7 @@ class ProfileHeaderView extends StatelessWidget {
             );
           },
           icon: const Icon(Icons.edit_outlined, size: 18),
-          label: const Text("Modifier le profil"),
+          label: Text('profile_edit_button'.tr(context)),
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.white,
             foregroundColor: AppColors.textDarkPrimary,
