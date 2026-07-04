@@ -1,11 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_task_app/utils/constants.dart';
+import 'package:flutter_task_app/utils/translations.dart';
 import 'package:flutter_task_app/views/widgets/cta_button_widget.dart';
 import 'package:flutter_task_app/views/screens/login_screen.dart';
 
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({super.key});
+
+  Future<void> _finish(BuildContext context) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('onboarding_done', true);
+    if (!context.mounted) return;
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (_) => const LoginScreen()),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,21 +44,21 @@ class OnboardingScreen extends StatelessWidget {
 
               // TITRE + DESCRIPTION
               Column(
-                children: const [
+                children: [
                   Text(
-                    'Prenez le contrôle de votre journée',
+                    'onboarding_title_main'.tr(context),
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: 24,
                       color: AppColors.textDarkPrimary,
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Text(
-                    "Votre productivité, simplifiée. Organisez vos tâches, planifiez vos journées et capturez vos idées sans effort.",
+                    'onboarding_desc_main'.tr(context),
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: AppColors.textDarkSecondary,
                     ),
                   ),
@@ -57,15 +69,8 @@ class OnboardingScreen extends StatelessWidget {
 
               // BOUTON
               CtaButtonWidget(
-                text: "Démarrer",
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => const LoginScreen(),
-                    ),
-                  );
-                },
+                text: 'onboarding_start'.tr(context),
+                onPressed: () => _finish(context),
               ),
 
               const SizedBox(height: 20),

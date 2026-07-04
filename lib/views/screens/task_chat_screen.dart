@@ -59,7 +59,7 @@ class _TaskChatScreenState extends State<TaskChatScreen> {
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Chat', style: TextStyle(fontSize: 16)),
+            Text('task_detail_chat'.tr(context), style: const TextStyle(fontSize: 16)),
             Text(
               widget.task.title,
               style: const TextStyle(

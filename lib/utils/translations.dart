@@ -574,6 +574,44 @@ class AppTranslations {
 
     // ── Erreur générique social auth ──────────────────────────────
     'social_error': {'fr': 'Erreur : ', 'en': 'Error: '},
+
+    // ── Onboarding ────────────────────────────────────────────────
+    'onboarding_skip': {'fr': 'Passer', 'en': 'Skip'},
+    'onboarding_next': {'fr': 'Suivant', 'en': 'Next'},
+    'onboarding_start': {'fr': 'Commencer', 'en': 'Get started'},
+    'onboarding_title_main': {
+      'fr': 'Prenez le contrôle de votre journée',
+      'en': 'Take control of your day',
+    },
+    'onboarding_desc_main': {
+      'fr': 'Votre productivité, simplifiée. Organisez vos tâches, planifiez vos journées et capturez vos idées sans effort.',
+      'en': 'Your productivity, simplified. Organize your tasks, plan your days and capture your ideas effortlessly.',
+    },
+    'splash_tagline': {
+      'fr': 'Organisez vos tâches facilement',
+      'en': 'Organize your tasks easily',
+    },
+
+    'onboarding_title_1': {'fr': 'Organisez vos tâches', 'en': 'Organize your tasks'},
+    'onboarding_desc_1': {
+      'fr': 'Créez, modifiez et suivez vos tâches facilement. Classez-les par catégorie et priorité.',
+      'en': 'Create, edit and track your tasks easily. Sort them by category and priority.',
+    },
+    'onboarding_title_2': {'fr': 'Travaillez en équipe', 'en': 'Work as a team'},
+    'onboarding_desc_2': {
+      'fr': 'Partagez vos tâches et discutez en temps réel grâce au chat intégré.',
+      'en': 'Share your tasks and chat in real time with the built-in messaging.',
+    },
+    'onboarding_title_3': {'fr': 'Restez connecté', 'en': 'Stay connected'},
+    'onboarding_desc_3': {
+      'fr': 'Recevez des notifications et accédez à vos tâches même hors ligne grâce au cache local.',
+      'en': 'Get notifications and access your tasks even offline thanks to local cache.',
+    },
+    'onboarding_title_4': {'fr': 'Personnalisez votre expérience', 'en': 'Customize your experience'},
+    'onboarding_desc_4': {
+      'fr': 'Choisissez votre langue, votre thème et gérez vos catégories selon vos besoins.',
+      'en': 'Choose your language, theme and manage your categories as you need.',
+    },
   };
 
   static String of(String key, BuildContext context, {String? title, String? name}) {
