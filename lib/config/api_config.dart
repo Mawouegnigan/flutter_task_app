@@ -7,6 +7,8 @@ class ApiConfig {
   static const String login         = '$baseUrl/auths/login';
   static const String profil        = '$baseUrl/auths/profils';
   static const String updateProfil  = '$baseUrl/auths/profils'; // PUT
+  static const String sendCode      = '$baseUrl/auths/send-code';
+  static const String verifyCode    = '$baseUrl/auths/verify-code';
 
   // Endpoints Tâches
   static const String tasks         = '$baseUrl/task';

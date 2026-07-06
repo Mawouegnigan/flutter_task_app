@@ -5,6 +5,7 @@ import 'package:flutter_task_app/utils/constants.dart';
 import 'package:flutter_task_app/utils/translations.dart';
 import 'package:flutter_task_app/services/auth_service.dart';
 import 'package:flutter_task_app/views/screens/login_screen.dart';
+import 'package:flutter_task_app/views/screens/email_verification_screen.dart';
 import 'package:flutter_task_app/views/view/auth_header_view.dart';
 import 'package:flutter_task_app/views/widgets/cta_button_widget.dart';
 import 'package:flutter_task_app/views/widgets/text_field_widget.dart';
@@ -177,17 +178,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('register_success'.tr(context))),
         );
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => EmailVerificationScreen(
+              username: username,
+              email: email,
+            ),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('register_error'.tr(context)),
+            backgroundColor: Colors.red,
+          ),
+        );
       }
-
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const LoginScreen()),
-      );
     } catch (e) {
       if (!mounted) return;
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const LoginScreen()),
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('register_error'.tr(context)),
+          backgroundColor: Colors.red,
+        ),
       );
     } finally {
       if (mounted) setState(() => _isLoading = false);

@@ -201,4 +201,35 @@ class AuthService {
       return false;
     }
   }
+
+  // POST — Envoyer (ou renvoyer) un code de vérification par email
+  static Future<bool> sendCode({required String username}) async {
+    try {
+      final response = await http.post(
+        Uri.parse(ApiConfig.sendCode),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'username': username}),
+      );
+      return response.statusCode == 200 || response.statusCode == 201;
+    } catch (e) {
+      throw Exception('Erreur réseau : $e');
+    }
+  }
+
+  // POST — Vérifier le code reçu par email
+  static Future<bool> verifyCode({
+    required String username,
+    required String code,
+  }) async {
+    try {
+      final response = await http.post(
+        Uri.parse(ApiConfig.verifyCode),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'username': username, 'code': code}),
+      );
+      return response.statusCode == 200 || response.statusCode == 201;
+    } catch (e) {
+      throw Exception('Erreur réseau : $e');
+    }
+  }
 }

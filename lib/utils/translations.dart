@@ -310,6 +310,10 @@ class AppTranslations {
     },
     'register_button': {"fr": "S'inscrire", 'en': 'Sign Up'},
     'register_login_link': {'fr': 'Connectez-vous ici', 'en': 'Sign in here'},
+    'register_error': {
+      'fr': "Erreur lors de l'inscription. Vérifiez vos informations.",
+      'en': 'Registration error. Please check your information.',
+    },
 
     // ── Social auth (social_auth_section_view) ────────────────────
     'social_login_google': {
@@ -375,6 +379,60 @@ class AppTranslations {
     'forgot_reset_button': {
       'fr': 'Réinitialiser',
       'en': 'Reset',
+    },
+
+    // ── Vérification email (email_verification_screen) ────────────
+    'email_verification_title': {
+      'fr': 'Vérification email',
+      'en': 'Email verification',
+    },
+    'email_verification_screen_title': {
+      'fr': 'Vérifiez votre email',
+      'en': 'Verify your email',
+    },
+    'email_verification_screen_subtitle': {
+      'fr': 'Nous avons envoyé un code à 6 chiffres à {title}. Saisissez-le ci-dessous pour activer votre compte.',
+      'en': 'We sent a 6-digit code to {title}. Enter it below to activate your account.',
+    },
+    'email_verification_code_label': {
+      'fr': 'Code de vérification',
+      'en': 'Verification code',
+    },
+    'email_verification_verify_button': {
+      'fr': 'Vérifier',
+      'en': 'Verify',
+    },
+    'email_verification_no_code': {
+      'fr': "Vous n'avez rien reçu ? ",
+      'en': "Didn't receive anything? ",
+    },
+    'email_verification_resend': {
+      'fr': 'Renvoyer le code',
+      'en': 'Resend code',
+    },
+    'email_verification_resend_countdown': {
+      'fr': 'Renvoyer ({title}s)',
+      'en': 'Resend ({title}s)',
+    },
+    'email_verification_code_resent': {
+      'fr': 'Un nouveau code a été envoyé',
+      'en': 'A new code has been sent',
+    },
+    'email_verification_invalid_length': {
+      'fr': 'Le code doit contenir 6 chiffres',
+      'en': 'The code must contain 6 digits',
+    },
+    'email_verification_wrong_code': {
+      'fr': 'Code invalide ou expiré',
+      'en': 'Invalid or expired code',
+    },
+    'email_verification_success': {
+      'fr': 'Compte vérifié avec succès !',
+      'en': 'Account successfully verified!',
+    },
+    'email_verification_error': {
+      'fr': 'Une erreur est survenue, réessayez',
+      'en': 'Something went wrong, please try again',
     },
 
     // ── Accueil (home_screen) ─────────────────────────────────────
