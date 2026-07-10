@@ -23,14 +23,14 @@ class TaskDetailScreen extends StatelessWidget {
     }
   }
 
-  String _priorityLabel(String priority) {
+  String _priorityLabel(String priority, BuildContext context) {
     switch (priority.toLowerCase()) {
       case 'high':
-        return 'Haute';
+        return 'task_priority_high'.tr(context);
       case 'medium':
-        return 'Moyenne';
+        return 'task_priority_medium'.tr(context);
       case 'low':
-        return 'Basse';
+        return 'task_priority_low'.tr(context);
       default:
         return priority;
     }
@@ -63,12 +63,12 @@ class TaskDetailScreen extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            tooltip: 'Chat',
+            tooltip: 'task_detail_chat'.tr(context),
             icon: const Icon(Icons.chat_bubble_outline_rounded),
             onPressed: () => _openChat(context),
           ),
           IconButton(
-            tooltip: 'Partager',
+            tooltip: 'task_detail_share'.tr(context),
             icon: const Icon(Icons.share_rounded),
             onPressed: () => ShareService.shareTask(task),
           ),
@@ -101,7 +101,7 @@ class TaskDetailScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
-                    _priorityLabel(task.priority),
+                    _priorityLabel(task.priority, context),
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w600,
@@ -155,7 +155,7 @@ class TaskDetailScreen extends StatelessWidget {
                   const SizedBox(width: 8),
                   Text(
                     "${task.dueDate!.day}/${task.dueDate!.month}/${task.dueDate!.year} "
-                    "à ${task.dueDate!.hour.toString().padLeft(2, '0')}h"
+                    "${'task_detail_at'.tr(context)} ${task.dueDate!.hour.toString().padLeft(2, '0')}h"
                     "${task.dueDate!.minute.toString().padLeft(2, '0')}",
                     style: const TextStyle(fontSize: 14),
                   ),
@@ -193,7 +193,7 @@ class TaskDetailScreen extends StatelessWidget {
                   const Icon(Icons.calendar_today_outlined, size: 18),
                   const SizedBox(width: 8),
                   Text(
-                    "${' task_detail_created'.tr(context)} ${task.createdAt!.day}/${task.createdAt!.month}/${task.createdAt!.year}",
+                    "${'task_detail_created'.tr(context)} ${task.createdAt!.day}/${task.createdAt!.month}/${task.createdAt!.year}",
                     style: const TextStyle(
                       fontSize: 14,
                       color: AppColors.textDarkSecondary,

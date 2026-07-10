@@ -125,8 +125,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     children: [
                       Text(
                         _selectedDay != null
-                            ? "Tâches du ${_selectedDay!.day}/${_selectedDay!.month}/${_selectedDay!.year}"
-                            : "Tâches d'aujourd'hui",
+                            ? "${'calendar_tasks_of'.tr(context)} ${_selectedDay!.day}/${_selectedDay!.month}/${_selectedDay!.year}"
+                            : 'calendar_tasks_today'.tr(context),
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
@@ -158,7 +158,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   child: selectedTasks.isEmpty
                       ? Center(
                           child: Text(
-                            'Aucune tâche ce jour',
+                            'calendar_no_tasks'.tr(context),
                             style: TextStyle(
                               color: AppColors.textDarkSecondary,
                               fontSize: 15,

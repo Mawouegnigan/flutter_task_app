@@ -22,15 +22,22 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  // Codes internes stables (ne dépendent pas de la langue) pour les 3 filtres
+  // système. Les catégories personnalisées, elles, restent identifiées par
+  // leur propre nom (données utilisateur, non traduites).
+  static const String _filterAll = 'all';
+  static const String _filterInProgress = 'in_progress';
+  static const String _filterDone = 'done';
+
   List<TaskApiModel> _tasks = [];
   List<TaskApiModel> _filteredTasks = [];
   bool _isLoading = true;
   bool _isOffline = false;
-  String _selectedFilter = 'Toutes les tâches';
+  String _selectedFilter = _filterAll;
   String _searchQuery = '';
   String _sortBy = 'none';
   final TextEditingController _searchController = TextEditingController();
-  final List<String> _filters = ['Toutes les tâches', 'En cours', 'Terminées'];
+  final List<String> _filters = [_filterAll, _filterInProgress, _filterDone];
 
   @override
   void initState() {
@@ -92,11 +99,11 @@ class _HomeScreenState extends State<HomeScreen> {
   void _applyFilters() {
     List<TaskApiModel> result = List.from(_tasks);
 
-    if (_selectedFilter == 'En cours') {
+    if (_selectedFilter == _filterInProgress) {
       result = result.where((t) => t.color != '#9E9E9E').toList();
-    } else if (_selectedFilter == 'Terminées') {
+    } else if (_selectedFilter == _filterDone) {
       result = result.where((t) => t.color == '#9E9E9E').toList();
-    } else if (_selectedFilter != 'Toutes les tâches') {
+    } else if (_selectedFilter != _filterAll) {
       // Filtre par catégorie
       result = result
           .where((t) =>
@@ -249,7 +256,7 @@ class _HomeScreenState extends State<HomeScreen> {
             _sortOption('home_sort_date_asc'.tr(context), 'date_asc', Icons.calendar_today),
             _sortOption('home_sort_date_desc'.tr(context), 'date_desc',
                 Icons.calendar_today_outlined),
-            _sortOption('Aucun tri', 'none', Icons.clear),
+            _sortOption('home_sort_none'.tr(context), 'none', Icons.clear),
             const SizedBox(height: 8),
           ],
         ),
@@ -281,9 +288,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 const Icon(Icons.notifications_outlined,
                     color: AppColors.primary),
                 const SizedBox(width: 8),
-                const Text(
-                  'Notifications',
-                  style: TextStyle(
+                Text(
+                  'home_notifications_title'.tr(context),
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
@@ -292,12 +299,12 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             const SizedBox(height: 16),
             upcomingTasks.isEmpty
-                ? const Center(
+                ? Center(
                     child: Padding(
-                      padding: EdgeInsets.all(20),
+                      padding: const EdgeInsets.all(20),
                       child: Text(
-                        'Aucune tâche dans les prochaines 24h',
-                        style: TextStyle(
+                        'home_no_upcoming_tasks'.tr(context),
+                        style: const TextStyle(
                           color: AppColors.textDarkSecondary,
                           fontSize: 15,
                         ),
@@ -320,7 +327,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               const TextStyle(fontWeight: FontWeight.w600),
                         ),
                         subtitle: Text(
-                          "Échéance : ${task.dueDate!.day}/${task.dueDate!.month}/${task.dueDate!.year} à ${task.dueDate!.hour.toString().padLeft(2, '0')}h${task.dueDate!.minute.toString().padLeft(2, '0')}",
+                          "${'home_due_prefix'.tr(context)} ${task.dueDate!.day}/${task.dueDate!.month}/${task.dueDate!.year} ${'task_detail_at'.tr(context)} ${task.dueDate!.hour.toString().padLeft(2, '0')}h${task.dueDate!.minute.toString().padLeft(2, '0')}",
                           style: const TextStyle(
                             color: AppColors.textDarkSecondary,
                             fontSize: 12,
@@ -399,6 +406,22 @@ class _HomeScreenState extends State<HomeScreen> {
         return priority;
     }
   }
+
+  String _filterLabel(String value) {
+    switch (value) {
+      case _filterAll:
+        return 'home_filter_all'.tr(context);
+      case _filterInProgress:
+        return 'home_filter_in_progress'.tr(context);
+      case _filterDone:
+        return 'home_filter_done'.tr(context);
+      default:
+        return value; // Nom de catégorie personnalisée : pas de traduction
+    }
+  }
+
+  bool _isSystemFilter(String value) =>
+      value == _filterAll || value == _filterInProgress || value == _filterDone;
 
   Color _priorityColor(String priority) {
     switch (priority.toLowerCase()) {
@@ -481,15 +504,15 @@ class _HomeScreenState extends State<HomeScreen> {
               width: double.infinity,
               color: Colors.orange,
               padding: const EdgeInsets.symmetric(vertical: 6),
-              child: const Row(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.wifi_off, color: Colors.white, size: 16),
-                  SizedBox(width: 8),
+                  const Icon(Icons.wifi_off, color: Colors.white, size: 16),
+                  const SizedBox(width: 8),
                   Flexible(
                     child: Text(
-                      'Mode hors ligne — données en cache',
-                      style: TextStyle(color: Colors.white, fontSize: 13),
+                      'home_offline_banner'.tr(context),
+                      style: const TextStyle(color: Colors.white, fontSize: 13),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -565,18 +588,18 @@ class _HomeScreenState extends State<HomeScreen> {
               scrollDirection: Axis.horizontal,
               children: [
                 ..._filters.map(
-                  (label) => Padding(
+                  (filterValue) => Padding(
                     padding: const EdgeInsets.only(right: 8.0),
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Container(
                         decoration: BoxDecoration(
-                          color: _selectedFilter == label
+                          color: _selectedFilter == filterValue
                               ? AppColors.primary.withAlpha(20)
                               : Colors.transparent,
                           borderRadius: BorderRadius.circular(20),
                           border: Border.all(
-                            color: _selectedFilter == label
+                            color: _selectedFilter == filterValue
                                 ? AppColors.primary
                                 : colorScheme.outlineVariant.withAlpha(100),
                           ),
@@ -586,41 +609,37 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                setState(() => _selectedFilter = label);
+                                setState(() => _selectedFilter = filterValue);
                                 _applyFilters();
                               },
                               child: Padding(
                                 padding: EdgeInsets.only(
                                   left: 12,
-                                  right: label != 'Toutes les tâches' &&
-                                          label != 'En cours' &&
-                                          label != 'Terminées'
-                                      ? 4
-                                      : 12,
+                                  right: _isSystemFilter(filterValue)
+                                      ? 12
+                                      : 4,
                                   top: 6,
                                   bottom: 6,
                                 ),
                                 child: Text(
-                                  label,
+                                  _filterLabel(filterValue),
                                   style: TextStyle(
                                     fontSize: 13,
                                     fontWeight: FontWeight.w500,
-                                    color: _selectedFilter == label
+                                    color: _selectedFilter == filterValue
                                         ? AppColors.primary
                                         : AppColors.textDarkSecondary,
                                   ),
                                 ),
                               ),
                             ),
-                            if (label != 'Toutes les tâches' &&
-                                label != 'En cours' &&
-                                label != 'Terminées')
+                            if (!_isSystemFilter(filterValue))
                               GestureDetector(
                                 onTap: () {
                                   setState(() {
-                                    _filters.remove(label);
-                                    if (_selectedFilter == label) {
-                                      _selectedFilter = 'Toutes les tâches';
+                                    _filters.remove(filterValue);
+                                    if (_selectedFilter == filterValue) {
+                                      _selectedFilter = _filterAll;
                                     }
                                     _applyFilters();
                                   });
@@ -667,7 +686,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Row(
               children: [
                 Text(
-                  '${_filteredTasks.length} tâche${_filteredTasks.length > 1 ? 's' : ''}',
+                  '${_filteredTasks.length} ${_filteredTasks.length > 1 ? 'home_task_count_plural'.tr(context) : 'home_task_count_singular'.tr(context)}',
                   style: const TextStyle(
                     color: AppColors.textDarkSecondary,
                     fontSize: 13,
@@ -683,10 +702,10 @@ class _HomeScreenState extends State<HomeScreen> {
             child: _isLoading
                 ? const Center(child: CircularProgressIndicator())
                 : _filteredTasks.isEmpty
-                    ? const Center(
+                    ? Center(
                         child: Text(
-                          'Aucune tâche pour le moment',
-                          style: TextStyle(
+                          'home_no_tasks'.tr(context),
+                          style: const TextStyle(
                             color: AppColors.textDarkSecondary,
                             fontSize: 16,
                           ),
@@ -851,7 +870,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ],
                                 ),
                                 trailing: PopupMenuButton(
-                                  tooltip: 'Actions',
+                                  tooltip: 'home_actions_tooltip'.tr(context),
                                   itemBuilder: (context) => [
                                     PopupMenuItem(
                                       value: 'edit',

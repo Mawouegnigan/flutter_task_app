@@ -81,7 +81,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 children: [
                   // ── En-tête profil ──────────────────────────────
                   ProfileHeaderView(
-                    name:     _name.isEmpty ? 'Utilisateur' : _name,
+                    name:     _name.isEmpty ? 'profile_default_name'.tr(context) : _name,
                     email:    _email,
                     username: _username,
                     photoUrl: _photoUrl,

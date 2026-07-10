@@ -110,7 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         });
                       },
                       label: 'login_password'.tr(context),
-                      placeholder: "Saisissez votre mot de passe ici",
+                      placeholder: 'login_password_placeholder'.tr(context),
                       prefixIcon: Icons.lock_outline,
                       controller: _passwordController,
                     ),

@@ -145,13 +145,13 @@ class _AddEditingTaskScreenState extends State<AddEditingTaskScreen> {
     }
   }
 
-  String _formatDeadline(DateTime dt) {
+  String _formatDeadline(DateTime dt, BuildContext context) {
     final day = dt.day.toString().padLeft(2, '0');
     final month = dt.month.toString().padLeft(2, '0');
     final year = dt.year;
     final hour = dt.hour.toString().padLeft(2, '0');
     final minute = dt.minute.toString().padLeft(2, '0');
-    return '$day/$month/$year à ${hour}h$minute';
+    return '$day/$month/$year ${'task_detail_at'.tr(context)} ${hour}h$minute';
   }
 
   @override
@@ -215,9 +215,9 @@ class _AddEditingTaskScreenState extends State<AddEditingTaskScreen> {
             const SizedBox(height: 20),
 
             // Catégorie
-            const Text(
-              "Catégorie",
-              style: TextStyle(
+            Text(
+              'task_category_label'.tr(context),
+              style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
               ),
@@ -267,9 +267,9 @@ class _AddEditingTaskScreenState extends State<AddEditingTaskScreen> {
             const SizedBox(height: 20),
 
             // Date et heure d'échéance
-            const Text(
-              "Date et heure d'échéance",
-              style: TextStyle(
+            Text(
+              'task_deadline_datetime_label'.tr(context),
+              style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
               ),
@@ -292,8 +292,8 @@ class _AddEditingTaskScreenState extends State<AddEditingTaskScreen> {
                     const SizedBox(width: 10),
                     Text(
                       _selectedDeadline != null
-                          ? _formatDeadline(_selectedDeadline!)
-                          : "Sélectionner une date et une heure",
+                          ? _formatDeadline(_selectedDeadline!, context)
+                          : 'task_select_datetime'.tr(context),
                       style: TextStyle(
                         color: _selectedDeadline != null
                             ? Colors.black
@@ -308,9 +308,9 @@ class _AddEditingTaskScreenState extends State<AddEditingTaskScreen> {
             const SizedBox(height: 20),
 
             // Priorité
-            const Text(
-              "Priorité",
-              style: TextStyle(
+            Text(
+              'task_detail_priority'.tr(context),
+              style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
               ),
@@ -350,10 +350,10 @@ class _AddEditingTaskScreenState extends State<AddEditingTaskScreen> {
                       ),
                       child: Text(
                         priority == 'Low'
-                            ? 'Basse'
+                            ? 'task_priority_low'.tr(context)
                             : priority == 'Medium'
-                                ? 'Moyenne'
-                                : 'Haute',
+                                ? 'task_priority_medium'.tr(context)
+                                : 'task_priority_high'.tr(context),
                         style: TextStyle(
                           color: isSelected ? color : Colors.grey,
                           fontWeight: FontWeight.w600,
@@ -370,7 +370,7 @@ class _AddEditingTaskScreenState extends State<AddEditingTaskScreen> {
             _isLoading
                 ? const Center(child: CircularProgressIndicator())
                 : CtaButtonWidget(
-                    text: "Enregistrer",
+                    text: 'save'.tr(context),
                     onPressed: _handleSave,
                   ),
           ],

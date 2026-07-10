@@ -66,7 +66,7 @@ class LogoutButtonWidget extends StatelessWidget {
           onPressed: () => _showConfirmDialog(context),
           icon: Icon(Icons.logout_rounded, color: colorScheme.error, size: 20),
           label: Text(
-            "Se déconnecter",
+            'logout_confirm'.tr(context),
             style: TextStyle(
               color: colorScheme.error,
               fontWeight: FontWeight.w600,

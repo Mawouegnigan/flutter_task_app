@@ -83,6 +83,14 @@ class AppTranslations {
       'fr': 'Date d\'échéance',
       'en': 'Due date',
     },
+    'task_deadline_datetime_label': {
+      'fr': "Date et heure d'échéance",
+      'en': 'Due date and time',
+    },
+    'task_select_datetime': {
+      'fr': 'Sélectionner une date et une heure',
+      'en': 'Select a date and time',
+    },
     'task_create_button': {'fr': 'Créer la tâche', 'en': 'Create task'},
     'task_save_button': {
       'fr': 'Enregistrer les modifications',
@@ -181,6 +189,10 @@ class AppTranslations {
     },
     'login_username': {'fr': "Nom d'utilisateur", 'en': 'Username'},
     'login_password': {'fr': 'Mot de passe', 'en': 'Password'},
+    'login_password_placeholder': {
+      'fr': 'Saisissez votre mot de passe ici',
+      'en': 'Enter your password here',
+    },
     'login_no_account': {
       'fr': 'Pas encore de compte ? ',
       'en': 'No account yet? ',
@@ -314,6 +326,21 @@ class AppTranslations {
       'fr': "Erreur lors de l'inscription. Vérifiez vos informations.",
       'en': 'Registration error. Please check your information.',
     },
+    'register_password_special_examples': {
+      'fr': 'Au moins un caractère spécial requis (!@#\$%^&*...)',
+      'en': 'At least one special character required (!@#\$%^&*...)',
+    },
+    'register_strength_weak': {'fr': 'Faible', 'en': 'Weak'},
+    'register_strength_medium': {'fr': 'Moyen', 'en': 'Medium'},
+    'register_strength_strong': {'fr': 'Fort', 'en': 'Strong'},
+    'register_password_placeholder': {
+      'fr': 'Min. 8 car., maj., chiffre, symbole',
+      'en': 'Min. 8 char., upper, digit, symbol',
+    },
+    'register_confirm_password_placeholder': {
+      'fr': 'Confirmez votre mot de passe',
+      'en': 'Confirm your password',
+    },
 
     // ── Social auth (social_auth_section_view) ────────────────────
     'social_login_google': {
@@ -379,6 +406,10 @@ class AppTranslations {
     'forgot_reset_button': {
       'fr': 'Réinitialiser',
       'en': 'Reset',
+    },
+    'forgot_username_placeholder': {
+      'fr': "Votre nom d'utilisateur",
+      'en': 'Your username',
     },
 
     // ── Vérification email (email_verification_screen) ────────────
@@ -485,6 +516,19 @@ class AppTranslations {
       'en': 'No tasks yet',
     },
     'home_loading': {'fr': 'Chargement...', 'en': 'Loading...'},
+    'home_sort_none': {'fr': 'Aucun tri', 'en': 'No sorting'},
+    'home_notifications_title': {'fr': 'Notifications', 'en': 'Notifications'},
+    'home_no_upcoming_tasks': {
+      'fr': 'Aucune tâche dans les prochaines 24h',
+      'en': 'No tasks in the next 24h',
+    },
+    'home_due_prefix': {'fr': 'Échéance :', 'en': 'Due:'},
+    'home_task_count_singular': {'fr': 'tâche', 'en': 'task'},
+    'home_task_count_plural': {'fr': 'tâches', 'en': 'tasks'},
+    'home_actions_tooltip': {'fr': 'Actions', 'en': 'Actions'},
+    'home_filter_all': {'fr': 'Toutes les tâches', 'en': 'All tasks'},
+    'home_filter_in_progress': {'fr': 'En cours', 'en': 'In progress'},
+    'home_filter_done': {'fr': 'Terminées', 'en': 'Done'},
 
     // ── Notifications (notifications_settings_screen) ─────────────
     'notif_title': {'fr': 'Notifications', 'en': 'Notifications'},
@@ -520,6 +564,7 @@ class AppTranslations {
 
     // ── Profil (profile_screen) ───────────────────────────────────
     'profile_title': {'fr': 'Profil', 'en': 'Profile'},
+    'profile_default_name': {'fr': 'Utilisateur', 'en': 'User'},
     'profile_settings': {'fr': 'Paramètres', 'en': 'Settings'},
     'profile_settings_subtitle': {
       'fr': 'Stockage, langue, thème, police',
@@ -583,10 +628,115 @@ class AppTranslations {
     'about_repo': {'fr': 'Dépôt source', 'en': 'Source repository'},
     'about_tech': {'fr': 'Technologies utilisées', 'en': 'Technologies used'},
 
+    // ── Détail de tâche — compléments (task_detail_screen) ────────
+    'task_detail_share': {'fr': 'Partager', 'en': 'Share'},
+    'task_detail_at': {'fr': 'à', 'en': 'at'},
+
     // ── Support (support_screen) ──────────────────────────────────
     'support_title': {'fr': 'Aide & Support', 'en': 'Help & Support'},
     'support_faq_title': {'fr': 'Questions fréquentes', 'en': 'FAQ'},
     'support_contact_title': {'fr': 'Nous contacter', 'en': 'Contact us'},
+
+    'support_faq_1_q': {
+      'fr': 'Comment créer une tâche ?',
+      'en': 'How do I create a task?',
+    },
+    'support_faq_1_a': {
+      'fr':
+          'Appuyez sur le bouton "+" sur l\'écran d\'accueil, remplissez le titre, la description, la priorité et la date d\'échéance, puis validez.',
+      'en':
+          'Tap the "+" button on the home screen, fill in the title, description, priority, and due date, then confirm.',
+    },
+    'support_faq_2_q': {
+      'fr': 'Comment modifier une tâche existante ?',
+      'en': 'How do I edit an existing task?',
+    },
+    'support_faq_2_a': {
+      'fr':
+          'Ouvrez la tâche en appuyant dessus, puis appuyez sur l\'icône de modification en haut à droite de l\'écran de détail.',
+      'en':
+          'Open the task by tapping it, then tap the edit icon at the top right of the detail screen.',
+    },
+    'support_faq_3_q': {
+      'fr': 'Comment marquer une tâche comme terminée ?',
+      'en': 'How do I mark a task as done?',
+    },
+    'support_faq_3_a': {
+      'fr':
+          'Dans le détail d\'une tâche, appuyez sur le bouton de complétion. La tâche passera en gris pour indiquer qu\'elle est terminée.',
+      'en':
+          "In the task's detail screen, tap the completion button. The task will turn gray to show it's done.",
+    },
+    'support_faq_4_q': {
+      'fr': 'Comment partager une tâche ?',
+      'en': 'How do I share a task?',
+    },
+    'support_faq_4_a': {
+      'fr':
+          'Ouvrez le détail d\'une tâche et appuyez sur l\'icône de partage dans la barre d\'actions. Vous pouvez partager via toutes les applications disponibles sur votre téléphone.',
+      'en':
+          "Open the task's detail screen and tap the share icon in the action bar. You can share through any app available on your phone.",
+    },
+    'support_faq_5_q': {
+      'fr': 'Comment changer le thème de l\'application ?',
+      'en': "How do I change the app's theme?",
+    },
+    'support_faq_5_a': {
+      'fr':
+          'Allez dans Profil → Paramètres → Mode sombre. Activez ou désactivez le switch selon votre préférence.',
+      'en':
+          'Go to Profile → Settings → Dark mode. Turn the switch on or off based on your preference.',
+    },
+    'support_faq_6_q': {
+      'fr': 'Comment changer la langue de l\'application ?',
+      'en': "How do I change the app's language?",
+    },
+    'support_faq_6_a': {
+      'fr':
+          'Allez dans Profil → Paramètres → Langue de l\'application, puis sélectionnez Français ou English dans le menu déroulant.',
+      'en':
+          'Go to Profile → Settings → App language, then select Français or English from the dropdown menu.',
+    },
+    'support_faq_7_q': {
+      'fr': 'Comment supprimer une tâche ?',
+      'en': 'How do I delete a task?',
+    },
+    'support_faq_7_a': {
+      'fr':
+          'Ouvrez le détail de la tâche et appuyez sur l\'icône de suppression. Une confirmation vous sera demandée avant la suppression définitive.',
+      'en':
+          "Open the task's detail screen and tap the delete icon. You'll be asked to confirm before it's permanently deleted.",
+    },
+    'support_faq_8_q': {
+      'fr': 'Mes tâches sont-elles sauvegardées en ligne ?',
+      'en': 'Are my tasks saved online?',
+    },
+    'support_faq_8_a': {
+      'fr':
+          'Oui, toutes vos tâches sont synchronisées avec notre serveur. Vous pouvez y accéder depuis n\'importe quel appareil en vous connectant avec votre compte.',
+      'en':
+          'Yes, all your tasks are synced with our server. You can access them from any device by signing in with your account.',
+    },
+    'support_faq_9_q': {
+      'fr': 'Comment réinitialiser mon mot de passe ?',
+      'en': 'How do I reset my password?',
+    },
+    'support_faq_9_a': {
+      'fr':
+          'La fonctionnalité de réinitialisation de mot de passe est en cours de développement. Contactez le support pour toute assistance.',
+      'en':
+          'The password reset feature is currently under development. Please contact support for any assistance.',
+    },
+    'support_faq_10_q': {
+      'fr': 'Comment contacter le support ?',
+      'en': 'How do I contact support?',
+    },
+    'support_faq_10_a': {
+      'fr':
+          'Vous pouvez nous contacter par e-mail à support@taskflow.app. Nous répondons généralement sous 24 à 48 heures ouvrées.',
+      'en':
+          'You can reach us by email at support@taskflow.app. We typically respond within 24 to 48 business hours.',
+    },
 
     // ── Légal (legal_screen) ──────────────────────────────────────
     'legal_title': {
@@ -595,6 +745,105 @@ class AppTranslations {
     },
     'legal_tab_cgu': {'fr': 'CGU', 'en': 'ToS'},
     'legal_tab_privacy': {'fr': 'Confidentialité', 'en': 'Privacy'},
+
+    // ── CGU (legal_screen — onglet CGU) ────────────────────────────
+    'legal_cgu_1_title': {
+      'fr': '1. Acceptation des conditions',
+      'en': '1. Acceptance of Terms',
+    },
+    'legal_cgu_1_body': {
+      'fr':
+          "En utilisant TaskFlow, vous acceptez les présentes conditions générales d'utilisation. Si vous n'acceptez pas ces conditions, veuillez ne pas utiliser l'application.",
+      'en':
+          'By using TaskFlow, you agree to these terms of service. If you do not agree, please do not use the app.',
+    },
+    'legal_cgu_2_title': {
+      'fr': '2. Description du service',
+      'en': '2. Service Description',
+    },
+    'legal_cgu_2_body': {
+      'fr':
+          "TaskFlow est une application de gestion de tâches permettant aux utilisateurs de créer, organiser et partager des tâches au sein d'une équipe.",
+      'en':
+          'TaskFlow is a task management app that lets users create, organize, and share tasks within a team.',
+    },
+    'legal_cgu_3_title': {
+      'fr': '3. Compte utilisateur',
+      'en': '3. User Account',
+    },
+    'legal_cgu_3_body': {
+      'fr':
+          'Vous êtes responsable de la confidentialité de vos identifiants de connexion. Toute activité effectuée depuis votre compte est sous votre responsabilité.',
+      'en':
+          'You are responsible for keeping your login credentials confidential. Any activity from your account is your responsibility.',
+    },
+    'legal_cgu_4_title': {
+      'fr': '4. Utilisation acceptable',
+      'en': '4. Acceptable Use',
+    },
+    'legal_cgu_4_body': {
+      'fr':
+          "Vous vous engagez à utiliser TaskFlow uniquement à des fins légales et conformément aux présentes conditions. Toute utilisation abusive est strictement interdite.",
+      'en':
+          'You agree to use TaskFlow only for lawful purposes and in accordance with these terms. Any misuse is strictly prohibited.',
+    },
+    'legal_cgu_5_title': {'fr': '5. Modifications', 'en': '5. Changes'},
+    'legal_cgu_5_body': {
+      'fr':
+          "Nous nous réservons le droit de modifier ces conditions à tout moment. Les modifications entrent en vigueur dès leur publication dans l'application.",
+      'en':
+          'We reserve the right to modify these terms at any time. Changes take effect as soon as they are published in the app.',
+    },
+
+    // ── Politique de confidentialité (legal_screen — onglet Confidentialité) ─
+    // Textes volontairement condensés par rapport à la version d'origine
+    'legal_privacy_1_title': {
+      'fr': '1. Données collectées',
+      'en': '1. Data Collected',
+    },
+    'legal_privacy_1_body': {
+      'fr':
+          "TaskFlow collecte uniquement les données nécessaires au service : nom, prénom, email, nom d'utilisateur et vos tâches.",
+      'en':
+          'TaskFlow only collects the data needed to run the service: name, email, username, and your tasks.',
+    },
+    'legal_privacy_2_title': {
+      'fr': '2. Utilisation des données',
+      'en': '2. Use of Data',
+    },
+    'legal_privacy_2_body': {
+      'fr':
+          'Vos données servent uniquement à faire fonctionner TaskFlow. Elles ne sont jamais vendues ni partagées à des fins commerciales.',
+      'en':
+          'Your data is used solely to provide the TaskFlow service. It is never sold or shared with third parties for commercial purposes.',
+    },
+    'legal_privacy_3_title': {
+      'fr': '3. Stockage et sécurité',
+      'en': '3. Storage & Security',
+    },
+    'legal_privacy_3_body': {
+      'fr':
+          'Vos données sont stockées de façon sécurisée, avec des mesures de protection appropriées.',
+      'en':
+          'Your data is stored securely, with appropriate protection measures in place.',
+    },
+    'legal_privacy_4_title': {'fr': '4. Vos droits', 'en': '4. Your Rights'},
+    'legal_privacy_4_body': {
+      'fr':
+          'Vous pouvez accéder à vos données, les corriger ou les supprimer en nous contactant via le support.',
+      'en':
+          'You can access, correct, or delete your data by contacting us through support.',
+    },
+    'legal_privacy_5_title': {
+      'fr': '5. Cookies et stockage local',
+      'en': '5. Cookies & Local Storage',
+    },
+    'legal_privacy_5_body': {
+      'fr':
+          "L'app utilise le stockage local de votre appareil (préférences, cache) — aucun cookie de suivi.",
+      'en':
+          'The app uses local storage on your device (preferences, cache) — no tracking cookies are used.',
+    },
 
     // ── Déconnexion (logout_button_widget) ────────────────────────
     'logout_title': {'fr': 'Déconnexion', 'en': 'Sign out'},
@@ -609,6 +858,15 @@ class AppTranslations {
 
     // ── Calendrier (calendar_screen) ──────────────────────────────
     'calendar_title': {'fr': 'Calendrier', 'en': 'Calendar'},
+    'calendar_tasks_of': {'fr': 'Tâches du', 'en': 'Tasks of'},
+    'calendar_tasks_today': {
+      'fr': "Tâches d'aujourd'hui",
+      'en': "Today's tasks",
+    },
+    'calendar_no_tasks': {
+      'fr': 'Aucune tâche ce jour',
+      'en': 'No tasks this day',
+    },
 
     // ── Édition profil (edit_profile_screen) ─────────────────────
     'edit_profile_title': {'fr': 'Modifier le profil', 'en': 'Edit profile'},
@@ -628,6 +886,30 @@ class AppTranslations {
     'edit_profile_error': {
       'fr': 'Échec de la mise à jour. Veuillez réessayer.',
       'en': 'Update failed. Please try again.',
+    },
+    'edit_profile_save': {'fr': 'Sauvegarder', 'en': 'Save'},
+    'edit_profile_change_photo': {'fr': 'Changer la photo', 'en': 'Change photo'},
+    'edit_profile_personal_info': {
+      'fr': 'Informations personnelles',
+      'en': 'Personal information',
+    },
+    'edit_profile_change_password_title': {
+      'fr': 'Modifier le mot de passe',
+      'en': 'Change password',
+    },
+    'edit_profile_password_hint': {
+      'fr': 'Laissez vide pour conserver le mot de passe actuel',
+      'en': 'Leave blank to keep your current password',
+    },
+    'edit_profile_field_required': {'fr': 'Champ requis', 'en': 'Required field'},
+    'edit_profile_invalid_email': {'fr': 'Email invalide', 'en': 'Invalid email'},
+    'edit_profile_password_min': {
+      'fr': 'Minimum 6 caractères',
+      'en': 'Minimum 6 characters',
+    },
+    'edit_profile_save_changes': {
+      'fr': 'Sauvegarder les modifications',
+      'en': 'Save changes',
     },
 
     // ── Erreur générique social auth ──────────────────────────────

@@ -319,9 +319,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 )
               : TextButton(
                   onPressed: _save,
-                  child: const Text(
-                    'Sauvegarder',
-                    style: TextStyle(
+                  child: Text(
+                    'edit_profile_save'.tr(context),
+                    style: const TextStyle(
                       color: AppColors.primary,
                       fontWeight: FontWeight.w600,
                       fontSize: 14,
@@ -343,9 +343,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               Center(
                 child: TextButton(
                   onPressed: _showPhotoOptions,
-                  child: const Text(
-                    'Changer la photo',
-                    style: TextStyle(
+                  child: Text(
+                    'edit_profile_change_photo'.tr(context),
+                    style: const TextStyle(
                       color: AppColors.primary,
                       fontWeight: FontWeight.w500,
                     ),
@@ -356,35 +356,41 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               const SizedBox(height: 24),
 
               // ── Informations personnelles ─────────────────────
-              _sectionTitle('Informations personnelles'),
+              _sectionTitle('edit_profile_personal_info'.tr(context)),
               const SizedBox(height: 12),
 
               _buildField(
                 controller: _prenomCtrl,
-                label: 'Prénom',
+                label: 'register_first_name'.tr(context),
                 icon: Icons.person_outline,
-                validator: (v) =>
-                    (v == null || v.trim().isEmpty) ? 'Champ requis' : null,
+                validator: (v) => (v == null || v.trim().isEmpty)
+                    ? 'edit_profile_field_required'.tr(context)
+                    : null,
               ),
               const SizedBox(height: 12),
 
               _buildField(
                 controller: _nomCtrl,
-                label: 'Nom',
+                label: 'register_last_name'.tr(context),
                 icon: Icons.person_outline,
-                validator: (v) =>
-                    (v == null || v.trim().isEmpty) ? 'Champ requis' : null,
+                validator: (v) => (v == null || v.trim().isEmpty)
+                    ? 'edit_profile_field_required'.tr(context)
+                    : null,
               ),
               const SizedBox(height: 12),
 
               _buildField(
                 controller: _emailCtrl,
-                label: 'Email',
+                label: 'register_email'.tr(context),
                 icon: Icons.email_outlined,
                 keyboardType: TextInputType.emailAddress,
                 validator: (v) {
-                  if (v == null || v.trim().isEmpty) return 'Champ requis';
-                  if (!v.contains('@')) return 'Email invalide';
+                  if (v == null || v.trim().isEmpty) {
+                    return 'edit_profile_field_required'.tr(context);
+                  }
+                  if (!v.contains('@')) {
+                    return 'edit_profile_invalid_email'.tr(context);
+                  }
                   return null;
                 },
               ),
@@ -392,10 +398,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               const SizedBox(height: 28),
 
               // ── Mot de passe ──────────────────────────────────
-              _sectionTitle('Modifier le mot de passe'),
+              _sectionTitle('edit_profile_change_password_title'.tr(context)),
               const SizedBox(height: 4),
               Text(
-                'Laissez vide pour conserver le mot de passe actuel',
+                'edit_profile_password_hint'.tr(context),
                 style: TextStyle(
                   fontSize: 12,
                   color: AppColors.textDarkSecondary.withValues(alpha: 0.7),
@@ -405,7 +411,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
               _buildField(
                 controller:      _passwordCtrl,
-                label:           'Nouveau mot de passe',
+                label:           'forgot_new_password'.tr(context),
                 icon:            Icons.lock_outline,
                 obscure:         true,
                 showObscure:     _showPassword,
@@ -414,7 +420,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 validator: (v) {
                   if (v == null || v.isEmpty) return null; // optionnel
                   if (v.length < 6) {
-                    return 'Minimum 6 caractères';
+                    return 'edit_profile_password_min'.tr(context);
                   }
                   return null;
                 },
@@ -423,7 +429,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
               _buildField(
                 controller:      _confirmCtrl,
-                label:           'Confirmer le mot de passe',
+                label:           'register_confirm_password'.tr(context),
                 icon:            Icons.lock_outline,
                 obscure:         true,
                 showObscure:     _showConfirm,
@@ -432,7 +438,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 validator: (v) {
                   if (_passwordCtrl.text.isEmpty) return null;
                   if (v != _passwordCtrl.text) {
-                    return 'Les mots de passe ne correspondent pas';
+                    return 'register_passwords_mismatch'.tr(context);
                   }
                   return null;
                 },
@@ -460,9 +466,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             strokeWidth: 2.5,
                           ),
                         )
-                      : const Text(
-                          'Sauvegarder les modifications',
-                          style: TextStyle(
+                      : Text(
+                          'edit_profile_save_changes'.tr(context),
+                          style: const TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w600,
                           ),

@@ -45,16 +45,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   // Vérifier la robustesse du mot de passe
-  String? _validatePassword(String password) {
-    if (password.length < 8) return 'Au moins 8 caractères requis';
+  String? _validatePassword(String password, BuildContext context) {
+    if (password.length < 8) return 'password_min_length'.tr(context);
     if (!password.contains(RegExp(r'[A-Z]')))
-      return 'Au moins une lettre majuscule requise';
+      return 'password_uppercase'.tr(context);
     if (!password.contains(RegExp(r'[a-z]')))
-      return 'Au moins une lettre minuscule requise';
+      return 'password_lowercase'.tr(context);
     if (!password.contains(RegExp(r'[0-9]')))
-      return 'Au moins un chiffre requis';
+      return 'password_digit'.tr(context);
     if (!password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]')))
-      return 'Au moins un caractère spécial requis (!@#\$%^&*...)';
+      return 'register_password_special_examples'.tr(context);
     return null;
   }
 
@@ -75,10 +75,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Colors.green;
   }
 
-  String _passwordStrengthLabel(double strength) {
-    if (strength < 0.4) return 'Faible';
-    if (strength < 0.8) return 'Moyen';
-    return 'Fort';
+  String _passwordStrengthLabel(double strength, BuildContext context) {
+    if (strength < 0.4) return 'register_strength_weak'.tr(context);
+    if (strength < 0.8) return 'register_strength_medium'.tr(context);
+    return 'register_strength_strong'.tr(context);
   }
 
   // Vérifier username en temps réel
@@ -143,7 +143,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
 
     // Vérifier mot de passe robuste
-    final passwordError = _validatePassword(password);
+    final passwordError = _validatePassword(password, context);
     if (passwordError != null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(passwordError), backgroundColor: Colors.red),
@@ -353,7 +353,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       onSuffixIconPressed: () => setState(
                           () => _isPasswordVisible = !_isPasswordVisible),
                       label: 'register_password'.tr(context),
-                      placeholder: "Min. 8 car., maj., chiffre, symbole",
+                      placeholder: 'register_password_placeholder'.tr(context),
                       prefixIcon: Icons.lock_outline,
                       controller: _passwordController,
                       onChanged: (_) => setState(() {}),
@@ -380,7 +380,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                           const SizedBox(width: 8),
                           Text(
-                            _passwordStrengthLabel(strength),
+                            _passwordStrengthLabel(strength, context),
                             style: TextStyle(
                               fontSize: 12,
                               color: _passwordStrengthColor(strength),
@@ -390,11 +390,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ],
                       ),
                       const SizedBox(height: 4),
-                      if (_validatePassword(password) != null)
+                      if (_validatePassword(password, context) != null)
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            _validatePassword(password)!,
+                            _validatePassword(password, context)!,
                             style: const TextStyle(
                                 color: Colors.red, fontSize: 12),
                           ),
@@ -409,7 +409,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           _isConfirmPasswordVisible =
                               !_isConfirmPasswordVisible),
                       label: 'register_confirm_password'.tr(context),
-                      placeholder: "Confirmez votre mot de passe",
+                      placeholder: 'register_confirm_password_placeholder'.tr(context),
                       prefixIcon: Icons.lock_outline,
                       controller: _confirmPasswordController,
                     ),

@@ -155,7 +155,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
               TextFieldWidget(
                 label: 'login_username'.tr(context),
-                placeholder: "Votre nom d'utilisateur",
+                placeholder: 'forgot_username_placeholder'.tr(context),
                 prefixIcon: Icons.person_outline,
                 controller: _usernameController,
               ),
@@ -167,7 +167,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 onSuffixIconPressed: () =>
                     setState(() => _isPasswordVisible = !_isPasswordVisible),
                 label: 'forgot_new_password'.tr(context),
-                placeholder: "Min. 8 car., maj., chiffre, symbole",
+                placeholder: 'register_password_placeholder'.tr(context),
                 prefixIcon: Icons.lock_outline,
                 controller: _newPasswordController,
               ),
@@ -179,7 +179,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 onSuffixIconPressed: () => setState(
                     () => _isConfirmPasswordVisible = !_isConfirmPasswordVisible),
                 label: 'forgot_confirm_password'.tr(context),
-                placeholder: "Confirmez votre mot de passe",
+                placeholder: 'register_confirm_password_placeholder'.tr(context),
                 prefixIcon: Icons.lock_outline,
                 controller: _confirmPasswordController,
               ),
