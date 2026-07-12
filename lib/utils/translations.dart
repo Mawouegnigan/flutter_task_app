@@ -181,6 +181,16 @@ class AppTranslations {
     },
     'categories_reset_button': {'fr': 'Réinitialiser', 'en': 'Reset'},
 
+    // ── Catégories par défaut (affichage uniquement — la valeur stockée/
+    // comparée en base reste le nom français d'origine, cf. kDefaultCategories
+    // dans category_provider.dart, pour ne pas casser les tâches existantes) ─
+    'category_default_work': {'fr': 'Travail', 'en': 'Work'},
+    'category_default_personal': {'fr': 'Personnel', 'en': 'Personal'},
+    'category_default_studies': {'fr': 'Études', 'en': 'Studies'},
+    'category_default_health': {'fr': 'Santé', 'en': 'Health'},
+    'category_default_shopping': {'fr': 'Courses', 'en': 'Shopping'},
+    'category_default_other': {'fr': 'Autre', 'en': 'Other'},
+
     // ── Connexion (login_screen) ──────────────────────────────────
     'login_welcome': {'fr': 'Bon retour !', 'en': 'Welcome back!'},
     'login_subtitle': {
@@ -627,6 +637,24 @@ class AppTranslations {
     'about_team': {'fr': 'Équipe de développement', 'en': 'Development team'},
     'about_repo': {'fr': 'Dépôt source', 'en': 'Source repository'},
     'about_tech': {'fr': 'Technologies utilisées', 'en': 'Technologies used'},
+    'about_mentor_role': {
+      'fr':
+          'Professeur Titulaire en Analyse, Statistique et Applications\n'
+          'Département de Mathématiques et Informatique — FST/UCAD\n'
+          'Directeur du Laboratoire de Mathématiques Appliquées (LMA)',
+      'en':
+          'Full Professor in Analysis, Statistics and Applications\n'
+          'Department of Mathematics and Computer Science — FST/UCAD\n'
+          'Director of the Applied Mathematics Laboratory (LMA)',
+    },
+    'about_role_dev': {
+      'fr': 'Développeur Flutter — TaskFlow',
+      'en': 'Flutter Developer — TaskFlow',
+    },
+    'about_role_dev_fem': {
+      'fr': 'Développeuse Flutter — TaskFlow',
+      'en': 'Flutter Developer — TaskFlow',
+    },
 
     // ── Détail de tâche — compléments (task_detail_screen) ────────
     'task_detail_share': {'fr': 'Partager', 'en': 'Share'},
@@ -974,4 +1002,22 @@ extension TranslateString on String {
   String tr(BuildContext context, {String? title, String? name}) {
     return AppTranslations.of(this, context, title: title, name: name);
   }
+}
+
+/// Traduit l'affichage d'une catégorie. Ne touche jamais à la valeur
+/// stockée/comparée (kDefaultCategories, task.category côté backend) :
+/// seules les 6 catégories par défaut ont un libellé traduit, les
+/// catégories personnalisées créées par l'utilisateur restent affichées
+/// telles quelles (ce sont des données, pas du texte de l'app).
+String categoryLabel(String name, BuildContext context) {
+  const defaultKeys = {
+    'Travail': 'category_default_work',
+    'Personnel': 'category_default_personal',
+    'Études': 'category_default_studies',
+    'Santé': 'category_default_health',
+    'Courses': 'category_default_shopping',
+    'Autre': 'category_default_other',
+  };
+  final key = defaultKeys[name];
+  return key != null ? key.tr(context) : name;
 }

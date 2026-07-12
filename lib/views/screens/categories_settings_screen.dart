@@ -111,7 +111,8 @@ class CategoriesSettingsScreen extends StatelessWidget {
         return AlertDialog(
           title: Text('categories_delete_confirm_title'.tr(context)),
           content: Text(
-            'categories_delete_confirm_body'.tr(context, name: name),
+            'categories_delete_confirm_body'
+                .tr(context, name: categoryLabel(name, context)),
           ),
           actions: [
             TextButton(
@@ -210,7 +211,7 @@ class CategoriesSettingsScreen extends StatelessWidget {
                       Icons.label_outline,
                       color: AppColors.primary,
                     ),
-                    title: Text(name),
+                    title: Text(categoryLabel(name, context)),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [

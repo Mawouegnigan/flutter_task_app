@@ -251,7 +251,7 @@ class _AddEditingTaskScreenState extends State<AddEditingTaskScreen> {
                       ),
                     ),
                     child: Text(
-                      cat,
+                      categoryLabel(cat, context),
                       style: TextStyle(
                         color: isSelected
                             ? AppColors.primary

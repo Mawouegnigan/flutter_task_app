@@ -416,7 +416,7 @@ class _HomeScreenState extends State<HomeScreen> {
       case _filterDone:
         return 'home_filter_done'.tr(context);
       default:
-        return value; // Nom de catégorie personnalisée : pas de traduction
+        return categoryLabel(value, context); // Nom de catégorie
     }
   }
 

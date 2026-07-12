@@ -71,7 +71,7 @@ class AboutScreen extends StatelessWidget {
           const SizedBox(height: 8),
           const _TeamCard(
             name: 'Professeur Papa Ngom',
-            role: 'Professeur Titulaire en Analyse, Statistique et Applications\nDépartement de Mathématiques et Informatique — FST/UCAD\nDirecteur du Laboratoire de Mathématiques Appliquées (LMA)',
+            role: 'about_mentor_role',
             icon: Icons.school_outlined,
           ),
 
@@ -82,19 +82,19 @@ class AboutScreen extends StatelessWidget {
           const SizedBox(height: 8),
           const _TeamCard(
             name: 'FANGNON Mawouégnigan Grégoire',
-            role: 'Développeur Flutter — TaskFlow',
+            role: 'about_role_dev',
             icon: Icons.code_outlined,
           ),
           const SizedBox(height: 4),
           const _TeamCard(
             name: 'KAHOBETE Gloria',
-            role: 'Développeuse Flutter — TaskFlow',
+            role: 'about_role_dev_fem',
             icon: Icons.code_outlined,
           ),
           const SizedBox(height: 4),
           const _TeamCard(
             name: 'KEDEGUE Armel',
-            role: 'Développeur Flutter — TaskFlow',
+            role: 'about_role_dev',
             icon: Icons.code_outlined,
           ),
 
@@ -215,7 +215,7 @@ class _TeamCard extends StatelessWidget {
           ),
         ),
         subtitle: Text(
-          role,
+          role.tr(context),
           style: TextStyle(
             color: AppColors.textDarkSecondary.withValues(alpha: 0.7),
             fontSize: 12,
