@@ -38,7 +38,7 @@ class AboutScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
                 const Text(
-                  'TaskFlow',
+                  'Yoon',
                   style: TextStyle(
                     color: AppColors.textDarkPrimary,
                     fontSize: 22,

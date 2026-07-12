@@ -1,4 +1,4 @@
-/// Système de traduction léger pour TaskFlow.
+/// Système de traduction léger pour Yoon.
 ///
 /// Usage : 'home_title'.tr(context)
 ///
@@ -630,8 +630,8 @@ class AppTranslations {
     'about_version': {'fr': 'Version', 'en': 'Version'},
     'about_description_title': {'fr': 'Description', 'en': 'Description'},
     'about_description': {
-      'fr': 'TaskFlow est une application mobile de gestion de tâches en équipe, développée dans le cadre de la formation FORCE-N (Formations Ouvertes pour le Renforcement des Compétences, de l\'Emploi et de l\'Entrepreneuriat dans le Numérique), un programme porté par l\'Université Numérique Cheikh Hamidou Kane (UN-CHK) et la Fondation Mastercard.',
-      'en': 'TaskFlow is a mobile team task management app, developed as part of the FORCE-N training program (Open Training for Skills, Employment and Digital Entrepreneurship), a program led by the Cheikh Hamidou Kane Digital University (UN-CHK) and the Mastercard Foundation.',
+      'fr': 'Yoon est une application mobile de gestion de tâches en équipe, développée dans le cadre de la formation FORCE-N (Formations Ouvertes pour le Renforcement des Compétences, de l\'Emploi et de l\'Entrepreneuriat dans le Numérique), un programme porté par l\'Université Numérique Cheikh Hamidou Kane (UN-CHK) et la Fondation Mastercard.',
+      'en': 'Yoon is a mobile team task management app, developed as part of the FORCE-N training program (Open Training for Skills, Employment and Digital Entrepreneurship), a program led by the Cheikh Hamidou Kane Digital University (UN-CHK) and the Mastercard Foundation.',
     },
     'about_mentor': {'fr': 'Sous la direction de', 'en': 'Under the supervision of'},
     'about_team': {'fr': 'Équipe de développement', 'en': 'Development team'},
@@ -648,12 +648,12 @@ class AppTranslations {
           'Director of the Applied Mathematics Laboratory (LMA)',
     },
     'about_role_dev': {
-      'fr': 'Développeur Flutter — TaskFlow',
-      'en': 'Flutter Developer — TaskFlow',
+      'fr': 'Développeur Flutter — Yoon',
+      'en': 'Flutter Developer — Yoon',
     },
     'about_role_dev_fem': {
-      'fr': 'Développeuse Flutter — TaskFlow',
-      'en': 'Flutter Developer — TaskFlow',
+      'fr': 'Développeuse Flutter — Yoon',
+      'en': 'Flutter Developer — Yoon',
     },
 
     // ── Détail de tâche — compléments (task_detail_screen) ────────
@@ -781,9 +781,9 @@ class AppTranslations {
     },
     'legal_cgu_1_body': {
       'fr':
-          "En utilisant TaskFlow, vous acceptez les présentes conditions générales d'utilisation. Si vous n'acceptez pas ces conditions, veuillez ne pas utiliser l'application.",
+          "En utilisant Yoon, vous acceptez les présentes conditions générales d'utilisation. Si vous n'acceptez pas ces conditions, veuillez ne pas utiliser l'application.",
       'en':
-          'By using TaskFlow, you agree to these terms of service. If you do not agree, please do not use the app.',
+          'By using Yoon, you agree to these terms of service. If you do not agree, please do not use the app.',
     },
     'legal_cgu_2_title': {
       'fr': '2. Description du service',
@@ -791,9 +791,9 @@ class AppTranslations {
     },
     'legal_cgu_2_body': {
       'fr':
-          "TaskFlow est une application de gestion de tâches permettant aux utilisateurs de créer, organiser et partager des tâches au sein d'une équipe.",
+          "Yoon est une application de gestion de tâches permettant aux utilisateurs de créer, organiser et partager des tâches au sein d'une équipe.",
       'en':
-          'TaskFlow is a task management app that lets users create, organize, and share tasks within a team.',
+          'Yoon is a task management app that lets users create, organize, and share tasks within a team.',
     },
     'legal_cgu_3_title': {
       'fr': '3. Compte utilisateur',
@@ -811,9 +811,9 @@ class AppTranslations {
     },
     'legal_cgu_4_body': {
       'fr':
-          "Vous vous engagez à utiliser TaskFlow uniquement à des fins légales et conformément aux présentes conditions. Toute utilisation abusive est strictement interdite.",
+          "Vous vous engagez à utiliser Yoon uniquement à des fins légales et conformément aux présentes conditions. Toute utilisation abusive est strictement interdite.",
       'en':
-          'You agree to use TaskFlow only for lawful purposes and in accordance with these terms. Any misuse is strictly prohibited.',
+          'You agree to use Yoon only for lawful purposes and in accordance with these terms. Any misuse is strictly prohibited.',
     },
     'legal_cgu_5_title': {'fr': '5. Modifications', 'en': '5. Changes'},
     'legal_cgu_5_body': {
@@ -831,9 +831,9 @@ class AppTranslations {
     },
     'legal_privacy_1_body': {
       'fr':
-          "TaskFlow collecte uniquement les données nécessaires au service : nom, prénom, email, nom d'utilisateur et vos tâches.",
+          "Yoon collecte uniquement les données nécessaires au service : nom, prénom, email, nom d'utilisateur et vos tâches.",
       'en':
-          'TaskFlow only collects the data needed to run the service: name, email, username, and your tasks.',
+          'Yoon only collects the data needed to run the service: name, email, username, and your tasks.',
     },
     'legal_privacy_2_title': {
       'fr': '2. Utilisation des données',
@@ -841,9 +841,9 @@ class AppTranslations {
     },
     'legal_privacy_2_body': {
       'fr':
-          'Vos données servent uniquement à faire fonctionner TaskFlow. Elles ne sont jamais vendues ni partagées à des fins commerciales.',
+          'Vos données servent uniquement à faire fonctionner Yoon. Elles ne sont jamais vendues ni partagées à des fins commerciales.',
       'en':
-          'Your data is used solely to provide the TaskFlow service. It is never sold or shared with third parties for commercial purposes.',
+          'Your data is used solely to provide the Yoon service. It is never sold or shared with third parties for commercial purposes.',
     },
     'legal_privacy_3_title': {
       'fr': '3. Stockage et sécurité',

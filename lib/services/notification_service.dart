@@ -34,8 +34,8 @@ class NotificationService {
     return const NotificationDetails(
       android: AndroidNotificationDetails(
         'taskflow_channel',
-        'TaskFlow Notifications',
-        channelDescription: 'Rappels de tâches TaskFlow',
+        'Yoon Notifications',
+        channelDescription: 'Rappels de tâches Yoon',
         importance: Importance.high,
         priority: Priority.high,
         icon: '@mipmap/ic_launcher',

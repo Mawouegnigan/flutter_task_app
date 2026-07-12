@@ -3,8 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_task_app/utils/constants.dart';
 
 /// Widget d'entete pour les écrans d'authentification (Login, Register)
-///  Affiche le logo de TaskFlow, un titre et un sous-titre de bienvenue
-/// [title] : Le titre principal (ex: "Bienvenue sur TaskFlow")
+///  Affiche le logo de Yoon, un titre et un sous-titre de bienvenue
+/// [title] : Le titre principal (ex: "Bienvenue sur Yoon")
 /// [subtitle] : Le texte de bienvenue secondaire (ex: "Gérez vos tâches efficacement")
 class AuthHeaderView extends StatelessWidget {
   final String title;

@@ -17,7 +17,7 @@ class ShareService {
         '🎯 Priorité : $priority\n'
         '📅 Échéance : $deadline\n'
         '✅ Statut : $status\n\n'
-        'Partagé via TaskFlow';
+        'Partagé via Yoon';
 
     await Share.share(text);
   }

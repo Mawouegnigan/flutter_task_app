@@ -45,7 +45,7 @@ class TaskApp extends StatelessWidget {
     final settings = context.watch<AppSettingsProvider>();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'TaskFlow',
+      title: 'Yoon',
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: settings.themeMode,

@@ -30,8 +30,8 @@ class PushNotificationService {
     // Créer le canal de notification Android
     const channel = AndroidNotificationChannel(
       'taskflow_channel',
-      'TaskFlow Notifications',
-      description: 'Notifications de TaskFlow',
+      'Yoon Notifications',
+      description: 'Notifications de Yoon',
       importance: Importance.high,
     );
     await _localNotifications
@@ -50,8 +50,8 @@ class PushNotificationService {
           NotificationDetails(
             android: AndroidNotificationDetails(
               'taskflow_channel',
-              'TaskFlow Notifications',
-              channelDescription: 'Notifications de TaskFlow',
+              'Yoon Notifications',
+              channelDescription: 'Notifications de Yoon',
               importance: Importance.high,
               priority: Priority.high,
               icon: '@mipmap/ic_launcher',
