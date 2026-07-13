@@ -1,0 +1,210 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_task_app/models/task_api_model.dart';
+import 'package:flutter_task_app/services/auth_service.dart';
+import 'package:flutter_task_app/services/share_service.dart';
+import 'package:flutter_task_app/utils/constants.dart';
+import 'package:flutter_task_app/utils/translations.dart';
+import 'package:flutter_task_app/views/screens/task_chat_screen.dart';
+
+class TaskDetailScreen extends StatelessWidget {
+  final TaskApiModel task;
+  const TaskDetailScreen({super.key, required this.task});
+
+  Color _priorityColor(String priority) {
+    switch (priority.toLowerCase()) {
+      case 'high':
+        return AppColors.priorityHigh;
+      case 'medium':
+        return AppColors.priorityMedium;
+      case 'low':
+        return AppColors.priorityLow;
+      default:
+        return Colors.grey;
+    }
+  }
+
+  String _priorityLabel(String priority, BuildContext context) {
+    switch (priority.toLowerCase()) {
+      case 'high':
+        return 'task_priority_high'.tr(context);
+      case 'medium':
+        return 'task_priority_medium'.tr(context);
+      case 'low':
+        return 'task_priority_low'.tr(context);
+      default:
+        return priority;
+    }
+  }
+
+  Future<void> _openChat(BuildContext context) async {
+    final profil = await AuthService.getProfil();
+    final username = profil?['username'] ?? 'Anonyme';
+    if (!context.mounted) return;
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => TaskChatScreen(task: task, username: username),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final priorityColor = _priorityColor(task.priority);
+    final isCompleted = task.color == '#9E9E9E';
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('task_detail_title'.tr(context)),
+        centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => Navigator.pop(context),
+        ),
+        actions: [
+          IconButton(
+            tooltip: 'task_detail_chat'.tr(context),
+            icon: const Icon(Icons.chat_bubble_outline_rounded),
+            onPressed: () => _openChat(context),
+          ),
+          IconButton(
+            tooltip: 'task_detail_share'.tr(context),
+            icon: const Icon(Icons.share_rounded),
+            onPressed: () => ShareService.shareTask(task),
+          ),
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Titre
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    task.title,
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      decoration:
+                          isCompleted ? TextDecoration.lineThrough : null,
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 10, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: priorityColor.withAlpha(40),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
+                    _priorityLabel(task.priority, context),
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: priorityColor,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+
+            // Catégorie
+            if (task.category != null)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: Row(
+                  children: [
+                    const Icon(Icons.label_outline,
+                        size: 16, color: AppColors.primary),
+                    const SizedBox(width: 6),
+                    Text(
+                      task.category!,
+                      style: const TextStyle(
+                        fontSize: 13,
+                        color: AppColors.primary,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+            // Description
+            if (task.content.isNotEmpty) ...[
+              Text(
+                task.content,
+                style: const TextStyle(
+                  fontSize: 15,
+                  color: AppColors.textDarkSecondary,
+                  height: 1.5,
+                ),
+              ),
+              const SizedBox(height: 16),
+            ],
+
+            // Date d'échéance
+            if (task.dueDate != null)
+              Row(
+                children: [
+                  const Icon(Icons.schedule_rounded, size: 18),
+                  const SizedBox(width: 8),
+                  Text(
+                    "${task.dueDate!.day}/${task.dueDate!.month}/${task.dueDate!.year} "
+                    "${'task_detail_at'.tr(context)} ${task.dueDate!.hour.toString().padLeft(2, '0')}h"
+                    "${task.dueDate!.minute.toString().padLeft(2, '0')}",
+                    style: const TextStyle(fontSize: 14),
+                  ),
+                ],
+              ),
+            const SizedBox(height: 12),
+
+            // Statut
+            Row(
+              children: [
+                Icon(
+                  isCompleted
+                      ? Icons.check_circle
+                      : Icons.check_circle_outline,
+                  size: 18,
+                  color: isCompleted ? AppColors.primary : Colors.grey,
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  isCompleted ? 'task_detail_done'.tr(context) : 'task_detail_in_progress'.tr(context),
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: isCompleted ? AppColors.primary : Colors.grey,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+
+            // Date de création
+            if (task.createdAt != null) ...[
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  const Icon(Icons.calendar_today_outlined, size: 18),
+                  const SizedBox(width: 8),
+                  Text(
+                    "${'task_detail_created'.tr(context)} ${task.createdAt!.day}/${task.createdAt!.month}/${task.createdAt!.year}",
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: AppColors.textDarkSecondary,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+}

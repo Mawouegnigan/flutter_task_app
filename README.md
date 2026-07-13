@@ -1,106 +1,107 @@
+# Yoon — Application mobile de gestion de tâches en équipe
 
+**Yoon** *(« le chemin » en wolof)* est une application mobile Android développée en Flutter, conçue pour la gestion collaborative de tâches en équipe. Elle combine authentification complète, chat en temps réel par tâche, notifications push et mode hors ligne.
 
-# TaskFlow — Application mobile de gestion de tâches en équipe
-
-TaskFlow est une application mobile Android développée en Flutter/Dart, pensée pour la gestion collaborative de tâches en équipe. Elle combine une interface intuitive, une synchronisation en temps réel via Firebase et un mode hors ligne pour rester opérationnel même sans connexion.
+Projet développé dans le cadre du programme **FORCE-N** (Université Numérique Cheikh Hamidou Kane × Mastercard Foundation), sous le mentorat du **Pr Papa Ngom** (FST/UCAD) — **19,5/20** à la présentation intermédiaire.
 
 ---
 
-## Le contexte
+## Équipe
 
-Gérer des tâches en équipe implique plus que de simples listes — il faut pouvoir discuter, prioriser, filtrer et rester synchronisé. TaskFlow répond à ce besoin en centralisant tout : création, suivi, chat par tâche et notifications push, le tout dans une seule application.
+| Membre | Rôle |
+|---|---|
+| **Mawouégnigan Grégoire FANGNON** | Lead intégrateur — architecture, Git, backend, i18n |
+| **Gloria KAHOBETE** | Développeuse Flutter |
+| **Armel KEDEGUE** | Développeur Flutter |
+| **Pr Papa Ngom** | Mentor — FST/UCAD |
 
 ---
 
 ## Fonctionnalités
 
-**Authentification complète**, inscription avec photo de profil, vérification en temps réel de la disponibilité du username, indicateur de robustesse du mot de passe, connexion classique ou via Google (Firebase Auth) et réinitialisation de mot de passe directement dans l'app.
+- **Authentification complète** — inscription avec vérification par e-mail (code à 6 chiffres), photo de profil, vérification en temps réel de la disponibilité du nom d'utilisateur, indicateur de robustesse du mot de passe, connexion classique ou via Google (Firebase Auth)
+- **Gestion des tâches** — création, modification, suppression, priorité, catégorie, échéance, statut
+- **Organisation avancée** — recherche en temps réel, filtres par statut/catégorie, tri par priorité ou date
+- **Chat par tâche** — conversation Firestore dédiée à chaque tâche, messages instantanés
+- **Notifications push** — Firebase Cloud Messaging (FCM), même application fermée
+- **Mode hors ligne** — détection réseau automatique (`connectivity_plus`), cache local Hive, bandeau d'indication, resynchronisation automatique à la reconnexion
+- **Internationalisation FR/EN** — traduction complète et dynamique de l'interface, switch en temps réel
+- **Thème clair/sombre**, persistance des préférences
+- **Écrans légaux et support** — CGU, politique de confidentialité, FAQ intégrées
 
-**Gestion des tâches**, création avec titre, description, catégorie, priorité et échéance. Modification, suppression avec confirmation, marquage comme terminée et navigation vers le détail complet.
+---
 
-**Organisation avancée**, recherche en temps réel, filtres par statut et catégorie, tri par priorité ou date et compteur de tâches affiché en temps réel.
+## Stack technique
 
-**Chat par tâche**, chaque tâche dispose de sa propre conversation Firestore. Les messages apparaissent instantanément, les membres de l'équipe peuvent discuter simultanément sur la même tâche.
+| Côté | Technologie |
+|---|---|
+| **Frontend** | Flutter / Dart, Provider (état), Hive (cache offline), `connectivity_plus`, `share_plus` |
+| **Backend** | NestJS, SQLite (dev), JWT, bcrypt |
+| **Temps réel** | Firebase Firestore (chat) |
+| **Notifications** | Firebase Cloud Messaging |
+| **Authentification** | Firebase Auth (Google Sign-In), vérification e-mail (Nodemailer) |
+| **Sécurité** | Mots de passe hashés (bcrypt), tokens JWT, validation robuste des entrées |
 
-**Notifications push**, intégration Firebase Cloud Messaging (FCM) — les notifications arrivent même quand l'application est fermée.
+---
 
-**Mode hors ligne**, détection automatique du réseau via `connectivity_plus`. Quand la connexion est absente, les tâches sont chargées depuis le cache Hive local avec un bandeau orange d'indication. À la reconnexion, la synchronisation est automatique.
+## Lancer le projet
 
-**Profil & Paramètres**, thème clair/sombre et langue FR/EN switchables en temps réel avec persistance locale. FAQ, CGU, politique de confidentialité et écran À propos intégrés.
+### Prérequis
+- Flutter (dernière version stable)
+- Android Studio ou VS Code
+- Node.js ≥ 18 LTS (backend)
+
+### Frontend Flutter
+```bash
+git clone https://github.com/Mawouegnigan/flutter_task_app.git
+cd flutter_task_app
+flutter pub get
+flutter run
+```
+
+### Backend NestJS
+```bash
+git clone https://github.com/aliounekanoute/task_apis.git
+cd task_apis
+git checkout with-auth
+npm install
+npm run start:dev
+```
+
+Documentation Swagger disponible sur `http://localhost:3000/api-docs` une fois le backend lancé.
 
 ---
 
 ## Architecture du projet
 
 ```
-taskflow/
-├── lib/
-│   ├── main.dart                  # Point d'entrée
-│   ├── config/
-│   │   └── api_config.dart        # Configuration backend
-│   ├── screens/                   # Pages de l'application
-│   │   ├── auth/                  # Connexion, inscription
-│   │   ├── tasks/                 # Liste, détail, création
-│   │   ├── chat/                  # Chat par tâche
-│   │   └── profile/               # Profil & paramètres
-│   ├── widgets/                   # Composants réutilisables
-│   ├── models/                    # Modèles de données
-│   ├── providers/                 # Gestion d'état (Provider)
-│   └── services/                  # API, Firebase, Hive
-├── backend/                       # NestJS REST API
-│   ├── src/
-│   │   ├── auth/                  # Authentification JWT
-│   │   ├── tasks/                 # CRUD tâches
-│   │   └── users/                 # Gestion utilisateurs
-│   └── database.sqlite            # Base de données locale
-├── pubspec.yaml                   # Dépendances Flutter
-└── README.md
+lib/
+├── main.dart              # Point d'entrée
+├── config/                # Configuration API
+├── models/                # Modèles de données
+├── providers/             # Gestion d'état (Provider)
+├── services/               # API, Firebase, cache, notifications
+├── utils/                  # Constantes, thème, traductions
+└── views/
+    ├── screens/            # Écrans de l'application
+    ├── view/               # Vues réutilisables
+    └── widgets/            # Widgets réutilisables
 ```
 
 ---
 
-## Stack technique
+## État du projet
 
-| Technologie | Rôle |
-|---|---|
-| Flutter / Dart | Application mobile Android |
-| NestJS | Backend REST API |
-| SQLite | Base de données backend |
-| Firebase Firestore | Chat en temps réel |
-| Firebase FCM | Notifications push |
-| Firebase Auth | Connexion Google |
-| Hive | Cache local offline |
-| Provider | Gestion d'état Flutter |
-| SharedPreferences | Persistance des préférences |
-| JWT | Sécurité des requêtes API |
-| share_plus | Partage de tâches |
-| connectivity_plus | Détection réseau |
+- ✅ Frontend Flutter — fonctionnel, testé sur appareil physique et émulateur
+- ✅ Backend NestJS — fonctionnel en local, vérification e-mail opérationnelle
+- ✅ Internationalisation FR/EN — complète sur les 19 écrans de l'application
+- 🚧 Durcissement sécurité backend (validation des entrées, CORS, rate limiting) — en cours
+- 🚧 Déploiement cloud du backend — à venir
+- 🚧 Publication Google Play Store — à venir
 
 ---
 
-## Sécurité
+## Liens
 
-Mots de passe hashés avec **bcrypt** côté backend, tokens JWT avec expiration de 7 jours, validation robuste du mot de passe côté Flutter et backend, vérification de disponibilité du username avant inscription.
-
----
-
-## État du déploiement
-
-- ✅ Frontend Flutter — fonctionnel
-- ✅ Backend NestJS — fonctionnel en local
-- 🚧 Déploiement cloud du backend — en cours
-- 🚧 Publication sur Google Play Store — à venir
-
-> Le backend tourne actuellement en local. L'application sera pleinement accessible en ligne après déploiement cloud.
-
----
-
-## Accès
-
-- 💻 Code source : [github.com/Mawouegnigan/flutter_task_ap](https://github.com/Mawouegnigan/flutter_task_ap)
-- 🚧 Demo live : disponible après déploiement
-
-
----
-
-Tu valides ? On peut ensuite attaquer le README de **eccsinaivodje** ou passer directement à LinkedIn et le portfolio.
+- **Backend API** : [github.com/aliounekanoute/task_apis](https://github.com/aliounekanoute/task_apis) — branche `with-auth`
+- **Documentation API** : Swagger, `http://localhost:3000/api-docs` (backend local)
