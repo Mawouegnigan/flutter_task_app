@@ -62,12 +62,21 @@ class PushNotificationService {
     });
 
     // Récupérer le token FCM
-    final token = await _messaging.getToken();
-    print('FCM Token: $token');
+    try {
+      final token = await _messaging.getToken();
+      print('FCM Token: $token');
+    } catch (e) {
+      print('FCM token indisponible (émulateur sans Google Play ?) : $e');
+    }
   }
 
   // Récupérer le token de l'appareil
   static Future<String?> getToken() async {
-    return await _messaging.getToken();
+    try {
+      return await _messaging.getToken();
+    } catch (e) {
+      print('FCM token indisponible : $e');
+      return null;
+    }
   }
 }

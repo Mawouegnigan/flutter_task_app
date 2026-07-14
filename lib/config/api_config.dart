@@ -1,6 +1,9 @@
 class ApiConfig {
-  // URL de base du backend
- static const String baseUrl = 'http://172.24.201.71:3000';
+  // URL de base du backend.
+  // IMPORTANT : necessite "adb reverse tcp:3000 tcp:3000" avant de lancer
+  // l'app sur telephone/emulateur connecte en USB (backend local sur ce port).
+  // Sur emulateur SANS adb reverse, utiliser 10.0.2.2 au lieu de localhost.
+  static const String baseUrl = 'http://localhost:3000';
 
   // Endpoints Auth
   static const String register      = '$baseUrl/auths/register';
