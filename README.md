@@ -2,7 +2,7 @@
 
 **Yoon** *(« le chemin » en wolof)* est une application mobile Android développée en Flutter, conçue pour la gestion collaborative de tâches en équipe. Elle combine authentification complète, chat en temps réel par tâche, notifications push et mode hors ligne.
 
-Projet développé dans le cadre du programme **FORCE-N** (Université Numérique Cheikh Hamidou Kane × Mastercard Foundation), sous le mentorat du **Pr Papa Ngom** (FST/UCAD) — **19,5/20** à la présentation intermédiaire.
+Projet développé dans le cadre du programme **FORCE-N** (Université Numérique Cheikh Hamidou Kane × Mastercard Foundation), sous le mentorat du **Pr Papa Ngom** (FST/UCAD).
 
 ---
 
