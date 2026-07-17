@@ -9,11 +9,27 @@ import 'package:flutter_task_app/utils/constants.dart';
 import 'package:flutter_task_app/views/screens/splash_screen.dart';
 import 'package:flutter_task_app/services/cache_service.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_task_app/services/push_notification_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
+  // Connexion anonyme Firebase pour TOUS les utilisateurs (y compris ceux
+  // inscrits par mail/username via le backend JWT), afin que request.auth
+  // soit non-null côté règles Firestore (nécessaire pour le chat par tâche).
+  // Ne fait rien si une session Firebase (ex: Google Sign-In) existe déjà.
+  if (FirebaseAuth.instance.currentUser == null) {
+    try {
+      await FirebaseAuth.instance.signInAnonymously();
+    } catch (e) {
+      // On ne bloque pas le démarrage de l'app si ça échoue ; le chat
+      // ne fonctionnera simplement pas tant que ce n'est pas résolu.
+      debugPrint('Échec de la connexion anonyme Firebase: $e');
+    }
+  }
+
   await PushNotificationService.initialize();
   await NotificationService.initialize();
   await CacheService.init();
