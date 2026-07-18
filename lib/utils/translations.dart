@@ -304,6 +304,14 @@ class AppTranslations {
       'fr': "Erreur lors de l'enregistrement",
       'en': 'Error while saving',
     },
+    'task_saved_offline': {
+      'fr': 'Enregistré hors ligne — sera synchronisé au retour du réseau',
+      'en': 'Saved offline — will sync when back online',
+    },
+    'task_pending_sync': {
+      'fr': 'Cette tâche est en attente de synchronisation, réessayez une fois en ligne.',
+      'en': 'This task is waiting to sync, try again once back online.',
+    },
     'task_title_hint2': {
       'fr': 'Saisissez votre titre',
       'en': 'Enter your title',

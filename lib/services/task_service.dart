@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_task_app/config/api_config.dart';
 import 'package:flutter_task_app/models/task_api_model.dart';
 import 'package:flutter_task_app/services/auth_service.dart';
+import 'package:flutter_task_app/services/cache_service.dart';
 
 class TaskService {
   // Headers avec token d'authentification
@@ -107,5 +108,26 @@ class TaskService {
     } catch (e) {
       throw Exception('Erreur réseau : $e');
     }
+  }
+
+  // Synchronise les taches creees hors ligne (file d'attente locale) avec
+  // le backend. A appeler quand la connexion revient. Chaque tache qui
+  // reussit a etre creee cote serveur est retiree de la file ; celles qui
+  // echouent encore (backend toujours injoignable) restent en attente
+  // pour un prochain essai.
+  static Future<int> syncQueuedTasks() async {
+    final queued = CacheService.getQueuedTasks();
+    var syncedCount = 0;
+    for (final entry in queued) {
+      try {
+        await createTask(entry.value);
+        await CacheService.removeQueuedTask(entry.key);
+        syncedCount++;
+      } catch (_) {
+        // Toujours pas de reseau/serveur : on garde l'entree en file
+        // d'attente et on continue avec les suivantes.
+      }
+    }
+    return syncedCount;
   }
 }

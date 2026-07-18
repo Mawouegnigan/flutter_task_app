@@ -60,15 +60,25 @@ class _HomeScreenState extends State<HomeScreen> {
 
     if (!hasNetwork || isManualOffline) {
       final cached = CacheService.getCachedTasks();
+      // Les taches creees hors ligne (pas encore synchronisees) doivent
+      // rester visibles, sinon l'utilisateur croit les avoir perdues.
+      final queued = CacheService.getQueuedTasks().map((e) => e.value);
       if (mounted) {
         setState(() {
-          _tasks = cached;
+          _tasks = [...cached, ...queued];
           _isLoading = false;
           _isOffline = true;
         });
         _applyFilters();
       }
       return;
+    }
+
+    // De retour en ligne : on tente d'abord de synchroniser les taches
+    // creees hors ligne avant de recharger la liste, pour qu'elles
+    // apparaissent avec leur vrai id des le premier chargement.
+    if (CacheService.hasQueuedTasks) {
+      await TaskService.syncQueuedTasks();
     }
 
     try {
@@ -84,9 +94,10 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     } catch (e) {
       final cached = CacheService.getCachedTasks();
+      final queued = CacheService.getQueuedTasks().map((e) => e.value);
       if (mounted) {
         setState(() {
-          _tasks = cached;
+          _tasks = [...cached, ...queued];
           _isLoading = false;
           _isOffline = true;
         });
@@ -176,6 +187,12 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _toggleTaskCompletion(TaskApiModel task) async {
+    if (task.id == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('task_pending_sync'.tr(context))),
+      );
+      return;
+    }
     try {
       final isCompleted = task.color == '#9E9E9E';
       final newColor = isCompleted
@@ -207,6 +224,12 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _confirmDelete(TaskApiModel task) async {
+    if (task.id == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('task_pending_sync'.tr(context))),
+      );
+      return;
+    }
     final confirm = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
@@ -898,6 +921,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                   ],
                                   onSelected: (value) {
+                                    if (task.id == null) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                              'task_pending_sync'.tr(context)),
+                                        ),
+                                      );
+                                      return;
+                                    }
                                     if (value == 'edit') {
                                       Navigator.push(
                                         context,

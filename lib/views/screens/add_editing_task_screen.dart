@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_task_app/models/task_api_model.dart';
 import 'package:flutter_task_app/providers/category_provider.dart';
+import 'package:flutter_task_app/providers/app_settings_provider.dart';
 import 'package:flutter_task_app/services/task_service.dart';
+import 'package:flutter_task_app/services/cache_service.dart';
 import 'package:flutter_task_app/utils/translations.dart';
 import 'package:flutter_task_app/utils/constants.dart';
 import 'package:flutter_task_app/views/widgets/cta_button_widget.dart';
@@ -102,16 +105,39 @@ class _AddEditingTaskScreenState extends State<AddEditingTaskScreen> {
 
     setState(() => _isLoading = true);
 
-    try {
-      final task = TaskApiModel(
-        title: title,
-        content: content,
-        priority: _selectedPriority,
-        color: _selectedColor,
-        dueDate: _selectedDeadline,
-        category: _selectedCategory,
-      );
+    final task = TaskApiModel(
+      title: title,
+      content: content,
+      priority: _selectedPriority,
+      color: _selectedColor,
+      dueDate: _selectedDeadline,
+      category: _selectedCategory,
+    );
 
+    // Verifie la connectivite (reseau + mode hors ligne manuel) avant de
+    // tenter l'appel reseau, pour eviter d'attendre un timeout inutile.
+    final connectivityResult = await Connectivity().checkConnectivity();
+    final hasNetwork = connectivityResult != ConnectivityResult.none;
+    final isManualOffline =
+        mounted ? context.read<AppSettingsProvider>().isManualOffline : false;
+    final knownOffline = !hasNetwork || isManualOffline;
+
+    // Hors ligne, uniquement pour la creation (l'edition hors ligne reste
+    // hors perimetre pour l'instant, le mode offline etant lecture seule
+    // pour les taches existantes) : on met en file d'attente locale au
+    // lieu d'echouer et de perdre la saisie de l'utilisateur.
+    if (widget.mode == 'Add' && knownOffline) {
+      await CacheService.queueTask(task);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('task_saved_offline'.tr(context))),
+      );
+      setState(() => _isLoading = false);
+      Navigator.pop(context);
+      return;
+    }
+
+    try {
       if (widget.mode == 'Add') {
         final createdTask = await TaskService.createTask(task);
         try {
@@ -136,10 +162,22 @@ class _AddEditingTaskScreenState extends State<AddEditingTaskScreen> {
 
       Navigator.pop(context);
     } catch (e) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('task_save_error'.tr(context))),
-      );
+      // Meme si la connectivite semblait bonne, l'appel peut echouer
+      // (serveur injoignable, coupure au dernier moment...). Pour la
+      // creation, on met en file d'attente plutot que de perdre la saisie.
+      if (widget.mode == 'Add') {
+        await CacheService.queueTask(task);
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('task_saved_offline'.tr(context))),
+        );
+        Navigator.pop(context);
+      } else {
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('task_save_error'.tr(context))),
+        );
+      }
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
