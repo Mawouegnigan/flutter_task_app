@@ -373,7 +373,7 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 12),
             ...context.read<CategoryProvider>().categories.map((cat) => ListTile(
                   dense: true,
-                  title: Text(cat),
+                  title: Text(categoryLabel(cat, context)),
                   leading: const Icon(Icons.label_outline),
                   onTap: () {
                     if (!_filters.contains(cat)) {
