@@ -20,6 +20,8 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   String _name     = '';
+  String _nom      = '';
+  String _prenom   = '';
   String _email    = '';
   String _username = '';
   String? _photoUrl;
@@ -36,7 +38,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
       final profil = await AuthService.getProfil();
       if (mounted && profil != null) {
         setState(() {
-          _name     = '${profil['prenom'] ?? ''} ${profil['nom'] ?? ''}'.trim();
+          _nom      = profil['nom']    ?? '';
+          _prenom   = profil['prenom'] ?? '';
+          _name     = '$_prenom $_nom'.trim();
           _email    = profil['email']    ?? '';
           _username = profil['username'] ?? '';
           _photoUrl = profil['photo'] as String?;
@@ -82,6 +86,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   // ── En-tête profil ──────────────────────────────
                   ProfileHeaderView(
                     name:     _name.isEmpty ? 'profile_default_name'.tr(context) : _name,
+                    nom:      _nom,
+                    prenom:   _prenom,
                     email:    _email,
                     username: _username,
                     photoUrl: _photoUrl,

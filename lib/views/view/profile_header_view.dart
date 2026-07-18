@@ -5,6 +5,8 @@ import 'package:flutter_task_app/views/screens/edit_profile_screen.dart';
 
 class ProfileHeaderView extends StatelessWidget {
   final String name;
+  final String nom;
+  final String prenom;
   final String email;
   final String? username;
   final String? photoUrl;
@@ -12,6 +14,8 @@ class ProfileHeaderView extends StatelessWidget {
   const ProfileHeaderView({
     super.key,
     required this.name,
+    required this.nom,
+    required this.prenom,
     required this.email,
     this.username,
     this.photoUrl,
@@ -146,8 +150,8 @@ class ProfileHeaderView extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (_) => EditProfileScreen(
-                  initialNom:      name,
-                  initialPrenom:   name,
+                  initialNom:      nom,
+                  initialPrenom:   prenom,
                   initialEmail:    email,
                   initialPhotoUrl: photoUrl,
                 ),
