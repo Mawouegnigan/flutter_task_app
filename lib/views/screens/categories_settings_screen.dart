@@ -187,7 +187,7 @@ class CategoriesSettingsScreen extends StatelessWidget {
               child: Text(
                 'categories_empty'.tr(context),
                 textAlign: TextAlign.center,
-                style: const TextStyle(color: AppColors.textDarkSecondary),
+                style: TextStyle(color: AppColors.textSecondary(context)),
               ),
             )
           : ListView.separated(

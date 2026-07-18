@@ -89,9 +89,9 @@ class SettingsScreen extends StatelessWidget {
             icon: Icons.category_outlined,
             title: 'settings_categories'.tr(context),
             subtitle: 'settings_categories_subtitle'.tr(context),
-            trailing: const Icon(
+            trailing: Icon(
               Icons.chevron_right,
-              color: AppColors.textDarkSecondary,
+              color: AppColors.textSecondary(context),
             ),
             onTap: () {
               Navigator.push(
@@ -117,8 +117,8 @@ class _SectionTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       label,
-      style: const TextStyle(
-        color: AppColors.textDarkSecondary,
+      style: TextStyle(
+        color: AppColors.textSecondary(context),
         fontSize: 12,
         fontWeight: FontWeight.w600,
         letterSpacing: 0.8,
@@ -147,7 +147,7 @@ class _SettingCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 0,
-      color: AppColors.textDarkSecondary.withValues(alpha: 0.08),
+      color: AppColors.textSecondary(context).withValues(alpha: 0.08),
       margin: EdgeInsets.zero,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: ListTile(
@@ -164,8 +164,8 @@ class _SettingCard extends StatelessWidget {
         ),
         title: Text(
           title,
-          style: const TextStyle(
-            color: AppColors.textDarkPrimary,
+          style: TextStyle(
+            color: AppColors.textPrimary(context),
             fontSize: 14,
             fontWeight: FontWeight.w600,
           ),
@@ -173,7 +173,7 @@ class _SettingCard extends StatelessWidget {
         subtitle: Text(
           subtitle,
           style: TextStyle(
-            color: AppColors.textDarkSecondary.withValues(alpha: 0.7),
+            color: AppColors.textSecondary(context).withValues(alpha: 0.7),
             fontSize: 12,
           ),
         ),

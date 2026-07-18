@@ -13,6 +13,21 @@ class AppColors {
   static const Color backgroundDark = Color(0xFF121212);
   static const Color textLightPrimary = Color(0xFFF9FAFB);
   static const Color textLightSecondary = Color(0xFF9CA3AF);
+
+  // Couleurs de texte adaptees au theme actif (clair/sombre).
+  // A utiliser a la place de textDarkPrimary/textDarkSecondary partout
+  // ou le texte doit rester lisible en mode sombre.
+  static Color textPrimary(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.dark
+        ? textLightPrimary
+        : textDarkPrimary;
+  }
+
+  static Color textSecondary(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.dark
+        ? textLightSecondary
+        : textDarkSecondary;
+  }
 }
 
 class AppTheme {
