@@ -30,7 +30,26 @@ class _SplashScreenState extends State<SplashScreen> {
 
     final prefs = await SharedPreferences.getInstance();
     final onboardingDone = prefs.getBool('onboarding_done') ?? false;
-    final isLoggedIn = await AuthService.isLoggedIn();
+    final hasToken = await AuthService.isLoggedIn();
+
+    // Un token present localement ne garantit pas qu'il est encore valide
+    // cote serveur (expire, ou utilisateur inexistant apres changement de
+    // base). On verifie donc aupres du backend avant de sauter directement
+    // a l'accueil, sinon l'app pourrait "choisir" un ancien compte par
+    // defaut sans jamais laisser la main sur l'ecran de connexion.
+    // Si le serveur est injoignable (hors ligne), on garde la session pour
+    // ne pas casser le mode offline.
+    bool isLoggedIn = false;
+    if (hasToken) {
+      final tokenValid = await AuthService.checkTokenValid();
+      if (tokenValid == false) {
+        await AuthService.logout();
+        isLoggedIn = false;
+      } else {
+        // true (valide) ou null (hors ligne) → on reste connecte
+        isLoggedIn = true;
+      }
+    }
 
     if (!mounted) return;
 
@@ -68,7 +87,7 @@ class _SplashScreenState extends State<SplashScreen> {
               Text(
                 'splash_tagline'.tr(context),
                 style: TextStyle(
-                  color: AppColors.textDarkSecondary,
+                  color: AppColors.textSecondary(context),
                 ),
               ),
             ],

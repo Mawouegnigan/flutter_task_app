@@ -76,6 +76,32 @@ class AuthService {
     return token != null;
   }
 
+  // Valide le token aupres du serveur.
+  // Retourne : true = token valide, false = token invalide (401, il faut
+  // se deconnecter), null = serveur injoignable (ex: hors ligne — on ne
+  // deconnecte pas l'utilisateur dans ce cas, pour preserver le mode
+  // offline).
+  static Future<bool?> checkTokenValid() async {
+    try {
+      final token = await getToken();
+      final response = await http.get(
+        Uri.parse(ApiConfig.profil),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+      if (response.statusCode == 200) return true;
+      if (response.statusCode == 401) return false;
+      // Autre erreur serveur (500, etc.) : on ne penalise pas l'utilisateur.
+      return null;
+    } catch (e) {
+      // Erreur reseau (pas de connexion) : on suppose que la session reste
+      // valide, l'utilisateur pourra travailler en mode hors ligne.
+      return null;
+    }
+  }
+
   // GET — Récupérer le profil utilisateur
   static Future<Map<String, dynamic>?> getProfil() async {
     try {
