@@ -7,6 +7,7 @@ class ApiConfig {
 
   // Endpoints Auth
   static const String register      = '$baseUrl/auths/register';
+  static const String googleLogin   = '$baseUrl/auths/google-login';
   static const String login         = '$baseUrl/auths/login';
   static const String profil        = '$baseUrl/auths/profils';
   static const String updateProfil  = '$baseUrl/auths/profils'; // PUT

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_task_app/services/google_auth_service.dart';
+import 'package:flutter_task_app/services/auth_service.dart';
 import 'package:flutter_task_app/utils/translations.dart';
 import 'package:flutter_task_app/views/screens/home_screen.dart';
 import 'package:flutter_task_app/views/widgets/separateur_widget.dart';
@@ -22,6 +23,51 @@ class _SocialAuthSectionViewState extends State<SocialAuthSectionView> {
       final user = await GoogleAuthService.signInWithGoogle();
       if (!mounted) return;
       if (user != null) {
+        if (user.email == null || user.email!.isEmpty) {
+          await GoogleAuthService.signOut();
+          if (!mounted) return;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('social_error'.tr(context)),
+              backgroundColor: Colors.red,
+            ),
+          );
+          return;
+        }
+
+        // Google/Firebase ne suffit pas : il faut aussi obtenir un vrai
+        // token backend, lie a un compte existant ou nouvellement cree,
+        // sinon les taches seraient soit rejetees, soit rattachees par
+        // erreur a un ancien compte reste en cache.
+        final displayName = (user.displayName ?? '').trim();
+        String? prenom;
+        String? nom;
+        if (displayName.isNotEmpty) {
+          final parts = displayName.split(RegExp(r'\s+'));
+          prenom = parts.first;
+          nom = parts.length > 1 ? parts.sublist(1).join(' ') : null;
+        }
+
+        final backendOk = await AuthService.googleLogin(
+          email:  user.email!,
+          nom:    nom,
+          prenom: prenom,
+          photo:  user.photoURL,
+        );
+
+        if (!mounted) return;
+        if (!backendOk) {
+          await GoogleAuthService.signOut();
+          if (!mounted) return;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('social_error'.tr(context)),
+              backgroundColor: Colors.red,
+            ),
+          );
+          return;
+        }
+
         ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
             content: Text('social_google_success'.tr(context,

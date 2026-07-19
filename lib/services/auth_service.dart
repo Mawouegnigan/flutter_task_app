@@ -31,6 +31,41 @@ class AuthService {
     }
   }
 
+  // POST — Connexion via Google : retrouve ou cree le compte backend
+  // correspondant a l'email Google, et stocke un vrai token backend.
+  // Indispensable : sans cela, les taches creees apres une connexion
+  // Google seraient soit rejetees (401), soit rattachees par erreur a
+  // un ancien compte dont le token serait reste en cache.
+  static Future<bool> googleLogin({
+    required String email,
+    String? nom,
+    String? prenom,
+    String? photo,
+  }) async {
+    try {
+      final response = await http.post(
+        Uri.parse(ApiConfig.googleLogin),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'email':  email,
+          'nom':    nom,
+          'prenom': prenom,
+          'photo':  photo,
+        }),
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final data = jsonDecode(response.body);
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('token', data['access_token']);
+        return true;
+      }
+      return false;
+    } catch (e) {
+      throw Exception('Erreur réseau : $e');
+    }
+  }
+
   // POST — Connexion
   static Future<bool> login({
     required String username,
