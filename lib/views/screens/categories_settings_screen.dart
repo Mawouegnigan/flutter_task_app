@@ -201,17 +201,20 @@ class CategoriesSettingsScreen extends StatelessWidget {
                 final name = categories[index];
                 return Card(
                   elevation: 0,
-                  color: AppColors.background,
+                  color: AppColors.surface(context),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
-                    side: BorderSide(color: Colors.grey.shade200),
+                    side: BorderSide(color: AppColors.borderColor(context)),
                   ),
                   child: ListTile(
                     leading: const Icon(
                       Icons.label_outline,
                       color: AppColors.primary,
                     ),
-                    title: Text(categoryLabel(name, context)),
+                    title: Text(
+                      categoryLabel(name, context),
+                      style: TextStyle(color: AppColors.textPrimary(context)),
+                    ),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [

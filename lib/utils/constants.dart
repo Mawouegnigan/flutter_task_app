@@ -28,6 +28,22 @@ class AppColors {
         ? textLightSecondary
         : textDarkSecondary;
   }
+
+  // Couleur de fond pour les cartes/surfaces (differente du fond d'ecran,
+  // pour rester visible). AppColors.background seul reste toujours clair,
+  // ce qui produisait des cartes blanches meme en mode sombre.
+  static const Color surfaceDark = Color(0xFF1E1E1E);
+  static Color surface(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.dark
+        ? surfaceDark
+        : background;
+  }
+
+  static Color borderColor(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.dark
+        ? Colors.grey.shade800
+        : Colors.grey.shade200;
+  }
 }
 
 class AppTheme {
